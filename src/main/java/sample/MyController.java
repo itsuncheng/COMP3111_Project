@@ -61,7 +61,7 @@ public class MyController {
         newLabel.setMaxHeight(GRID_WIDTH / 2);
         newLabel.setStyle("-fx-border-color: black;");
         newLabel.setText("*");
-        newLabel.setBackground(new Background(new BackgroundFill(Color.YELLOW,
+        newLabel.setBackground(new Background(new BackgroundFill(Color.RED,
        CornerRadii.EMPTY, Insets.EMPTY)));
         paneArena.getChildren().addAll(newLabel);
     }
