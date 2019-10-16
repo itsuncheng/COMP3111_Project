@@ -62,6 +62,7 @@ public class MyController {
         newLabel.setStyle("-fx-border-color: black;");
         newLabel.setText("*");
         newLabel.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+       CornerRadii.EMPTY, Insets.EMPTY)));
         paneArena.getChildren().addAll(newLabel);
     }
 
