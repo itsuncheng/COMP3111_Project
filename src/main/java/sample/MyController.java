@@ -64,6 +64,8 @@ public class MyController {
         newLabel.setBackground(new Background(new BackgroundFill(Color.YELLOW,
        CornerRadii.EMPTY, Insets.EMPTY)));
         paneArena.getChildren().addAll(newLabel);
+        
+        //adding new comment for testing (1155) rick
     }
 
     /**
