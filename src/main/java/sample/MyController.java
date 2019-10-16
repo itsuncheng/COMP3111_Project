@@ -65,7 +65,7 @@ public class MyController {
        CornerRadii.EMPTY, Insets.EMPTY)));
         paneArena.getChildren().addAll(newLabel);
         
-        //adding new comment for testing (1155) rick
+        //adding new comment for testing (1155) rick.
     }
 
     /**
