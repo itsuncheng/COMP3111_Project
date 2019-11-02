@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         Parent root = loader.load();
-        primaryStage.setTitle("Tower Defence");
+        primaryStage.setTitle("Tower Defense");
         primaryStage.setScene(new Scene(root, 600, 480));
         primaryStage.show();
         MyController appController = (MyController)loader.getController();
@@ -21,6 +21,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+    	
         launch(args);
     }
 }
