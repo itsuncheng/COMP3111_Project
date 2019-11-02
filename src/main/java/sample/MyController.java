@@ -37,10 +37,10 @@ public class MyController {
     @FXML
     private Label labelLaserTower;
 
-    private static final int ARENA_WIDTH = 480;
-    private static final int ARENA_HEIGHT = 480;
-    private static final int GRID_WIDTH = 40;
-    private static final int GRID_HEIGHT = 40;
+    static final int ARENA_WIDTH = 480;
+    static final int ARENA_HEIGHT = 480;
+    static final int GRID_WIDTH = 40;
+    static final int GRID_HEIGHT = 40;
     private static final int MAX_H_NUM_GRID = 12;
     private static final int MAX_V_NUM_GRID = 12;
 
@@ -76,12 +76,12 @@ public class MyController {
         for (int i = 0; i < MAX_V_NUM_GRID; i++)
             for (int j = 0; j < MAX_H_NUM_GRID; j++) {
                 Label newLabel = new Label();
-                if (j % 2 == 0 || i == ((j + 1) / 2 % 2) * (MAX_V_NUM_GRID - 1))
+                if (j % 2 == 0 || i == ((j + 1) / 2 % 2) * (MAX_V_NUM_GRID - 1)) // latter condition?
                     newLabel.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                 else
                     newLabel.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-                newLabel.setLayoutX(j * GRID_WIDTH);
-                newLabel.setLayoutY(i * GRID_HEIGHT);
+                newLabel.setLayoutX(j * GRID_WIDTH);  // why
+                newLabel.setLayoutY(i * GRID_HEIGHT); // why
                 newLabel.setMinWidth(GRID_WIDTH);
                 newLabel.setMaxWidth(GRID_WIDTH);
                 newLabel.setMinHeight(GRID_HEIGHT);
