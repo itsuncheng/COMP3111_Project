@@ -1,5 +1,6 @@
 package sample;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Arena {
 	private final int numOfColumn; //number of Columns of grid in the arena. This is not the arena height in pixel
@@ -10,7 +11,9 @@ public class Arena {
 									//y specifies Column number
 	
 	private ArrayList <Monster> monsters; //ArrayList of monsters on the arena
-	// private ArrayList <Tower> towers; //ArrayList of towers on the arena
+	private ArrayList <BasicTower> towers; //ArrayList of towers on the arena
+	
+	public static Random rand = new Random();
 	
 	public Arena(int numOfColumn, int numOfRow, boolean [][] isGreen) { //constructor of Arena class
 		this.numOfColumn = numOfColumn;
@@ -18,8 +21,7 @@ public class Arena {
 		
 		monsters = new ArrayList<Monster>(0); 
 	    //towers = new ArrayList<Tower>(0); 
-		
-		
+	
 		
 		if(numOfRow != isGreen.length) { //check Column size
 			System.out.println("Arena constructor invalid input: Column Size Mismatch");
@@ -36,13 +38,31 @@ public class Arena {
 			}
 		}
 		
+		
 		this.isGreen = new boolean[numOfRow][numOfColumn];
 		
+		
+		// Note from Raymond:
+		// I think it's better if we initialize isGreen in here instead of passing it in as an argument
+		// something like this:
+		
+//		for(int i = 0; i < numOfRow;i++) {
+//			for(int j = 0; j < numOfColumn;j++) {
+//				if (j % 2 == 0) {
+//					//do additional checking to decide isGreen[i][j]
+//				} else {
+//					//do additional checking
+//				}
+//			}
+//		
+//		}
+			
 		for(int i = 0; i < numOfRow;i++) {
 			for(int j = 0; j < numOfColumn;j++) {
 				this.isGreen[i][j] = isGreen[i][j];
 			}
 		}
+		
 		
 		System.out.println("Constructor Ends");
 			
@@ -58,7 +78,7 @@ public class Arena {
 		/*advance the arena by one frame:
 			Things done in this function():
 				1. loop through each monster to let each tower attack it
-				2. generate a monster if needed (I think this is part of task for Raymond) 
+				2. move monsters and generate a monster if needed (I think this is part of task for Raymond) 
 		*/
 		
 		//1. loop through each monster to let each tower attach it
@@ -72,10 +92,37 @@ public class Arena {
 			for(int j = 0;j<towers.size();j++) {
 				towers.get(j).shoot(currentMonster);
 			}
+			
+			if (currentMonster.getHp() <= 0) {
+				currentMonster.removeFromArena();
+			}
 		}
 		
 		
-		//2. generate a monster if needed (I think this is part of task for Raymond) 
+		//2. move monsters and generate a monster if needed (I think this is part of task for Raymond) 
+		
+		for (int i=0; i<monsters.size(); i++) {
+			Monster currentMonster = monsters.get(i);
+			currentMonster.moveAtEachFrame();
+		}
+		
+		Monster monster;
+		
+		int typeOfMonster = rand.nextInt(3);
+		if (typeOfMonster == 0) {
+			monster = new Fox();
+		} else if (typeOfMonster == 1) {
+			monster = new Unicorn();
+		} else {
+			monster = new Penguin();
+		}
+		
+		// need to increase difficulty of monster as game goes on
+		// every two frames, increase speed by 1
+		// so if (currentFrame - previousFrame) > 1 
+		monster.setSpeed(monster.getSpeed() + 1);
+		// previousFrame = currentFrame
+		
 		
 		
 	}
