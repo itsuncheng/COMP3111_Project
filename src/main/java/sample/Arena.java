@@ -10,7 +10,7 @@ public class Arena {
 									//y specifies Column number
 	
 	private ArrayList <Monster> monsters; //ArrayList of monsters on the arena
-	//ArrayList <Tower> towers; //ArrayList of towers on the arena
+	// private ArrayList <Tower> towers; //ArrayList of towers on the arena
 	
 	public Arena(int numOfColumn, int numOfRow, boolean [][] isGreen) { //constructor of Arena class
 		this.numOfColumn = numOfColumn;
@@ -66,15 +66,14 @@ public class Arena {
 		for (int i=0; i<monsters.size(); i++) {
 			
 			Monster currentMonster = monsters.get(i);
-			int x = currentMonster.getX();
-			int y = currentMonster.getY();
+//			int x = currentMonster.getX();
+//			int y = currentMonster.getY();
 			
 			for(int j = 0;j<towers.size();j++) {
-				if(towers.get(j).isInRange()) {
-					towers.get(j).shoots(currentMonster);
-				}
+				towers.get(j).shoot(currentMonster);
 			}
 		}
+		
 		
 		//2. generate a monster if needed (I think this is part of task for Raymond) 
 		
