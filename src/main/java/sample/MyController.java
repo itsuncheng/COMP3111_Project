@@ -11,6 +11,9 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.*;
 
 public class MyController {
     @FXML
@@ -91,6 +94,20 @@ public class MyController {
                 grids[i][j] = newLabel;
                 paneArena.getChildren().addAll(newLabel);
             }
+        
+        
+        File file = new File("src/main/resources/collision.png");
+        System.out.println("start");
+        System.out.println(file.exists());
+        System.out.println("end");
+        //FileInputStream input = new FileInputStream(file);
+        Image image = new Image("file:src/main/resources/endZone.png");
+        ImageView imageView = new ImageView(image);
+        
+        paneArena.getChildren().addAll(imageView);
+        
+        
+        
 
         setDragAndDrop();
     }
