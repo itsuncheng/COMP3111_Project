@@ -4,7 +4,7 @@ public class Penguin extends Monster{
 	
 	public static int defaultHp = 6;
 	public static int defaultSpeed = 3;
-	public static int defaultX = -1;
+	public static int defaultX = 0;
 	public static int defaultY = 0;
 	
 	public static String _imagePath = "./src/main/resources/penguin.png";
@@ -22,12 +22,12 @@ public class Penguin extends Monster{
 	}
 	
 
-	@Override
-	public void moveAtEachFrame() {
-		// TODO Auto-generated method stub
-		super.moveAtEachFrame();
-		replenishHp();
-	}
+//	@Override
+//	public void moveAtEachFrame() {
+//		// TODO Auto-generated method stub
+//		super.moveAtEachFrame();
+//		replenishHp();
+//	}
 	
 	public void replenishHp() {
 		hp += bonusHp;

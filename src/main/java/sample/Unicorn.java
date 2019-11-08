@@ -3,8 +3,8 @@ package sample;
 public class Unicorn extends Monster{
 	
 	public static int defaultHp = 8;
-	public static int defaultSpeed = 4;
-	public static int defaultX = -1;
+	public static int defaultSpeed = 1;
+	public static int defaultX = 0;
 	public static int defaultY = 0;
 	public static String _imagePath = "./src/main/resources/unicorn.png";
 	
