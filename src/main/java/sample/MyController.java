@@ -96,15 +96,26 @@ public class MyController {
             }
         
         
-        File file = new File("src/main/resources/collision.png");
-        System.out.println("start");
-        System.out.println(file.exists());
-        System.out.println("end");
-        //FileInputStream input = new FileInputStream(file);
-        Image image = new Image("file:src/main/resources/endZone.png");
-        ImageView imageView = new ImageView(image);
         
-        paneArena.getChildren().addAll(imageView);
+        //Start:Display endZone.png to end zone grid: Rick
+        Image endZoneImage = new Image("file:src/main/resources/endZone.png");
+        ImageView endZoneImageView = new ImageView(endZoneImage);
+        endZoneImageView.setFitWidth(GRID_WIDTH);
+        endZoneImageView.setFitHeight(GRID_HEIGHT);
+        endZoneImageView.setLayoutX((MAX_V_NUM_GRID-1)*GRID_WIDTH);  
+              
+        paneArena.getChildren().addAll(endZoneImageView);
+        //End: Display endZone.png to end zone grid
+        
+      //Start:Display monsterSource.png to monster source grid: Rick
+        Image monsterSourceImage = new Image("file:src/main/resources/monsterSource.png");
+        ImageView monsterSourceImageView = new ImageView(monsterSourceImage);
+        monsterSourceImageView.setFitWidth(GRID_WIDTH);
+        monsterSourceImageView.setFitHeight(GRID_HEIGHT);
+        //monsterSourceImageView.setLayoutY((MAX_H_NUM_GRID-1)*GRID_HEIGHT);  
+              
+        paneArena.getChildren().addAll(monsterSourceImageView);
+        //End: Display monsterSource.png to monster source grid
         
         
         
@@ -213,3 +224,6 @@ class DragDroppedEventHandler implements EventHandler<DragEvent> {
 
     }
 }
+
+
+
