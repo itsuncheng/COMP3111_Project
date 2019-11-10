@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.*;
+import java.util.ArrayList;
 
 public class MyController {
     @FXML
@@ -48,6 +49,16 @@ public class MyController {
     private static final int MAX_V_NUM_GRID = 12;
 
     private Label grids[][] = new Label[MAX_V_NUM_GRID][MAX_H_NUM_GRID]; //the grids on arena
+    
+    private ArrayList <ImageView> monsterView; 	/*An ArrayList of the ImageViews that represents a monster 
+    												-	Every time next frame button is pressed, 
+    													every ImageView objects in monsterView Arraylist
+    													will be cleared. monsterView ArrayList is then
+    													recreated according to the arena object(after 
+    													the arena object is fully updated)
+    											*/
+    private ArrayList <ImageView> towerView;   //An ArrayList of the ImageViews that represents a tower
+    
     private int x = -1, y = 0; //where is my monster
     /**
      * A dummy function to show how button click works
@@ -119,7 +130,7 @@ public class MyController {
         
         
         
-
+        setMouseOver
         setDragAndDrop();
     }
 
