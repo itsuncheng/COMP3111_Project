@@ -94,7 +94,7 @@ public class Arena {
 			}
 			
 			if (currentMonster.getHp() <= 0) {
-				currentMonster.removeFromArena();
+//				currentMonster.removeFromArena();
 			}
 		}
 		
@@ -103,7 +103,7 @@ public class Arena {
 		
 		for (int i=0; i<monsters.size(); i++) {
 			Monster currentMonster = monsters.get(i);
-			currentMonster.moveAtEachFrame();
+//			currentMonster.moveAtEachFrame();
 		}
 		
 		Monster monster;

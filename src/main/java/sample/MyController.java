@@ -60,6 +60,11 @@ public class MyController {
     private ArrayList <ImageView> towerView;   //An ArrayList of the ImageViews that represents a tower
     
     private int x = -1, y = 0; //where is my monster
+    
+    
+    private ArrayList<MonsterImageView> monsterImageViewList = new ArrayList<MonsterImageView>();
+    
+    
     /**
      * A dummy function to show how button click works
      */
@@ -118,17 +123,13 @@ public class MyController {
         paneArena.getChildren().addAll(endZoneImageView);
         //End: Display endZone.png to end zone grid
         
-      //Start:Display monsterSource.png to monster source grid: Rick
-        Image monsterSourceImage = new Image("file:src/main/resources/monsterSource.png");
-        ImageView monsterSourceImageView = new ImageView(monsterSourceImage);
-        monsterSourceImageView.setFitWidth(GRID_WIDTH);
-        monsterSourceImageView.setFitHeight(GRID_HEIGHT);
-        //monsterSourceImageView.setLayoutY((MAX_H_NUM_GRID-1)*GRID_HEIGHT);  
+        //Start:This is example how to create monster and display it: Raymond
+        Monster fox = new Fox();
+        MonsterImageView monsterImageView = new MonsterImageView(fox);
+        monsterImageViewList.add(monsterImageView); //adding the monster to the list, we can do this in Arena class
               
-        paneArena.getChildren().addAll(monsterSourceImageView);
-        //End: Display monsterSource.png to monster source grid
-        
-        
+        paneArena.getChildren().addAll(monsterImageView.getImageView());
+        //End: Display monster image to monster source grid
         
         setMouseOver
         setDragAndDrop();
@@ -136,15 +137,26 @@ public class MyController {
 
     @FXML
     private void nextFrame() {
-        if (x == -1) {
-            grids[0][0].setText("M");
-            x = 0;
-            return;
-        }
-        if (y == MAX_V_NUM_GRID - 1)
-            return;
-        grids[y++][x].setText("");
-        grids[y][x].setText("M");
+//        if (x == -1) {
+//            grids[0][0].setText("M");
+//            x = 0;
+//            return;
+//        }
+//        if (y == MAX_V_NUM_GRID - 1)
+//            return;
+//        grids[y++][x].setText("");
+//        grids[y][x].setText("M");
+    	
+    	// example of what every press of Next Frame should do (Raymond)
+    	for(MonsterImageView monsterImageView: monsterImageViewList) {
+	    	monsterImageView.moveAtEachFrame();
+	    	Monster monster = monsterImageView.getMonster();
+	    	
+	    	if (monster.getHp() <= 0) {
+	    		monsterImageView.removeFromArena(paneArena);
+	    	}
+    	}
+    	
     }
 
     /**

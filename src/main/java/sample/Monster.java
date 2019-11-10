@@ -18,58 +18,7 @@ public class Monster {
 		x = _x;
 		y = _y;
 		
-		setImageView(_imagePath, _x, _y);
-		
-	}
-	
-	
-	public void moveAtEachFrame() {
-		int maxX = MyController.ARENA_HEIGHT;
-		int maxY = MyController.ARENA_WIDTH;
-		
-		boolean directionDown = true;
-		int numOfRightSteps = 0;
-		
-		//write this in MyController
-//		if (x == maxX-1 || x == maxY-1) {
-//			System.out.println("Gameover");
-//			return;
-//		}
-		
-		for (int i=0; i<speed; i++) {
-			if (x != 0 || x != maxX-1) {	// when monster is not at minX and maxX
-				if(directionDown) {
-					x++;	
-				}else {
-					x--;
-				}
-			}else {							// when monster is at minX and maxX
-				if (numOfRightSteps==2) {			// time to change direction
-					directionDown = !directionDown;		// change direction
-					if(directionDown) {
-						x++;	
-					}else {
-						x--;
-					}
-					numOfRightSteps = 0;
-				}else {								// turning right
-					y++;
-					numOfRightSteps++;		
-				}
-				
-			}
-		}
-	}
-	
-	public void removeFromArena() {
-		
-	}
-	
-	public void onHover() {
-		
-	}
-	
-	public void onHoverExit() {
+		setImageView(_imagePath);
 		
 	}
 	
@@ -95,7 +44,7 @@ public class Monster {
 		}
 	}
 	
-	public void setImageView(String _imagePath, int _x, int _y) {
+	public void setImageView(String _imagePath) {
 		Image image = null;
 		
 		try {
@@ -107,14 +56,6 @@ public class Monster {
 		
 		if (image != null) {
 		    imageView = new ImageView(image); 
-		    
-		    imageView.setX(_x); 
-		    imageView.setY(_y); 
-		      
-		    imageView.setFitHeight(MyController.GRID_WIDTH); 
-		    imageView.setFitWidth(MyController.GRID_WIDTH); 
-		      
-		    imageView.setPreserveRatio(true); 
 		}
 	}
 	
