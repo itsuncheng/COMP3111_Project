@@ -6,18 +6,21 @@ public class Arena {
 	private final int numOfColumn; //number of Columns of grid in the arena. This is not the arena height in pixel
 	private final int numOfRow; //number of Rows of grid in the arena. This is not the arena width in pixel
 	
-	private boolean [][] isGreen; 	// true if the grid at grid coordinate [x][y] is green, 
-									//x specifies Row number
-									//y specifies Column number
+	private boolean [][] isGreen; 	// true if the grid at grid coordinate [row][Column] is green, 
+										
 	
 	private ArrayList <Monster> monsters; //ArrayList of monsters on the arena
 	private ArrayList <BasicTower> towers; //ArrayList of towers on the arena
+	
+	private float money = 100;
 	
 	public static Random rand = new Random();
 	
 	public Arena(int numOfColumn, int numOfRow, boolean [][] isGreen) { //constructor of Arena class
 		this.numOfColumn = numOfColumn;
 		this.numOfRow = numOfRow;
+		
+		
 		
 		monsters = new ArrayList<Monster>(0); 
 	    //towers = new ArrayList<Tower>(0); 
@@ -70,8 +73,8 @@ public class Arena {
 	
 	
 	
-	boolean isGreenGrid(int x, int y) { // returns true if grid at grid coordinate (x,y) is a green grid
-		return isGreen[x][y];
+	boolean isGreenGrid(int row, int column) { // returns true if grid at grid coordinate (x,y) is a green grid
+		return isGreen[row][column];
 	}
 	
 	void update() { 
