@@ -123,6 +123,17 @@ public class MyController {
         paneArena.getChildren().addAll(endZoneImageView);
         //End: Display endZone.png to end zone grid
         
+      //Start:Display monsterSource.png to end monster Source grid: Rick
+        Image monsterSourceImage = new Image("file:src/main/resources/monsterSource.png");
+        ImageView monsterSourceImageView = new ImageView(monsterSourceImage);
+        monsterSourceImageView.setFitWidth(GRID_WIDTH);
+        monsterSourceImageView.setFitHeight(GRID_HEIGHT);
+        //endZoneImageView.setLayoutX((MAX_V_NUM_GRID-1)*GRID_WIDTH);  
+              
+        paneArena.getChildren().addAll(monsterSourceImageView);
+        //End: Display monsterSource.png to monsterSource grid
+        
+        
         //Start:This is example how to create monster and display it: Raymond
         Monster fox = new Fox();
         MonsterImageView monsterImageView = new MonsterImageView(fox);
@@ -131,7 +142,7 @@ public class MyController {
         paneArena.getChildren().addAll(monsterImageView.getImageView());
         //End: Display monster image to monster source grid
         
-        setMouseOver
+        //setMouseOver
         setDragAndDrop();
     }
 
