@@ -16,5 +16,9 @@ public class Fox extends Monster{
 		super(_hp, _speed, _x, _y, _imagePath);
 		
 	}
+
+	String getMonsterType() {
+		return "Fox";
+	}
 	
 }

@@ -41,20 +41,15 @@ public class MonsterImageView{
 		int speed = monster.getSpeed();
 		
 		
-		
-		// write this in MyController
-		
-		
 		for (int i=0; i<speed; i++) {
 			
+			// if monster reaches and crosses end point, set monster to end point; MyController will print Gameover
 			if ((x == maxX-2*stepX && y == 0)) {
 				
 				x+=stepX;
 				monster.setX(x);
 				monster.setY(y);
 				setImageView(monster.getX(), monster.getY());
-				
-				System.out.println("Gameover");
 				return;
 			}
 			
@@ -64,7 +59,6 @@ public class MonsterImageView{
 				}else {
 					y-=stepY;
 				}
-				System.out.println("y: " + y + ", maxY: " + maxY);
 			}else {							// when monster is at minX and maxX
 				if (numOfRightSteps==2) {			// time to change direction
 					directionDown = !directionDown;		// change direction
@@ -74,11 +68,9 @@ public class MonsterImageView{
 						y-=stepY;
 					}
 					numOfRightSteps = 0;
-					System.out.println("y: " + y + ", maxY: " + maxY);
 				}else {								// turning right
 					x+=stepX;
 					numOfRightSteps++;		
-					System.out.println("x: " + x + ", maxX: " + maxX);
 				}
 //				x+=stepX;
 				
@@ -88,6 +80,11 @@ public class MonsterImageView{
 		monster.setX(x);
 		monster.setY(y);
 		setImageView(monster.getX(), monster.getY());
+		
+		if (monster.getMonsterType().equals("Penguin") ) {
+			monster.replenishHp();
+		}
+		
 	}
 	
 	public void removeFromArena(AnchorPane paneArena) {

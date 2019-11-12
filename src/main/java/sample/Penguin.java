@@ -8,7 +8,7 @@ public class Penguin extends Monster{
 	public static int defaultY = 0;
 	
 	public static String _imagePath = "./src/main/resources/penguin.png";
-	public static int bonusHp = 2;
+	public static int bonusHp = 1;
 	public static int maxHp;
 	
 	public Penguin() {
@@ -21,19 +21,15 @@ public class Penguin extends Monster{
 		maxHp = _hp;	
 	}
 	
-
-//	@Override
-//	public void moveAtEachFrame() {
-//		// TODO Auto-generated method stub
-//		super.moveAtEachFrame();
-//		replenishHp();
-//	}
-	
 	public void replenishHp() {
 		hp += bonusHp;
 		if (hp > maxHp){
 			hp = maxHp;
 		}
+	}
+	
+	String getMonsterType() {
+		return "Penguin";
 	}
 
 }

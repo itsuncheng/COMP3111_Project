@@ -17,5 +17,9 @@ public class Unicorn extends Monster{
 		
 	}
 	
+	String getMonsterType() {
+		return "Unicorn";
+	}
+	
 
 }

@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Monster {
+public abstract class Monster {
 	protected int hp;
 	protected int speed;
 	protected int x, y;
@@ -77,6 +77,13 @@ public class Monster {
 	
 	public ImageView getImageView() {
 		return imageView;
+	}
+	
+	abstract String getMonsterType();
+
+	public void replenishHp() {
+		// nothing in Monster
+		
 	}
 	
 }
