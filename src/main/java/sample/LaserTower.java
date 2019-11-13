@@ -32,4 +32,8 @@ public class LaserTower extends BasicTower{
 	public String getTowerType() {
 		return "Laser Tower";
 	}
+	
+	public static int getUpgradeCost() {
+		return upgrade_cost;
+	}
 }

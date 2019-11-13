@@ -51,6 +51,12 @@ public class MyController {
     
     @FXML
     private Label labelMoney;
+    
+    @FXML
+    private Button buttonDestroyTower;
+
+    @FXML
+    private Button buttonUpgradeTower;
 
     static final int ARENA_WIDTH = 480;
     static final int ARENA_HEIGHT = 480;
@@ -71,6 +77,7 @@ public class MyController {
     private ArrayList<TowerImageView> towerImageViewList = new ArrayList<TowerImageView>();  //TowerImageView to be implemented by Chris
     private ArrayList<ImageView> collisionImageViewList = new ArrayList<ImageView>();
     private ArrayList<Circle> rangeCircleList = new ArrayList<Circle>();
+    private static TowerImageView selectedTowerImageView = null;
     /**
      * A dummy function to show how button click works
      */
@@ -236,7 +243,6 @@ public class MyController {
         
         Popup popup = new Popup();
       	Label label = new Label();
-      	label.setText("HP: " + new_monster.getHp()); 
         label.setMinWidth(80); 
         label.setMinHeight(50); 
         popup.getContent().add(label); 
@@ -288,6 +294,7 @@ public class MyController {
     	}
     	return tower;
     }
+    
     /**
      * A function that demo how drag and drop works
      */
@@ -334,8 +341,6 @@ public class MyController {
 	        				            	towerImageViewList.add(towerImageView); //adding the monster to the list, we can do this in Arena class
 	        				            	Popup popup = new Popup();
 	        				            	Label label = new Label();
-	        				            	label.setText("Attack Power: " + tower.getAttackPower() + ", Build Cost: " + tower.getBuildCost() + 
-				                		    		  ", Upgrade Cost: " + tower.getUpgradeCost()); 
 	        				            	label.setMinWidth(80); 
 	        				                label.setMinHeight(50);
 	        				            	popup.getContent().add(label); 
@@ -343,9 +348,10 @@ public class MyController {
 	        				            	towerImageView.getImageView().setOnMouseEntered((new EventHandler<MouseEvent>() { 
 	    				                	   public void handle(MouseEvent event) { 
 	    				                		   //displaying popup of tower information
+	    				                		   label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
+	 				                		    		  ", Upgrade Cost: " + towerImageView.getTower().getUpgradeCost()); 
 	    				                		    Node source = (Node) event.getSource();
 	    				                		    Window stage = source.getScene().getWindow();
-			        			 
 			        				                popup.show(stage);
 			        				                
 			        				                //show range on GUI
@@ -360,7 +366,7 @@ public class MyController {
 				        				                		if (tower.isInRange(pixelX2, pixelY2)) {
 				        				                			System.out.println("in range");
 				        				                			Circle circle = new Circle(pixelX2, pixelY2, 10);
-				        				                			circle.setStyle("-fx-background-color: yellow;");
+				        				                			circle.setStyle("-fx-background-color: #ffff00;");
 				        				                			paneArena.getChildren().addAll(circle);
 				        				                			rangeCircleList.add(circle);
 				        				                		}
@@ -381,6 +387,21 @@ public class MyController {
 	     				                			 paneArena.getChildren().remove(c);
 	     				                		  }
 	     				                		 rangeCircleList.clear();
+	 				                		   } 
+	     				                	}));
+	        				            	
+	        				            	towerImageView.getImageView().setOnMouseClicked((new EventHandler<MouseEvent>() { 
+	     				                	   public void handle(MouseEvent event) { 
+	     				                		// show pane for destroy or upgrade tower
+	     				                		   selectedTowerImageView = towerImageView;
+	     				                		   if (!buttonDestroyTower.isVisible() && !buttonUpgradeTower.isVisible()) {
+		     				                		   buttonDestroyTower.setVisible(true);
+		     				                		   buttonUpgradeTower.setVisible(true);
+	     				                		   } else {
+	     				                			  buttonDestroyTower.setVisible(false);
+		     				                		  buttonUpgradeTower.setVisible(false);
+	     				                		   }
+	     				                		   
 	 				                		   } 
 	     				                	}));
 	        				            	
@@ -471,7 +492,36 @@ public class MyController {
     private int gridYToPixelY(int gridY) { //returns the Y-grid coordinate of a given Y-pixel coordinate
     	return gridY * GRID_HEIGHT;
     }
+    
+    public void destroyTower() {
+    	if (selectedTowerImageView != null) {
+	    	towerImageViewList.remove(selectedTowerImageView);
+	    	paneArena.getChildren().remove(selectedTowerImageView.getImageView());
+	    	buttonDestroyTower.setVisible(false);
+  		    buttonUpgradeTower.setVisible(false);
+    	}
+    }
+    
+    public void upgradeTower() {
+    	if (selectedTowerImageView != null) {
+    		int upgradeCost = selectedTowerImageView.getTower().getUpgradeCost();
+    		System.out.println("upgrade cost: " + upgradeCost);
+    		if (Integer.parseInt(labelMoney.getText()) >= upgradeCost) {
+    			//upgrade tower
+    			selectedTowerImageView.getTower().upgrade();
+    			// decrease money
+    			labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) - upgradeCost));
+    			// update tower info on GUI
+    			
+    			System.out.println(selectedTowerImageView.getTower().getTowerType() + " tower is being upgraded");
+    		} else {
+    			System.out.println("not enough resource to upgrade " + selectedTowerImageView.getTower().getTowerType() + " tower");
+    		}
+    	}
+    }
 }
+
+
 
 class DragEventHandler implements EventHandler<MouseEvent> {
     private Label source;
