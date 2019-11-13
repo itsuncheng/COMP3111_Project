@@ -32,5 +32,9 @@ public class IceTower extends BasicTower{
 		return "Ice Tower";
 	}
 	
+	public static int getUpgradeCost() {
+		return upgrade_cost;
+	}
+	
 }
 	

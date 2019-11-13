@@ -9,10 +9,10 @@ import javafx.scene.image.ImageView;
 
 public class BasicTower {
 	protected int x, y;
-	protected static int attackPower;
-	private static int range;
+	protected int attackPower;
+	private int range;
 	private static int build_cost;
-	private static int upgrade_cost;
+	protected static int upgrade_cost;
 	protected ImageView imageView = null;
 	
 	public static String _imagePath = "./src/main/resources/basicTower.png";
@@ -93,7 +93,7 @@ public class BasicTower {
 	}
 	
 	
-	public int getUpgradeCost() {
+	public static int getUpgradeCost() {
 		return upgrade_cost;
 	}
 

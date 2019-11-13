@@ -26,7 +26,7 @@
                   <Button fx:id="buttonNextFrame" layoutX="4.0" layoutY="24.0" mnemonicParsing="false" onAction="#nextFrame" text="Next Frame" visible="false" />
                   <Button fx:id="buttonSimulate" layoutX="5.0" layoutY="65.0" mnemonicParsing="false" text="Simulate" />
                   <Button fx:id="buttonPlay" layoutX="6.0" layoutY="108.0" mnemonicParsing="false" onAction="#play" text="Play" />
-                  <Label fx:id="labelBasicTower" layoutX="17.0" layoutY="257.0" minWidth="80.0" style="-fx-border-color: black;" text="Basic Tower">
+                  <Label fx:id="labelBasicTower" layoutX="17.0" layoutY="200.0" minWidth="80.0" style="-fx-border-color: black;" text="Basic Tower">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -37,7 +37,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="labelIceTower" layoutX="17.0" layoutY="283.0" minWidth="80.0" style="-fx-border-color: black;" text="Ice Tower">
+                  <Label fx:id="labelIceTower" layoutX="17.0" layoutY="230.0" minWidth="80.0" style="-fx-border-color: black;" text="Ice Tower">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -45,7 +45,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="labelCatapult" layoutX="17.0" layoutY="311.0" minWidth="80.0" style="-fx-border-color: black;" text="Catapult">
+                  <Label fx:id="labelCatapult" layoutX="17.0" layoutY="260.0" minWidth="80.0" style="-fx-border-color: black;" text="Catapult">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -53,7 +53,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="labelLaserTower" layoutX="17.0" layoutY="339.0" minWidth="80.0" style="-fx-border-color: black;" text="Laser Tower">
+                  <Label fx:id="labelLaserTower" layoutX="17.0" layoutY="290.0" minWidth="80.0" style="-fx-border-color: black;" text="Laser Tower">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -61,8 +61,10 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Label layoutX="17.0" layoutY="381.0" text="Money: " />
-                  <Label fx:id="labelMoney" layoutX="65.0" layoutY="381.0" text="10" />
+                  <Label layoutX="17.0" layoutY="330.0" text="Money: " />
+                  <Label fx:id="labelMoney" layoutX="65.0" layoutY="330.0" text="10" />
+                  <Button fx:id="buttonDestroyTower" layoutX="4.0" layoutY="360.0" mnemonicParsing="false" onAction="#destroyTower" text="destroy the tower" visible="false" />
+                  <Button fx:id="buttonUpgradeTower" layoutX="4.0" layoutY="385.0" mnemonicParsing="false" onAction="#upgradeTower" text="upgrade" visible="false" />
                </children>
                <padding>
                   <Insets left="10.0" />
