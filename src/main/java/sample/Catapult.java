@@ -10,9 +10,11 @@ public class Catapult extends BasicTower{
 	private int lowRange;
 	private int coolDown;
 	
+	public static String _imagePath = "./src/main/resources/catapult.png";
+	
 	
 	public Catapult(int _x, int _y) {
-		super(_x, _y, _attackPower, _range, _build_cost, _upgrade_cost);
+		super(_x, _y, _attackPower, _range, _build_cost, _upgrade_cost, _imagePath);
 		
 		lowRange = 50;
 		coolDown = -5;
@@ -25,5 +27,13 @@ public class Catapult extends BasicTower{
 	
 	public void shoot() {
 		
+	}
+	
+	public String getTowerType() {
+		return "Catapult";
+	}
+	
+	public static int getUpgradeCost() {
+		return upgrade_cost;
 	}
 }
