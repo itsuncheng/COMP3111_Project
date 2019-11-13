@@ -23,6 +23,7 @@ import javafx.scene.image.ImageView;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.Math;
 
 public class MyController {
     @FXML
@@ -165,45 +166,7 @@ public class MyController {
     		paneArena.getChildren().removeAll(collisionImageView);
     	collisionImageViewList.clear();
     	
-    	for(TowerImageView tIV: towerImageViewList) {
-    		BasicTower tower = tIV.getTower();
-    		ImageView towerImageView = tIV.getImageView();
-    		
-    		for (MonsterImageView mIV: monsterImageViewList) {
-    			Monster monster = mIV.getMonster();
-    			ImageView monsterImageView = mIV.getImageView();
-    			if (tower.isInRange(monster)) {
-	    			tower.shoot(monster);
-	    			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
-	    					+ "<" + monster.getMonsterType() + ">@(<" + pixelXToGridX(monster.getX()) + ">, <" + pixelYToGridY(monster.getY()) + ">)");
-	    			if (monster.getHp() <= 0) {
-	    				//create collision.png image on the dead monster grid
-	    				Image collisionImage = new Image("file:src/main/resources/collision.png");
-	    		        ImageView collisionImageView = new ImageView(collisionImage);
-	    		        collisionImageView.setFitWidth(GRID_WIDTH);
-	    		        collisionImageView.setFitHeight(GRID_HEIGHT);
-	    		        collisionImageView.setX(monsterImageView.getX());
-	    		        collisionImageView.setY(monsterImageView.getY());
-	    		        
-	    		        collisionImageViewList.add(collisionImageView);
-	    		        paneArena.getChildren().addAll(collisionImageView);
-	    		        
-	    		        //remove monster from arena and monsterImageViewList
-	    				paneArena.getChildren().remove(monsterImageView);
-	    				monsterImageViewList.remove(mIV);
-	    				
-	    				//earn some money
-	    				labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) + moneyReward));
-	    	    	}
-	    			break;
-    			}
-    			
-    			
-    		}
-    		
-    	}
-
-    	
+    	  	
     	for(MonsterImageView mIV: monsterImageViewList) {
     		//move each monster
     		mIV.moveAtEachFrame();
@@ -266,6 +229,81 @@ public class MyController {
         
         //        monsterImageView.getImageView().setMouseTransparent(true);
         paneArena.getChildren().addAll(monsterImageView.getImageView());
+        
+        
+        
+        for(TowerImageView tIV: towerImageViewList) {
+    		BasicTower tower = tIV.getTower();
+    		ImageView towerImageView = tIV.getImageView();
+    		
+    		//For a few variables below I've initialize them, just so java doesn't give me warning that 
+    		//the variable might not have been initialized.It's not pretty, I know....-Rick
+    		boolean targetFound = false; //true if there is a monster in range, false otherwise
+    		MonsterImageView targetMIV = new MonsterImageView(new Penguin());//Stores  the MonsterImageView that tower will shoot
+    		Monster targetMonster = new Penguin();//stores the Monster that the tower will shoot
+    		ImageView targetMonsterImageView = new ImageView();		//Stores the ImageView of the Monster that the tower will shoot
+    		double targetMonsterDFE = Double.POSITIVE_INFINITY; //Distance From Endzone: distance between the the top-left corners of EZ and TargetMonster
+    		
+    		for (MonsterImageView mIV: monsterImageViewList) {
+    			Monster monster = mIV.getMonster();
+    			System.out.println("monsterX"+monster.getX()+"  monsterY:"+monster.getY()
+    								+"towerX"+tower.getX()+"  towerY:"+tower.getY()
+    								);
+    			ImageView monster_ImageView = mIV.getImageView(); //using "monster_ImageView" as object name as "monsterImageView" because is already used above. -Rick
+    			if (tower.isInRange(monster)) {
+    				System.out.println("a monster is in range");
+    				targetFound = true;
+    				int endZoneX = (MAX_V_NUM_GRID-1)*GRID_WIDTH;
+    				int endZoneY = 0;
+    				
+    				double monsterX = monster.getX()*MAX_V_NUM_GRID;
+    				double monsterY = monster.getY()*MAX_H_NUM_GRID;
+    				
+    				System.out.println("monsterImageX:"+monsterX+"  monsterImageY:"+monsterY
+					+"   endZoneX"+endZoneX+"  endZoneY:"+endZoneY
+					);
+    				
+    				double monsterDFE = Math.sqrt(
+    										((monsterX-endZoneX)*(monsterX-endZoneX))
+    										+((monsterY-endZoneY)*(monsterY-endZoneY))
+    									);
+    				if(monsterDFE < targetMonsterDFE) {
+    					targetMIV = mIV;
+    					targetMonster = monster;
+    					targetMonsterImageView = monster_ImageView;
+    					targetMonsterDFE = monsterDFE;
+    				}
+    			}	
+    		}
+    		
+    		if (targetFound) {
+    			
+    			tower.shoot(targetMonster);
+    			
+    			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
+    					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
+    			if (targetMonster.getHp() <= 0) {
+    				//create collision.png image on the dead monster grid
+    				Image collisionImage = new Image("file:src/main/resources/collision.png");
+    		        ImageView collisionImageView = new ImageView(collisionImage);
+    		        collisionImageView.setFitWidth(GRID_WIDTH);
+    		        collisionImageView.setFitHeight(GRID_HEIGHT);
+    		        collisionImageView.setX(targetMonsterImageView.getX());
+    		        collisionImageView.setY(targetMonsterImageView.getY());
+    		        
+    		        collisionImageViewList.add(collisionImageView);
+    		        paneArena.getChildren().addAll(collisionImageView);
+    		        
+    		        //remove monster from arena and monsterImageViewList
+    				paneArena.getChildren().remove(targetMonsterImageView);
+    				monsterImageViewList.remove(targetMIV);
+    				
+    				//earn some money
+    				labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) + moneyReward));
+    	    	}
+    		}
+    		
+    	}
     	
     }
 
