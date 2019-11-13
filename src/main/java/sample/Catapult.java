@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.ArrayList;
+
 public class Catapult extends BasicTower{
 	
 	private static int _attackPower = 5;
@@ -7,9 +9,9 @@ public class Catapult extends BasicTower{
 	private static int _build_cost = 5;
 	private static int _upgrade_cost = 3;
 	
-	private int lowRange;
-	private int coolDown;
- 
+	private static int lowRange = 50;
+	private int coolDownTime;
+	private int coolingDown;
 	
 	public static String _imagePath = "./src/main/resources/catapult.png";
 	
@@ -17,17 +19,38 @@ public class Catapult extends BasicTower{
 	public Catapult(int _x, int _y) {
 		super(_x, _y, _attackPower, _range, _build_cost, _upgrade_cost, _imagePath);
 		
-		lowRange = 50;
-		coolDown = -5;
+		coolDownTime = 5;
+		coolingDown = 0;
 	}
 	 
 	public void upgrade() {
-		if (coolDown >= 0)
-			--coolDown;
+		if (coolDownTime >= 0)
+			--coolDownTime;
 	}
 	
-	public void shoot() {
-		
+	public boolean isInRange(Monster m) {
+		double distance = Math.sqrt(Math.pow(x-m.getX(), 2)+Math.pow(y-m.getY(), 2));
+		return this.getRange() > distance && lowRange < distance;
+	}
+	
+	public boolean isInRange(int _x, int _y) {
+		double distance = Math.sqrt(Math.pow(x-_x, 2)+Math.pow(y-_y, 2));
+		return this.getRange() > distance && lowRange < distance;
+	}
+	
+	
+	public void shoot(Monster m, ArrayList <Monster> monster) {
+		if (coolingDown > 0) {
+			--coolingDown;
+		} else {
+			coolingDown = coolDownTime;
+			for (int i=0; i<monster.size(); ++i) { 
+				double distance = Math.sqrt(Math.pow(m.getX()-monster.get(i).getX(), 2)+Math.pow(m.getY()-monster.get(i).getY(), 2));
+				if (distance <= 25)
+					m.setHp(m.getHp() - this.attackPower);
+			}
+			
+		}
 	}
 	
 	public String getTowerType() {

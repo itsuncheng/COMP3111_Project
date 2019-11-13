@@ -1,8 +1,10 @@
 package sample;
 
+import java.util.ArrayList;
+
 public class IceTower extends BasicTower{
 	
-	private static int _attackPower = 7;
+	private static int _attackPower = 1;
 	private static int _range = 65;
 	private static int _build_cost = 4;
 	private static int _upgrade_cost = 5;
@@ -24,7 +26,7 @@ public class IceTower extends BasicTower{
 		++iceTime;
 	}
 	
-	public void shoot(Monster m) {
+	public void shoot(Monster m, ArrayList <Monster> monster) {
 		m.setHp(m.getHp() - attackPower);
 		if (!m.getIsIced())	{
 			m.setSpeed(m.getSpeed() - icePower);
