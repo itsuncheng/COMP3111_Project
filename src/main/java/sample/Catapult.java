@@ -9,6 +9,7 @@ public class Catapult extends BasicTower{
 	
 	private int lowRange;
 	private int coolDown;
+ 
 	
 	public static String _imagePath = "./src/main/resources/catapult.png";
 	

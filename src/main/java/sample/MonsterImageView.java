@@ -38,6 +38,14 @@ public class MonsterImageView{
 		
 		int x = monster.getX();
 		int y = monster.getY();
+		if (monster.isIced) {
+			int nextIceTime = monster.getIceTime();
+			monster.setIceTime(--nextIceTime);
+			if (monster.getIceTime() == 0) {
+				monster.setIsIced(false);
+				monster.setSpeed(monster.getDefaultSpeed());
+			}
+		}
 		int speed = monster.getSpeed();
 		
 		

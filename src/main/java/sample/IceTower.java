@@ -9,23 +9,28 @@ public class IceTower extends BasicTower{
 	
 	public static String _imagePath = "./src/main/resources/iceTower.png";
 	
-	private int slowDownPower;
+	private static int icePower;
+	private int iceTime;
 	
 	public IceTower(int _x, int _y) {
 		super(_x, _y, _attackPower, _range, _build_cost, _upgrade_cost, _imagePath);
 		
-		slowDownPower =  2;
-		
+		icePower =  2;
+		iceTime = 3;
 	}
 	
 	public void upgrade() {
 		++attackPower;
-		++slowDownPower;
+		++iceTime;
 	}
 	
 	public void shoot(Monster m) {
 		m.setHp(m.getHp() - attackPower);
-		m.setSpeed(m.getSpeed() - slowDownPower);
+		if (!m.getIsIced())	{
+			m.setSpeed(m.getSpeed() - icePower);
+			m.setIsIced(true);
+			m.setIceTime(iceTime);
+		}
 	}
 	
 	public String getTowerType() {
