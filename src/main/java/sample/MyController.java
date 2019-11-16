@@ -63,6 +63,7 @@ public class MyController {
     static final int ARENA_HEIGHT = 480;
     static final int GRID_WIDTH = 40;
     static final int GRID_HEIGHT = 40;
+    static final int INITIAL_MONEY = 10;
     private static final int MAX_H_NUM_GRID = 12;
     private static final int MAX_V_NUM_GRID = 12;
 
@@ -133,6 +134,10 @@ public class MyController {
                 grids[i][j].setText(s);*/
             }
         arena = new Arena(MAX_V_NUM_GRID,MAX_H_NUM_GRID,isGreen);
+        arena.setMoney(INITIAL_MONEY);
+        labelMoney.setText(String.valueOf(arena.getMoney()));
+        
+        
         
         //Start:Display monsterSource.png to end monster Source grid: Rick
         Image monsterSourceImage = new Image("file:src/main/resources/monsterSource.png");
@@ -199,6 +204,8 @@ public class MyController {
 		// make generated monsters faster every frame
 		new_monster.setSpeed(new_monster.getSpeed() + new_monster_speed_inc);
 		new_monster_speed_inc += 1;
+		
+		arena.addMonster(new_monster);
 		
 		
 		MonsterImageView monsterImageView = new MonsterImageView(new_monster);
@@ -277,57 +284,68 @@ public class MyController {
     		}
     		
     		if (targetFound) {
-    			
     			tower.shoot(targetMonster);
+    			//tower.shoot(targetMonster,arena);  <----change to this line when chris finish modifying shoot
     			
     			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
     					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
-    			if (targetMonster.getHp() <= 0) {
-    				//create collision.png image on the dead monster grid
-    				Image collisionImage = new Image("file:src/main/resources/collision.png");
-    		        ImageView collisionImageView = new ImageView(collisionImage);
-    		        collisionImageView.setFitWidth(GRID_WIDTH);
-    		        collisionImageView.setFitHeight(GRID_HEIGHT);
-    		        collisionImageView.setX(targetMonsterImageView.getX());
-    		        collisionImageView.setY(targetMonsterImageView.getY());
-    		        
-    		        collisionImageViewList.add(collisionImageView);
-    		        paneArena.getChildren().addAll(collisionImageView);
-    		        
-    		        //remove monster from arena and monsterImageViewList
-    				paneArena.getChildren().remove(targetMonsterImageView);
-    				monsterImageViewList.remove(targetMIV);
-    				
-    				//earn some money
-    				labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) + moneyReward));
-    	    	}
+    			
+    			for (MonsterImageView mIV: monsterImageViewList) {
+    				Monster monster = mIV.getMonster();
+	    			if (monster.getHp() <= 0) {
+	    				//create collision.png image on the dead monster grid
+	    				Image collisionImage = new Image("file:src/main/resources/collision.png");
+	    		        ImageView collisionImageView = new ImageView(collisionImage);
+	    		        collisionImageView.setFitWidth(GRID_WIDTH);
+	    		        collisionImageView.setFitHeight(GRID_HEIGHT);
+	    		        collisionImageView.setX(mIV.getImageView().getX());
+	    		        collisionImageView.setY(mIV.getImageView().getY());
+	    		        
+	    		        collisionImageViewList.add(collisionImageView);
+	    		        paneArena.getChildren().addAll(collisionImageView);
+	    		        
+	    		        //remove monster from arena and monsterImageViewList
+	    				paneArena.getChildren().remove(mIV);
+	    				monsterImageViewList.remove(mIV);
+	    				arena.removeMonster(monster);
+	    				
+	    				//earn some money
+	    				arena.addMoney(moneyReward);
+	    				
+	    	    	}
+	    		}
     		}
     		
     	}
+        labelMoney.setText(String.valueOf(arena.getMoney())); //update GUI money label
     	
     }
 
     public BasicTower getTowerFromText(String s, int x, int y) {
     	BasicTower tower = null;
     	if (s.equals("Basic Tower")) {
-    		if (Integer.parseInt(labelMoney.getText()) >= BasicTower.getBuildCost()) {
+    		if (arena.getMoney() >= BasicTower.getBuildCost()) {
     			tower = new BasicTower(x, y);
-    			labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) - BasicTower.getBuildCost()));
+    			arena.removeMoney(BasicTower.getBuildCost());
+    			labelMoney.setText(String.valueOf(arena.getMoney()));
     		}
     	} else if (s.equals("Ice Tower")) {
-    		if (Integer.parseInt(labelMoney.getText()) >= IceTower.getBuildCost()) {
+    		if (arena.getMoney() >= IceTower.getBuildCost()) {
     			tower = new IceTower(x, y);
-    			labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) - IceTower.getBuildCost()));
+    			arena.removeMoney(IceTower.getBuildCost());
+    			labelMoney.setText(String.valueOf(arena.getMoney()));
     		}
     	} else if (s.equals("Laser Tower")) {
-    		if (Integer.parseInt(labelMoney.getText()) >= LaserTower.getBuildCost()) {
+    		if (arena.getMoney() >= LaserTower.getBuildCost()) {
     			tower = new LaserTower(x, y);
-    			labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) - LaserTower.getBuildCost()));
+    			arena.removeMoney(LaserTower.getBuildCost());
+    			labelMoney.setText(String.valueOf(arena.getMoney()));
     		}
     	} else if (s.equals("Catapult")){
-    		if (Integer.parseInt(labelMoney.getText()) >= Catapult.getBuildCost()) {
+    		if (arena.getMoney() >= Catapult.getBuildCost()) {
     			tower = new Catapult(x, y);
-    			labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) - Catapult.getBuildCost()));
+    			arena.removeMoney(Catapult.getBuildCost());
+    			labelMoney.setText(String.valueOf(arena.getMoney()));
     		}
     	}
     	return tower;
@@ -372,8 +390,9 @@ public class MyController {
         				            	BasicTower tower = getTowerFromText(db.getString(), pixelX, pixelY);
         				            	if (tower != null) {
 	        				            	TowerImageView towerImageView = new TowerImageView(tower); 
-//	        				                System.out.println("tower: " + tower);
-//	        				                System.out.println("towerImageView: " + towerImageView);
+	        				          
+	        				                System.out.println("tower: " + tower);
+	        				                System.out.println("towerImageView: " + towerImageView);
 	        				                
 	        				                
 	        				            	towerImageViewList.add(towerImageView); //adding the monster to the list, we can do this in Arena class
