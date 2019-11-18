@@ -357,7 +357,7 @@ public class MyController {
 	    		        paneArena.getChildren().addAll(collisionImageView);
 	    		        
 	    		        //remove monster from arena and monsterImageViewList
-	    				paneArena.getChildren().remove(mIV);
+	    				paneArena.getChildren().removeAll(mIV.getImageView());
 	    				monsterImageViewList.remove(mIV);
 	    				arena.removeMonster(monster);
 	    				
