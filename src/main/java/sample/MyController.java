@@ -15,11 +15,13 @@ import javafx.scene.layout.CornerRadii;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.transform.Rotate;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -79,6 +81,7 @@ public class MyController {
     private ArrayList<TowerImageView> towerImageViewList = new ArrayList<TowerImageView>();  //TowerImageView to be implemented by Chris
     private ArrayList<ImageView> collisionImageViewList = new ArrayList<ImageView>();
     private ArrayList<Circle> rangeCircleList = new ArrayList<Circle>();
+    private ArrayList<Rectangle> shotIndicatingRecList = new ArrayList<Rectangle>();
     private static TowerImageView selectedTowerImageView = null;
     /**
      * A dummy function to show how button click works
@@ -170,6 +173,10 @@ public class MyController {
     	for (ImageView collisionImageView: collisionImageViewList)
     		paneArena.getChildren().removeAll(collisionImageView);
     	collisionImageViewList.clear();
+    	
+    	for (Rectangle shotIndicatingRec: shotIndicatingRecList)
+    		paneArena.getChildren().removeAll(shotIndicatingRec);
+    	shotIndicatingRecList.clear();
     	
     	  	
     	for(MonsterImageView mIV: monsterImageViewList) {
@@ -263,13 +270,10 @@ public class MyController {
     				int endZoneX = (MAX_V_NUM_GRID-1)*GRID_WIDTH;
     				int endZoneY = 0;
     				
-    				double monsterX = monster.getX()*MAX_V_NUM_GRID;
-    				double monsterY = monster.getY()*MAX_H_NUM_GRID;
+    				double monsterX = monster.getX();
+    				double monsterY = monster.getY();
     				
-    				System.out.println("monsterImageX:"+monsterX+"  monsterImageY:"+monsterY
-					+"   endZoneX"+endZoneX+"  endZoneY:"+endZoneY
-					);
-    				
+    				  				
     				double monsterDFE = Math.sqrt(
     										((monsterX-endZoneX)*(monsterX-endZoneX))
     										+((monsterY-endZoneY)*(monsterY-endZoneY))
@@ -289,6 +293,54 @@ public class MyController {
     			
     			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
     					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
+    			
+    			//Create Shot Indicating rectangle (A loop that surrounds a tower and a monster where the tower has shot the monster) 
+    			double filletRadius = 1.5 * (GRID_WIDTH/2.0);
+    			double monsterX = targetMonster.getX();
+				double monsterY = targetMonster.getY();
+				double towerX = tower.getX();
+				double towerY = tower.getY();
+				
+				System.out.println("monsterX:"+monsterX+"  monsterY:"+monsterY
+						+"   towerX"+towerX+"  towerY:"+towerY
+						);
+				
+				double distance = Math.sqrt(
+												((monsterX-towerX)*(monsterX-towerX))
+												+((monsterY-towerY)*(monsterY-towerY))
+											);
+				
+    			
+    			Rectangle shotIndicatingRec = new Rectangle();
+    			
+    			shotIndicatingRec.setFill(Color.TRANSPARENT);
+    			shotIndicatingRec.setStroke(Color.ORANGE);
+    			shotIndicatingRec.setStrokeWidth(2.0); 
+    			
+    			shotIndicatingRec.setWidth(filletRadius + distance + filletRadius);
+    			shotIndicatingRec.setHeight(2*filletRadius);
+    			
+    			shotIndicatingRec.setArcWidth(2*filletRadius); 
+    		    shotIndicatingRec.setArcHeight(2*filletRadius);  
+    			
+    			shotIndicatingRec.setX(towerX - (filletRadius - (GRID_WIDTH/2)));
+    			shotIndicatingRec.setY(towerY - (filletRadius - (GRID_WIDTH/2)));
+    			
+    			double xDisplacementMRelT = monsterX - towerX; //x-displacement of monster relative to tower;
+    			double yDisplacementMRelT = monsterY - towerY; //y-displacement of monster relative to tower;
+    			
+    			double angle = Math.atan2(yDisplacementMRelT, xDisplacementMRelT);  //atan2 returns range from 0 - 2pi
+    			angle = Math.toDegrees(angle);
+    			
+    			Rotate rotate = new Rotate(angle,towerX+(GRID_WIDTH/2),towerY+(GRID_WIDTH/2));
+    			shotIndicatingRec.getTransforms().addAll(rotate);
+    			
+    			paneArena.getChildren().addAll(shotIndicatingRec);
+    			shotIndicatingRecList.add(shotIndicatingRec);
+    			
+    			
+    			
+    			
     			
     			for (MonsterImageView mIV: monsterImageViewList) {
     				Monster monster = mIV.getMonster();
