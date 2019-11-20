@@ -50,7 +50,7 @@ public class BasicTower {
 		return range > Math.sqrt(Math.pow(x-_x, 2)+Math.pow(y-_y, 2));
 	}
 	
-	public void shoot(Monster m, ArrayList <Monster> monster) {
+	public void shoot(Monster m, Arena a) {
 		m.setHp(m.getHp() - attackPower);
 	}
 	

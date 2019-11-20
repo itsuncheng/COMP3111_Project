@@ -39,15 +39,17 @@ public class Catapult extends BasicTower{
 	}
 	
 	
-	public void shoot(Monster m, ArrayList <Monster> monster) {
+	public void shoot(Monster m,Arena a) {
 		if (coolingDown > 0) {
 			--coolingDown;
 		} else {
 			coolingDown = coolDownTime;
-			for (int i=0; i<monster.size(); ++i) { 
-				double distance = Math.sqrt(Math.pow(m.getX()-monster.get(i).getX(), 2)+Math.pow(m.getY()-monster.get(i).getY(), 2));
+			int currentX = m.getX();
+			int currentY = m.getY();
+			for (int i=0; i<a.monsters.size(); ++i) { 
+				double distance = Math.sqrt(Math.pow(currentX-a.monsters.get(i).getX(), 2)+Math.pow(currentY-a.monsters.get(i).getY(), 2));
 				if (distance <= 25)
-					m.setHp(m.getHp() - this.attackPower);
+					a.monsters.get(i).setHp(a.monsters.get(i).getHp() - this.attackPower);
 			}
 			
 		}

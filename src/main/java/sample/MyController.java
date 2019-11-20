@@ -82,6 +82,7 @@ public class MyController {
     private ArrayList<ImageView> collisionImageViewList = new ArrayList<ImageView>();
     private ArrayList<Circle> rangeCircleList = new ArrayList<Circle>();
     private ArrayList<Rectangle> shotIndicatingRecList = new ArrayList<Rectangle>();
+    private ArrayList<Rectangle> laserList = new ArrayList<Rectangle>();
     private static TowerImageView selectedTowerImageView = null;
     /**
      * A dummy function to show how button click works
@@ -178,7 +179,10 @@ public class MyController {
     		paneArena.getChildren().removeAll(shotIndicatingRec);
     	shotIndicatingRecList.clear();
     	
-    	  	
+    	for (Rectangle laser: laserList)
+    		paneArena.getChildren().removeAll(laser);
+    	laserList.clear();
+    	
     	for(MonsterImageView mIV: monsterImageViewList) {
     		//move each monster
     		mIV.moveAtEachFrame();
@@ -288,8 +292,22 @@ public class MyController {
     		}
     		
     		if (targetFound) {
-    			tower.shoot(targetMonster);
-    			//tower.shoot(targetMonster,arena);  <----change to this line when chris finish modifying shoot
+    			//tower.shoot(targetMonster);
+    			if (tower.getTowerType() == "Laser Tower") {
+    				Rectangle laser = new Rectangle();
+    				
+    				laser.setFill(Color.BLUE);
+    				laser.setOpacity(90);
+    				laser.setWidth(ARENA_WIDTH);
+    				laser.setHeight(6);
+    				double towerY = tower.getY();
+    				laser.setY(towerY-1.5+GRID_WIDTH/2);
+    				laser.setX(0);   	
+    				paneArena.getChildren().addAll(laser);
+    				laserList.add(laser);
+    			}
+    				
+    			tower.shoot(targetMonster,arena); // <----change to this line when chris finish modifying shoot
     			
     			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
     					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");

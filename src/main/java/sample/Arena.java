@@ -93,7 +93,7 @@ public class Arena {
 //			int y = currentMonster.getY();
 			
 			for(int j = 0;j<towers.size();j++) {
-				towers.get(j).shoot(currentMonster);
+				towers.get(j).shoot(currentMonster,this);
 			}
 			
 			if (currentMonster.getHp() <= 0) {
