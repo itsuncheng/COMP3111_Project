@@ -257,19 +257,19 @@ public class MyController {
     		//For a few variables below I've initialize them, just so java doesn't give me warning that 
     		//the variable might not have been initialized.It's not pretty, I know....-Rick
     		boolean targetFound = false; //true if there is a monster in range, false otherwise
-    		MonsterImageView targetMIV = new MonsterImageView(new Penguin());//Stores  the MonsterImageView that tower will shoot
-    		Monster targetMonster = new Penguin();//stores the Monster that the tower will shoot
-    		ImageView targetMonsterImageView = new ImageView();		//Stores the ImageView of the Monster that the tower will shoot
+    		MonsterImageView targetMIV;//Stores  the MonsterImageView that tower will shoot
+    		Monster targetMonster = null;//stores the Monster that the tower will shoot
+    		ImageView targetMonsterImageView = null;		//Stores the ImageView of the Monster that the tower will shoot
     		double targetMonsterDFE = Double.POSITIVE_INFINITY; //Distance From Endzone: distance between the the top-left corners of EZ and TargetMonster
     		
     		for (MonsterImageView mIV: monsterImageViewList) {
     			Monster monster = mIV.getMonster();
-    			System.out.println("monsterX"+monster.getX()+"  monsterY:"+monster.getY()
-    								+"towerX"+tower.getX()+"  towerY:"+tower.getY()
-    								);
+//    			System.out.println("monsterX"+monster.getX()+"  monsterY:"+monster.getY()
+//    								+"towerX"+tower.getX()+"  towerY:"+tower.getY()
+//    								);
     			ImageView monster_ImageView = mIV.getImageView(); //using "monster_ImageView" as object name as "monsterImageView" because is already used above. -Rick
     			if (tower.isInRange(monster)) {
-    				System.out.println("a monster is in range");
+//    				System.out.println("a monster is in range");
     				targetFound = true;
     				int endZoneX = (MAX_V_NUM_GRID-1)*GRID_WIDTH;
     				int endZoneY = 0;
@@ -319,9 +319,9 @@ public class MyController {
 				double towerX = tower.getX();
 				double towerY = tower.getY();
 				
-				System.out.println("monsterX:"+monsterX+"  monsterY:"+monsterY
-						+"   towerX"+towerX+"  towerY:"+towerY
-						);
+//				System.out.println("monsterX:"+monsterX+"  monsterY:"+monsterY
+//						+"   towerX"+towerX+"  towerY:"+towerY
+//						);
 				
 				double distance = Math.sqrt(
 												((monsterX-towerX)*(monsterX-towerX))
@@ -352,41 +352,41 @@ public class MyController {
     			
     			Rotate rotate = new Rotate(angle,towerX+(GRID_WIDTH/2),towerY+(GRID_WIDTH/2));
     			shotIndicatingRec.getTransforms().addAll(rotate);
+    			shotIndicatingRec.setMouseTransparent(true);
     			
     			paneArena.getChildren().addAll(shotIndicatingRec);
     			shotIndicatingRecList.add(shotIndicatingRec);
-    			
-    			
-    			
-    			
-    			
-    			for (MonsterImageView mIV: monsterImageViewList) {
-    				Monster monster = mIV.getMonster();
-	    			if (monster.getHp() <= 0) {
-	    				//create collision.png image on the dead monster grid
-	    				Image collisionImage = new Image("file:src/main/resources/collision.png");
-	    		        ImageView collisionImageView = new ImageView(collisionImage);
-	    		        collisionImageView.setFitWidth(GRID_WIDTH);
-	    		        collisionImageView.setFitHeight(GRID_HEIGHT);
-	    		        collisionImageView.setX(mIV.getImageView().getX());
-	    		        collisionImageView.setY(mIV.getImageView().getY());
-	    		        
-	    		        collisionImageViewList.add(collisionImageView);
-	    		        paneArena.getChildren().addAll(collisionImageView);
-	    		        
-	    		        //remove monster from arena and monsterImageViewList
-	    				paneArena.getChildren().removeAll(mIV.getImageView());
-	    				monsterImageViewList.remove(mIV);
-	    				arena.removeMonster(monster);
-	    				
-	    				//earn some money
-	    				arena.addMoney(moneyReward);
-	    				
-	    	    	}
-	    		}
+ 
     		}
     		
     	}
+        
+        for(int i=0; i<monsterImageViewList.size(); i++) {
+        	MonsterImageView mIV = monsterImageViewList.get(i);
+        	Monster monster = mIV.getMonster();
+			if (monster.getHp() <= 0) {
+				//create collision.png image on the dead monster grid
+				Image collisionImage = new Image("file:src/main/resources/collision.png");
+		        ImageView collisionImageView = new ImageView(collisionImage);
+		        collisionImageView.setFitWidth(GRID_WIDTH);
+		        collisionImageView.setFitHeight(GRID_HEIGHT);
+		        collisionImageView.setX(mIV.getImageView().getX());
+		        collisionImageView.setY(mIV.getImageView().getY());
+		        
+		        collisionImageViewList.add(collisionImageView);
+		        paneArena.getChildren().addAll(collisionImageView);
+				
+		        //remove monster from arena and monsterImageViewList
+				paneArena.getChildren().removeAll(mIV.getImageView());
+				monsterImageViewList.remove(mIV);
+				arena.removeMonster(monster);
+				
+		        
+		      //earn some money
+			  arena.addMoney(moneyReward);
+			}
+        }
+		
         labelMoney.setText(String.valueOf(arena.getMoney())); //update GUI money label
     	
     }
@@ -456,13 +456,13 @@ public class MyController {
         				        if (db.hasString()) {
         				            if(arena.isGreenGrid(gridY,gridX)) {
         				            	
-        				            	System.out.println("db.getString(): " + db.getString());
+//        				            	System.out.println("db.getString(): " + db.getString());
         				            	BasicTower tower = getTowerFromText(db.getString(), pixelX, pixelY);
         				            	if (tower != null) {
 	        				            	TowerImageView towerImageView = new TowerImageView(tower); 
 	        				          
-	        				                System.out.println("tower: " + tower);
-	        				                System.out.println("towerImageView: " + towerImageView);
+//	        				                System.out.println("tower: " + tower);
+//	        				                System.out.println("towerImageView: " + towerImageView);
 	        				                
 	        				                
 	        				            	towerImageViewList.add(towerImageView); //adding the monster to the list, we can do this in Arena class
@@ -489,9 +489,9 @@ public class MyController {
 				        				                		int pixelY2 = (int) grids[a][b].getLayoutY() + GRID_HEIGHT/2;
 	//			        				                		int pixelX2 = gridXToPixelX(gridX2);
 	//			        				                		int pixelY2 = gridYToPixelY(gridY2);
-				        				                		System.out.println(pixelX2 + " " + pixelY2);
+//				        				                		System.out.println(pixelX2 + " " + pixelY2);
 				        				                		if (tower.isInRange(pixelX2, pixelY2)) {
-				        				                			System.out.println("in range");
+//				        				                			System.out.println("in range");
 				        				                			Circle circle = new Circle(pixelX2, pixelY2, 10);
 				        				                			circle.setStyle("-fx-background-color: #ffff00;");
 				        				                			paneArena.getChildren().addAll(circle);
@@ -637,7 +637,8 @@ public class MyController {
     			//upgrade tower
     			selectedTowerImageView.getTower().upgrade();
     			// decrease money
-    			labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) - upgradeCost));
+    			arena.removeMoney(upgradeCost);
+    			labelMoney.setText(String.valueOf(arena.getMoney()));
     			// update tower info on GUI
     			
     			System.out.println(selectedTowerImageView.getTower().getTowerType() + " tower is being upgraded");
