@@ -14,8 +14,10 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -80,7 +82,7 @@ public class MyController {
     private ArrayList<MonsterImageView> monsterImageViewList = new ArrayList<MonsterImageView>();//An ArrayList of the monsterImageViews
     private ArrayList<TowerImageView> towerImageViewList = new ArrayList<TowerImageView>();  //TowerImageView to be implemented by Chris
     private ArrayList<ImageView> collisionImageViewList = new ArrayList<ImageView>();
-    private ArrayList<Circle> rangeCircleList = new ArrayList<Circle>();
+    private ArrayList<Shape> rangeShapeList = new ArrayList<Shape>();
     private ArrayList<Rectangle> shotIndicatingRecList = new ArrayList<Rectangle>();
     private ArrayList<Rectangle> laserList = new ArrayList<Rectangle>();
     private static TowerImageView selectedTowerImageView = null;
@@ -481,7 +483,8 @@ public class MyController {
 	    				                		    Window stage = source.getScene().getWindow();
 			        				                popup.show(stage);
 			        				                
-			        				                //show range on GUI
+			        				                //show range on GUI: Old Implementation
+			        				                /*
 			        				                for(int a = 0;a<MAX_H_NUM_GRID;a++) {
 			        				                	for(int b = 0; b < MAX_V_NUM_GRID;b++) {
 			        				                		if (!arena.isGreenGrid(a,b)) {
@@ -500,6 +503,41 @@ public class MyController {
 			        				                		}
 			        				                		
 			        				                	}
+			        				                }*/
+			        				              
+			        				                
+			        				                //show range on GUI: New Implementation
+			        				                int towerCenterX = tower.getX()+(GRID_WIDTH/2);
+			        				                int towerCenterY = tower.getY()+(GRID_HEIGHT/2);
+			        				                
+			        				                if(tower instanceof Catapult) {  //Catapult needs to be seperated because its range is a donut not a circle ;)
+			        				                	System.out.println("mouse-over a Catapult");
+			        				                	Catapult c = (Catapult) tower;  //Cast to Catapult to access Catapult function
+			        				                	Circle circle = new Circle();
+			        				                	circle.setCenterX(towerCenterX);
+			        				                	circle.setCenterY(towerCenterY);
+			        				                	circle.setRadius(c.getRange());
+			        				                	circle.setFill(Color.TRANSPARENT);
+			        				                	circle.setStroke(Color.PINK);
+			        				                	circle.setStrokeType(StrokeType.INSIDE);
+			        				                	circle.setStrokeWidth(c.getRange()-c.getLowRange());
+			        				                	circle.setOpacity(0.3);
+			        				                	circle.setMouseTransparent(true);
+			        				                	paneArena.getChildren().addAll(circle);
+			        				                	rangeShapeList.add(circle);
+			        				                }
+			        				                else if(tower instanceof BasicTower || tower instanceof IceTower || tower instanceof LaserTower){
+			        				                	System.out.println("mouse-over a BasicTower, IceTower, or LaserTower");
+			        				                	Circle circle = new Circle();
+			        				                	circle.setCenterX(towerCenterX);
+			        				                	circle.setCenterY(towerCenterY);
+			        				                	circle.setRadius(tower.getRange());
+			        				                	circle.setFill(Color.PINK);
+			        				                	circle.setOpacity(0.3);
+			        				                	circle.setMouseTransparent(true);
+			        				                	paneArena.getChildren().addAll(circle);
+			        				                	rangeShapeList.add(circle);
+			        				                	
 			        				                }
 					                		   } 
 	    				                	}));
@@ -510,10 +548,10 @@ public class MyController {
 	     				                		  if ((popup != null) && popup.isShowing()) {
 	     				                			  popup.hide();
 	     				                		  }
-	     				                		  for (Circle c: rangeCircleList) {
-	     				                			 paneArena.getChildren().remove(c);
+	     				                		  for (Shape s: rangeShapeList) {
+	     				                			 paneArena.getChildren().remove(s);
 	     				                		  }
-	     				                		 rangeCircleList.clear();
+	     				                		 rangeShapeList.clear();
 	 				                		   } 
 	     				                	}));
 	        				            	
