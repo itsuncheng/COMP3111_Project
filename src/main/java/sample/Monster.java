@@ -10,14 +10,18 @@ public abstract class Monster {
 	protected int hp;
 	protected int speed;
 	protected int x, y;
+	protected boolean isIced;
+	protected int iceTime;
 	protected ImageView imageView = null;
 	
-	public Monster(int _hp, int _speed, int _x, int _y, String _imagePath) {
+	public Monster(int _hp, int _speed, int _x, int _y, boolean _isIced, int _iceTime, String _imagePath) {
 		hp = _hp;
 		speed = _speed;
 		x = _x;
 		y = _y;
 		
+		isIced = _isIced;
+		iceTime = _iceTime;
 		setImageView(_imagePath);
 		
 	}
@@ -42,6 +46,14 @@ public abstract class Monster {
 		if (imageView != null) {
 			imageView.setY(_y);
 		}
+	}
+	
+	public void setIsIced(boolean _isIced) {
+		isIced = _isIced;
+	}
+	
+	public void setIceTime(int _iceTime) {
+		iceTime = _iceTime;
 	}
 	
 	public void setImageView(String _imagePath) {
@@ -75,11 +87,21 @@ public abstract class Monster {
 		return y;
 	}
 	
+	public boolean getIsIced() {
+		return isIced;
+	}
+	
+	public int getIceTime() {
+		return iceTime;
+	}
+	
 	public ImageView getImageView() {
 		return imageView;
 	}
 	
 	abstract String getMonsterType();
+	
+	abstract int getDefaultSpeed();
 
 	public void replenishHp() {
 		// nothing in Monster

@@ -2,6 +2,7 @@ package sample;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.lang.Math;
 
 import javafx.scene.image.Image;
@@ -49,7 +50,7 @@ public class BasicTower {
 		return range > Math.sqrt(Math.pow(x-_x, 2)+Math.pow(y-_y, 2));
 	}
 	
-	public void shoot(Monster m) {
+	public void shoot(Monster m, Arena a) {
 		m.setHp(m.getHp() - attackPower);
 	}
 	

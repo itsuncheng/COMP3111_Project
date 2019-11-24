@@ -62,7 +62,7 @@
                      </padding>
                   </Label>
                   <Label layoutX="17.0" layoutY="330.0" text="Money: " />
-                  <Label fx:id="labelMoney" layoutX="65.0" layoutY="330.0" text="10" />
+                  <Label fx:id="labelMoney" layoutX="65.0" layoutY="330.0"  />
                   <Button fx:id="buttonDestroyTower" layoutX="4.0" layoutY="360.0" mnemonicParsing="false" onAction="#destroyTower" text="destroy the tower" visible="false" />
                   <Button fx:id="buttonUpgradeTower" layoutX="4.0" layoutY="385.0" mnemonicParsing="false" onAction="#upgradeTower" text="upgrade" visible="false" />
                </children>
