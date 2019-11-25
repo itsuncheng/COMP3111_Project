@@ -62,4 +62,8 @@ public class Catapult extends BasicTower{
 	public static int getUpgradeCost() {
 		return upgrade_cost;
 	}
+	
+	public int getLowRange() {
+		return lowRange;
+	}
 }

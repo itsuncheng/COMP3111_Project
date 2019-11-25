@@ -12,7 +12,7 @@ public class Arena {
 	public ArrayList <Monster> monsters; //ArrayList of monsters on the arena
 	public ArrayList <BasicTower> towers; //ArrayList of towers on the arena
 	
-	private float money = 100;
+	private int money = 100;
 	
 	public static Random rand = new Random();
 	
@@ -151,14 +151,14 @@ public class Arena {
 			System.out.println("ERROR: Monster Removal Unsuccessful. To be removed monster is not found");
 	}
 	
-	void setMoney(float money) {
+	void setMoney(int money) {
 		if(money < 0) {
 			System.out.println("ERROR: attempt to set Money to negative value. Value of money is unchanged");
 		}
 		this.money = money;
 	}
 	
-	void addMoney(float money) {
+	void addMoney(int money) {
 		if(money>0) {
 			this.money = this.money+money;
 		}
@@ -167,7 +167,7 @@ public class Arena {
 		}
 	}
 	
-	void removeMoney(float money) {
+	void removeMoney(int money) {
 		if(money>this.money) {
 			System.out.println("ERROR:removeMoney(): not enough money");
 		}
@@ -179,7 +179,7 @@ public class Arena {
 		}
 	}
 	
-	float getMoney() {
+	int getMoney() {
 		return money;
 	}
 	

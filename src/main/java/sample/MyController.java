@@ -14,8 +14,10 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -80,7 +82,7 @@ public class MyController {
     private ArrayList<MonsterImageView> monsterImageViewList = new ArrayList<MonsterImageView>();//An ArrayList of the monsterImageViews
     private ArrayList<TowerImageView> towerImageViewList = new ArrayList<TowerImageView>();  //TowerImageView to be implemented by Chris
     private ArrayList<ImageView> collisionImageViewList = new ArrayList<ImageView>();
-    private ArrayList<Circle> rangeCircleList = new ArrayList<Circle>();
+    private ArrayList<Shape> rangeShapeList = new ArrayList<Shape>();
     private ArrayList<Rectangle> shotIndicatingRecList = new ArrayList<Rectangle>();
     private ArrayList<Rectangle> laserList = new ArrayList<Rectangle>();
     private static TowerImageView selectedTowerImageView = null;
@@ -257,19 +259,19 @@ public class MyController {
     		//For a few variables below I've initialize them, just so java doesn't give me warning that 
     		//the variable might not have been initialized.It's not pretty, I know....-Rick
     		boolean targetFound = false; //true if there is a monster in range, false otherwise
-    		MonsterImageView targetMIV = new MonsterImageView(new Penguin());//Stores  the MonsterImageView that tower will shoot
-    		Monster targetMonster = new Penguin();//stores the Monster that the tower will shoot
-    		ImageView targetMonsterImageView = new ImageView();		//Stores the ImageView of the Monster that the tower will shoot
+    		MonsterImageView targetMIV;//Stores  the MonsterImageView that tower will shoot
+    		Monster targetMonster = null;//stores the Monster that the tower will shoot
+    		ImageView targetMonsterImageView = null;		//Stores the ImageView of the Monster that the tower will shoot
     		double targetMonsterDFE = Double.POSITIVE_INFINITY; //Distance From Endzone: distance between the the top-left corners of EZ and TargetMonster
     		
     		for (MonsterImageView mIV: monsterImageViewList) {
     			Monster monster = mIV.getMonster();
-    			System.out.println("monsterX"+monster.getX()+"  monsterY:"+monster.getY()
-    								+"towerX"+tower.getX()+"  towerY:"+tower.getY()
-    								);
+//    			System.out.println("monsterX"+monster.getX()+"  monsterY:"+monster.getY()
+//    								+"towerX"+tower.getX()+"  towerY:"+tower.getY()
+//    								);
     			ImageView monster_ImageView = mIV.getImageView(); //using "monster_ImageView" as object name as "monsterImageView" because is already used above. -Rick
     			if (tower.isInRange(monster)) {
-    				System.out.println("a monster is in range");
+//    				System.out.println("a monster is in range");
     				targetFound = true;
     				int endZoneX = (MAX_V_NUM_GRID-1)*GRID_WIDTH;
     				int endZoneY = 0;
@@ -319,9 +321,9 @@ public class MyController {
 				double towerX = tower.getX();
 				double towerY = tower.getY();
 				
-				System.out.println("monsterX:"+monsterX+"  monsterY:"+monsterY
-						+"   towerX"+towerX+"  towerY:"+towerY
-						);
+//				System.out.println("monsterX:"+monsterX+"  monsterY:"+monsterY
+//						+"   towerX"+towerX+"  towerY:"+towerY
+//						);
 				
 				double distance = Math.sqrt(
 												((monsterX-towerX)*(monsterX-towerX))
@@ -352,41 +354,41 @@ public class MyController {
     			
     			Rotate rotate = new Rotate(angle,towerX+(GRID_WIDTH/2),towerY+(GRID_WIDTH/2));
     			shotIndicatingRec.getTransforms().addAll(rotate);
+    			shotIndicatingRec.setMouseTransparent(true);
     			
     			paneArena.getChildren().addAll(shotIndicatingRec);
     			shotIndicatingRecList.add(shotIndicatingRec);
-    			
-    			
-    			
-    			
-    			
-    			for (MonsterImageView mIV: monsterImageViewList) {
-    				Monster monster = mIV.getMonster();
-	    			if (monster.getHp() <= 0) {
-	    				//create collision.png image on the dead monster grid
-	    				Image collisionImage = new Image("file:src/main/resources/collision.png");
-	    		        ImageView collisionImageView = new ImageView(collisionImage);
-	    		        collisionImageView.setFitWidth(GRID_WIDTH);
-	    		        collisionImageView.setFitHeight(GRID_HEIGHT);
-	    		        collisionImageView.setX(mIV.getImageView().getX());
-	    		        collisionImageView.setY(mIV.getImageView().getY());
-	    		        
-	    		        collisionImageViewList.add(collisionImageView);
-	    		        paneArena.getChildren().addAll(collisionImageView);
-	    		        
-	    		        //remove monster from arena and monsterImageViewList
-	    				paneArena.getChildren().removeAll(mIV.getImageView());
-	    				monsterImageViewList.remove(mIV);
-	    				arena.removeMonster(monster);
-	    				
-	    				//earn some money
-	    				arena.addMoney(moneyReward);
-	    				
-	    	    	}
-	    		}
+ 
     		}
     		
     	}
+        
+        for(int i=0; i<monsterImageViewList.size(); i++) {
+        	MonsterImageView mIV = monsterImageViewList.get(i);
+        	Monster monster = mIV.getMonster();
+			if (monster.getHp() <= 0) {
+				//create collision.png image on the dead monster grid
+				Image collisionImage = new Image("file:src/main/resources/collision.png");
+		        ImageView collisionImageView = new ImageView(collisionImage);
+		        collisionImageView.setFitWidth(GRID_WIDTH);
+		        collisionImageView.setFitHeight(GRID_HEIGHT);
+		        collisionImageView.setX(mIV.getImageView().getX());
+		        collisionImageView.setY(mIV.getImageView().getY());
+		        
+		        collisionImageViewList.add(collisionImageView);
+		        paneArena.getChildren().addAll(collisionImageView);
+				
+		        //remove monster from arena and monsterImageViewList
+				paneArena.getChildren().removeAll(mIV.getImageView());
+				monsterImageViewList.remove(mIV);
+				arena.removeMonster(monster);
+				
+		        
+		      //earn some money
+			  arena.addMoney(moneyReward);
+			}
+        }
+		
         labelMoney.setText(String.valueOf(arena.getMoney())); //update GUI money label
     	
     }
@@ -456,13 +458,13 @@ public class MyController {
         				        if (db.hasString()) {
         				            if(arena.isGreenGrid(gridY,gridX)) {
         				            	
-        				            	System.out.println("db.getString(): " + db.getString());
+//        				            	System.out.println("db.getString(): " + db.getString());
         				            	BasicTower tower = getTowerFromText(db.getString(), pixelX, pixelY);
         				            	if (tower != null) {
 	        				            	TowerImageView towerImageView = new TowerImageView(tower); 
 	        				          
-	        				                System.out.println("tower: " + tower);
-	        				                System.out.println("towerImageView: " + towerImageView);
+//	        				                System.out.println("tower: " + tower);
+//	        				                System.out.println("towerImageView: " + towerImageView);
 	        				                
 	        				                
 	        				            	towerImageViewList.add(towerImageView); //adding the monster to the list, we can do this in Arena class
@@ -481,7 +483,8 @@ public class MyController {
 	    				                		    Window stage = source.getScene().getWindow();
 			        				                popup.show(stage);
 			        				                
-			        				                //show range on GUI
+			        				                //show range on GUI: Old Implementation
+			        				                /*
 			        				                for(int a = 0;a<MAX_H_NUM_GRID;a++) {
 			        				                	for(int b = 0; b < MAX_V_NUM_GRID;b++) {
 			        				                		if (!arena.isGreenGrid(a,b)) {
@@ -489,9 +492,9 @@ public class MyController {
 				        				                		int pixelY2 = (int) grids[a][b].getLayoutY() + GRID_HEIGHT/2;
 	//			        				                		int pixelX2 = gridXToPixelX(gridX2);
 	//			        				                		int pixelY2 = gridYToPixelY(gridY2);
-				        				                		System.out.println(pixelX2 + " " + pixelY2);
+//				        				                		System.out.println(pixelX2 + " " + pixelY2);
 				        				                		if (tower.isInRange(pixelX2, pixelY2)) {
-				        				                			System.out.println("in range");
+//				        				                			System.out.println("in range");
 				        				                			Circle circle = new Circle(pixelX2, pixelY2, 10);
 				        				                			circle.setStyle("-fx-background-color: #ffff00;");
 				        				                			paneArena.getChildren().addAll(circle);
@@ -500,6 +503,41 @@ public class MyController {
 			        				                		}
 			        				                		
 			        				                	}
+			        				                }*/
+			        				              
+			        				                
+			        				                //show range on GUI: New Implementation
+			        				                int towerCenterX = tower.getX()+(GRID_WIDTH/2);
+			        				                int towerCenterY = tower.getY()+(GRID_HEIGHT/2);
+			        				                
+			        				                if(tower instanceof Catapult) {  //Catapult needs to be seperated because its range is a donut not a circle ;)
+			        				                	System.out.println("mouse-over a Catapult");
+			        				                	Catapult c = (Catapult) tower;  //Cast to Catapult to access Catapult function
+			        				                	Circle circle = new Circle();
+			        				                	circle.setCenterX(towerCenterX);
+			        				                	circle.setCenterY(towerCenterY);
+			        				                	circle.setRadius(c.getRange());
+			        				                	circle.setFill(Color.TRANSPARENT);
+			        				                	circle.setStroke(Color.PINK);
+			        				                	circle.setStrokeType(StrokeType.INSIDE);
+			        				                	circle.setStrokeWidth(c.getRange()-c.getLowRange());
+			        				                	circle.setOpacity(0.3);
+			        				                	circle.setMouseTransparent(true);
+			        				                	paneArena.getChildren().addAll(circle);
+			        				                	rangeShapeList.add(circle);
+			        				                }
+			        				                else if(tower instanceof BasicTower || tower instanceof IceTower || tower instanceof LaserTower){
+			        				                	System.out.println("mouse-over a BasicTower, IceTower, or LaserTower");
+			        				                	Circle circle = new Circle();
+			        				                	circle.setCenterX(towerCenterX);
+			        				                	circle.setCenterY(towerCenterY);
+			        				                	circle.setRadius(tower.getRange());
+			        				                	circle.setFill(Color.PINK);
+			        				                	circle.setOpacity(0.3);
+			        				                	circle.setMouseTransparent(true);
+			        				                	paneArena.getChildren().addAll(circle);
+			        				                	rangeShapeList.add(circle);
+			        				                	
 			        				                }
 					                		   } 
 	    				                	}));
@@ -510,10 +548,10 @@ public class MyController {
 	     				                		  if ((popup != null) && popup.isShowing()) {
 	     				                			  popup.hide();
 	     				                		  }
-	     				                		  for (Circle c: rangeCircleList) {
-	     				                			 paneArena.getChildren().remove(c);
+	     				                		  for (Shape s: rangeShapeList) {
+	     				                			 paneArena.getChildren().remove(s);
 	     				                		  }
-	     				                		 rangeCircleList.clear();
+	     				                		 rangeShapeList.clear();
 	 				                		   } 
 	     				                	}));
 	        				            	
@@ -637,7 +675,8 @@ public class MyController {
     			//upgrade tower
     			selectedTowerImageView.getTower().upgrade();
     			// decrease money
-    			labelMoney.setText(String.valueOf(Integer.parseInt(labelMoney.getText()) - upgradeCost));
+    			arena.removeMoney(upgradeCost);
+    			labelMoney.setText(String.valueOf(arena.getMoney()));
     			// update tower info on GUI
     			
     			System.out.println(selectedTowerImageView.getTower().getTowerType() + " tower is being upgraded");
