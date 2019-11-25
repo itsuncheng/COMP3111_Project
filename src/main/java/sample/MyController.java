@@ -67,7 +67,7 @@ public class MyController {
     static final int ARENA_HEIGHT = 480;
     static final int GRID_WIDTH = 40;
     static final int GRID_HEIGHT = 40;
-    static final int INITIAL_MONEY = 10;
+    static final int INITIAL_MONEY = 100;
     private static final int MAX_H_NUM_GRID = 12;
     private static final int MAX_V_NUM_GRID = 12;
 
@@ -299,12 +299,22 @@ public class MyController {
     				Rectangle laser = new Rectangle();
     				
     				laser.setFill(Color.BLUE);
-    				laser.setOpacity(90);
-    				laser.setWidth(ARENA_WIDTH);
+    				laser.setOpacity(50);
+    				laser.setWidth(ARENA_WIDTH*2);
     				laser.setHeight(6);
+    				double towerX = tower.getX();
     				double towerY = tower.getY();
+    				laser.setX(towerX-1.5+GRID_WIDTH/2);
     				laser.setY(towerY-1.5+GRID_WIDTH/2);
-    				laser.setX(0);   	
+    				   	
+    				double monsterX = targetMonster.getX();
+    				double monsterY = targetMonster.getY();
+    				double angle = Math.atan2(monsterY - towerY, monsterX - towerX);
+    				angle = Math.toDegrees(angle);
+    				Rotate rotate = new Rotate(angle, towerX+GRID_WIDTH/2, towerY+GRID_WIDTH/2);
+    				laser.getTransforms().addAll(rotate);
+    				laser.setMouseTransparent(true);
+    				
     				paneArena.getChildren().addAll(laser);
     				laserList.add(laser);
     			}
