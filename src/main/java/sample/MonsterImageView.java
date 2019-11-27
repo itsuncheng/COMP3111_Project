@@ -25,9 +25,11 @@ public class MonsterImageView{
 		monster = _monster;
 		imageView = _monster.getImageView();
 		
-	    imageView.setFitWidth(MyController.GRID_WIDTH);
-	    imageView.setFitHeight(MyController.GRID_HEIGHT); 
-		setImageView(0, 0);
+		if (imageView != null) {
+		    imageView.setFitWidth(MyController.GRID_WIDTH);
+		    imageView.setFitHeight(MyController.GRID_HEIGHT); 
+			setImageView(0, 0);
+		}
 		
 		directionDown = false;
 		numOfRightSteps = 2;
