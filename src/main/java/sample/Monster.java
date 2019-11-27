@@ -57,6 +57,11 @@ public abstract class Monster {
 	}
 	
 	public void setImageView(String _imagePath) {
+		
+		if (_imagePath == null) {
+			return;
+		}
+		
 		Image image = null;
 		
 		try {
