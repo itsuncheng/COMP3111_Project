@@ -4,29 +4,22 @@ public class Penguin extends Monster{
 	
 	public static int defaultHp = 6;
 	public static int defaultSpeed = 3;
-	public static int defaultX = -1;
+	public static int defaultX = 0;
 	public static int defaultY = 0;
-	
+	public static boolean defaultIsIced = false;
+	public static int defaultIceTime = 0;
 	public static String _imagePath = "./src/main/resources/penguin.png";
-	public static int bonusHp = 2;
+	public static int bonusHp = 1;
 	public static int maxHp;
 	
 	public Penguin() {
-		super(defaultHp,defaultSpeed,defaultX,defaultY, _imagePath);
+		super(defaultHp,defaultSpeed,defaultX,defaultY,defaultIsIced,defaultIceTime, _imagePath);
 		maxHp = defaultHp;
 	}
 	
-	public Penguin(int _hp, int _speed, int _x, int _y) {
-		super(_hp, _speed, _x, _y, _imagePath);
+	public Penguin(int _hp, int _speed, int _x, int _y, boolean _isIced, int _iceTime) {
+		super(_hp, _speed, _x, _y, _isIced, _iceTime, _imagePath);
 		maxHp = _hp;	
-	}
-	
-
-	@Override
-	public void moveAtEachFrame() {
-		// TODO Auto-generated method stub
-		super.moveAtEachFrame();
-		replenishHp();
 	}
 	
 	public void replenishHp() {
@@ -35,5 +28,12 @@ public class Penguin extends Monster{
 			hp = maxHp;
 		}
 	}
+	
+	String getMonsterType() {
+		return "Penguin";
+	}
 
+	int getDefaultSpeed() {
+		return defaultSpeed;
+	}
 }

@@ -6,70 +6,23 @@ import java.io.FileNotFoundException;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Monster {
+public abstract class Monster {
 	protected int hp;
 	protected int speed;
 	protected int x, y;
+	protected boolean isIced;
+	protected int iceTime;
 	protected ImageView imageView = null;
 	
-	public Monster(int _hp, int _speed, int _x, int _y, String _imagePath) {
+	public Monster(int _hp, int _speed, int _x, int _y, boolean _isIced, int _iceTime, String _imagePath) {
 		hp = _hp;
 		speed = _speed;
 		x = _x;
 		y = _y;
 		
-		setImageView(_imagePath, _x, _y);
-		
-	}
-	
-	
-	public void moveAtEachFrame() {
-		int maxX = MyController.ARENA_HEIGHT;
-		int maxY = MyController.ARENA_WIDTH;
-		
-		boolean directionDown = true;
-		int numOfRightSteps = 0;
-		
-		//write this in MyController
-//		if (x == maxX-1 || x == maxY-1) {
-//			System.out.println("Gameover");
-//			return;
-//		}
-		
-		for (int i=0; i<speed; i++) {
-			if (x != 0 || x != maxX-1) {	// when monster is not at minX and maxX
-				if(directionDown) {
-					x++;	
-				}else {
-					x--;
-				}
-			}else {							// when monster is at minX and maxX
-				if (numOfRightSteps==2) {			// time to change direction
-					directionDown = !directionDown;		// change direction
-					if(directionDown) {
-						x++;	
-					}else {
-						x--;
-					}
-					numOfRightSteps = 0;
-				}else {								// turning right
-					y++;
-					numOfRightSteps++;		
-				}
-				
-			}
-		}
-	}
-	
-	public void removeFromArena() {
-		
-	}
-	
-	public void onHover() {
-		
-	}
-	
-	public void onHoverExit() {
+		isIced = _isIced;
+		iceTime = _iceTime;
+		setImageView(_imagePath);
 		
 	}
 	
@@ -95,7 +48,15 @@ public class Monster {
 		}
 	}
 	
-	public void setImageView(String _imagePath, int _x, int _y) {
+	public void setIsIced(boolean _isIced) {
+		isIced = _isIced;
+	}
+	
+	public void setIceTime(int _iceTime) {
+		iceTime = _iceTime;
+	}
+	
+	public void setImageView(String _imagePath) {
 		Image image = null;
 		
 		try {
@@ -107,14 +68,6 @@ public class Monster {
 		
 		if (image != null) {
 		    imageView = new ImageView(image); 
-		    
-		    imageView.setX(_x); 
-		    imageView.setY(_y); 
-		      
-		    imageView.setFitHeight(MyController.GRID_WIDTH); 
-		    imageView.setFitWidth(MyController.GRID_WIDTH); 
-		      
-		    imageView.setPreserveRatio(true); 
 		}
 	}
 	
@@ -134,8 +87,25 @@ public class Monster {
 		return y;
 	}
 	
+	public boolean getIsIced() {
+		return isIced;
+	}
+	
+	public int getIceTime() {
+		return iceTime;
+	}
+	
 	public ImageView getImageView() {
 		return imageView;
+	}
+	
+	abstract String getMonsterType();
+	
+	abstract int getDefaultSpeed();
+
+	public void replenishHp() {
+		// nothing in Monster
+		
 	}
 	
 }

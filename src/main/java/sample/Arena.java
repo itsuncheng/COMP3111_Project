@@ -6,18 +6,21 @@ public class Arena {
 	private final int numOfColumn; //number of Columns of grid in the arena. This is not the arena height in pixel
 	private final int numOfRow; //number of Rows of grid in the arena. This is not the arena width in pixel
 	
-	private boolean [][] isGreen; 	// true if the grid at grid coordinate [x][y] is green, 
-									//x specifies Row number
-									//y specifies Column number
+	private boolean [][] isGreen; 	// true if the grid at grid coordinate [row][Column] is green, 
+										
 	
-	private ArrayList <Monster> monsters; //ArrayList of monsters on the arena
-	private ArrayList <BasicTower> towers; //ArrayList of towers on the arena
+	public ArrayList <Monster> monsters; //ArrayList of monsters on the arena
+	public ArrayList <BasicTower> towers; //ArrayList of towers on the arena
+	
+	private int money = 100;
 	
 	public static Random rand = new Random();
 	
 	public Arena(int numOfColumn, int numOfRow, boolean [][] isGreen) { //constructor of Arena class
 		this.numOfColumn = numOfColumn;
 		this.numOfRow = numOfRow;
+		
+		
 		
 		monsters = new ArrayList<Monster>(0); 
 	    //towers = new ArrayList<Tower>(0); 
@@ -70,8 +73,8 @@ public class Arena {
 	
 	
 	
-	boolean isGreenGrid(int x, int y) { // returns true if grid at grid coordinate (x,y) is a green grid
-		return isGreen[x][y];
+	boolean isGreenGrid(int row, int column) { // returns true if grid at grid coordinate (x,y) is a green grid
+		return isGreen[row][column];
 	}
 	
 	void update() { 
@@ -90,11 +93,11 @@ public class Arena {
 //			int y = currentMonster.getY();
 			
 			for(int j = 0;j<towers.size();j++) {
-				towers.get(j).shoot(currentMonster);
+				towers.get(j).shoot(currentMonster,this);
 			}
 			
 			if (currentMonster.getHp() <= 0) {
-				currentMonster.removeFromArena();
+//				currentMonster.removeFromArena();
 			}
 		}
 		
@@ -103,7 +106,7 @@ public class Arena {
 		
 		for (int i=0; i<monsters.size(); i++) {
 			Monster currentMonster = monsters.get(i);
-			currentMonster.moveAtEachFrame();
+//			currentMonster.moveAtEachFrame();
 		}
 		
 		Monster monster;
@@ -138,6 +141,51 @@ public class Arena {
         System.out.println(arena.isGreenGrid(2, 0));
     }
     */
-    
+	void addMonster(Monster newMonster) {
+		monsters.add(newMonster);
+	}
+	
+	void removeMonster(Monster monster) {
+		boolean removeSuccess =  monsters.remove(monster);
+		if(!removeSuccess)
+			System.out.println("ERROR: Monster Removal Unsuccessful. To be removed monster is not found");
+	}
+	
+	void setMoney(int money) {
+		if(money < 0) {
+			System.out.println("ERROR: attempt to set Money to negative value. Value of money is unchanged");
+		}
+		this.money = money;
+	}
+	
+	void addMoney(int money) {
+		if(money>0) {
+			this.money = this.money+money;
+		}
+		else {
+			System.out.println("ERROR: attempt to add non-positive money");
+		}
+	}
+	
+	void removeMoney(int money) {
+		if(money>this.money) {
+			System.out.println("ERROR:removeMoney(): not enough money");
+		}
+		else if(money<=0) {
+			System.out.println("ERROR:removeMoney(): non-positive amount entered");
+		}
+		else {
+			this.money = this.money - money;
+		}
+	}
+	
+	int getMoney() {
+		return money;
+	}
+	
+	
 	
 }
+
+
+
