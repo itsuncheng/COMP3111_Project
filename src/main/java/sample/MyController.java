@@ -67,7 +67,7 @@ public class MyController {
     static final int ARENA_HEIGHT = 480;
     static final int GRID_WIDTH = 40;
     static final int GRID_HEIGHT = 40;
-    static final int INITIAL_MONEY = 100;
+    static final int INITIAL_MONEY = 10;
     private static final int MAX_H_NUM_GRID = 12;
     private static final int MAX_V_NUM_GRID = 12;
 
