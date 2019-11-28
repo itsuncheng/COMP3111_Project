@@ -7,7 +7,8 @@ public class Arena {
 	private final int numOfRow; //number of Rows of grid in the arena. This is not the arena width in pixel
 	
 	private boolean [][] isGreen; 	// true if the grid at grid coordinate [row][Column] is green, 
-										
+	
+	public boolean isValidArena; //true if the arena is a valid arena, false otherwise. Made for testing isGreen
 	
 	public ArrayList <Monster> monsters; //ArrayList of monsters on the arena
 	public ArrayList <BasicTower> towers; //ArrayList of towers on the arena
@@ -20,7 +21,7 @@ public class Arena {
 		this.numOfColumn = numOfColumn;
 		this.numOfRow = numOfRow;
 		
-		
+		isValidArena = true;
 		
 		monsters = new ArrayList<Monster>(0); 
 	    //towers = new ArrayList<Tower>(0); 
@@ -28,25 +29,29 @@ public class Arena {
 		
 		if(numOfRow != isGreen.length) { //check Column size
 			System.out.println("Arena constructor invalid input: Column Size Mismatch");
+			isValidArena = false;
 		}
 		
 		if(numOfColumn != isGreen[0].length) {
 			System.out.println("Arena constructor invalid input: Row Size Mismatch");
+			isValidArena = false;
 		}
 		
 		int RowSize = isGreen[0].length;
 		for(int i = 0;i<isGreen.length;i++) { //check that all Row has same size
 			if(isGreen[i].length != RowSize) {
 				System.out.println("Arena constructor invalid input: non-uniform Row size");
+				isValidArena = false;
 			}
 		}
 		
-		
-		this.isGreen = new boolean[numOfRow][numOfColumn];
-			
-		for(int i = 0; i < numOfRow;i++) {
-			for(int j = 0; j < numOfColumn;j++) {
-				this.isGreen[i][j] = isGreen[i][j];
+		if(isValidArena) {
+			this.isGreen = new boolean[numOfRow][numOfColumn];
+				
+			for(int i = 0; i < numOfRow;i++) {
+				for(int j = 0; j < numOfColumn;j++) {
+					this.isGreen[i][j] = isGreen[i][j];
+				}
 			}
 		}
 		
