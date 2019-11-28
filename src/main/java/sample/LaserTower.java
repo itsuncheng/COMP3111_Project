@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class LaserTower extends BasicTower{
 	
 	private static int _attackPower = 5;
-	private static int _range = -1;
+	private static int _range = 630;  
 	private static int _build_cost = 7;
 	private static int _upgrade_cost = 3;
 	
@@ -48,13 +48,13 @@ public class LaserTower extends BasicTower{
 				 boolean xIsInRange;
 				 boolean yIsInRange;
 			 
-				 if (currentX > x)
-					 xIsInRange = targetX > x;
+				 if (currentX >= x)
+					 xIsInRange = targetX >= x;
 				 else 
 					 xIsInRange = targetX < x;
 			 
-				 if (currentY > y)
-					 yIsInRange = targetY > y;
+				 if (currentY >= y)
+					 yIsInRange = targetY >= y;
 				 else 
 					 yIsInRange = targetY < y;
 			 
@@ -66,10 +66,6 @@ public class LaserTower extends BasicTower{
 			 }
 		}
 			
-	}
-	
-	public void upgrade() {
-		++attackPower;
 	}
 	
 	public String getTowerType() {

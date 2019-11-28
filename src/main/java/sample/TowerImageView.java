@@ -23,8 +23,10 @@ public class TowerImageView{
 		tower = _tower;
 		imageView = _tower.getImageView();
 		
-	    imageView.setFitWidth(MyController.GRID_WIDTH);
-	    imageView.setFitHeight(MyController.GRID_HEIGHT); 
+		if (imageView != null) {
+			imageView.setFitWidth(MyController.GRID_WIDTH);
+	    	imageView.setFitHeight(MyController.GRID_HEIGHT); 
+		}
 		setImageView(tower.getX(), tower.getY());
 		
 	}
