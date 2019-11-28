@@ -66,6 +66,9 @@ public class TowerTest {
 		basic.isInRange(fox.getX(), fox.getY());
 		basic.shoot(fox, arena);
 		
+		basic.setIsShot(true);
+		basic.shoot(fox, arena);
+		
 		fox.setY(440);
 		basic.isInRange(fox);
 		basic.isInRange(fox.getX(), fox.getY());
@@ -84,6 +87,8 @@ public class TowerTest {
 		ice.shoot(fox, arena);
 		ice.shoot(fox, arena);
 				
+		ice.setIsShot(true);
+		ice.shoot(fox, arena);
 	}
 	
 	@Test
@@ -115,6 +120,9 @@ public class TowerTest {
 		
 		Catapult negative = new Catapult(360, 0, 5, 150, 5, 3, 50, -1, 0, "");
 		negative.upgrade();
+		
+		catapult.setIsShot(true);
+		catapult.shoot(fox, arena);
 	}
 	
 	@Test
@@ -149,6 +157,8 @@ public class TowerTest {
 		laser.shoot(fox, arena);
 		laser.shoot(penguin, arena);
 				
+		laser.setIsShot(true);
+		laser.shoot(fox, arena);
 	}
 	
 	@Test 
