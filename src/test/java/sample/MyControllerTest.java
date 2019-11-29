@@ -52,6 +52,7 @@ public class MyControllerTest extends ApplicationTest {
 		for(int i = 0;i<20;i++) {
 			clickOn("#buttonNextFrame");
 		}
+		MyController.gameOver = false;
 	}
 	
 	@Test
@@ -66,6 +67,7 @@ public class MyControllerTest extends ApplicationTest {
 					clickOn(h);
 					clickOn("#buttonUpgradeTower");
 					clickOn(h);
+					
 				}
 			}
 		}
@@ -73,7 +75,7 @@ public class MyControllerTest extends ApplicationTest {
 		for(int i = 0;i<16;i++) {
 			clickOn("#buttonNextFrame");
 		}
-		
+		MyController.gameOver = false;
 		
 	}
 	
@@ -93,7 +95,9 @@ public class MyControllerTest extends ApplicationTest {
 		Label[][] grids = appController.getGrids();
 		
 		Label h1 = (Label)grids[grids.length/2][1];
-		drag("#labelLaserTower").dropTo(h1);		
+		drag("#labelLaserTower").dropTo(h1);
+		clickOn("#buttonNextFrame");
+		clickOn("#buttonNextFrame");
 		
 	}
 	
@@ -104,6 +108,7 @@ public class MyControllerTest extends ApplicationTest {
 		
 		Label h1 = (Label)grids[grids.length/2][1];
 		drag("#labelCatapult").dropTo(h1);
+	
 	}
 	
 	@Test
@@ -117,5 +122,28 @@ public class MyControllerTest extends ApplicationTest {
 		clickOn("#buttonDestroyTower");
 		
 	}
+	
+	@Test
+	public void testGameOver() {
+		clickOn("#buttonPlay");
+		Label[][] grids = appController.getGrids();
+		
+		
+		Label h1 = (Label)grids[grids.length/2][1];
+		drag("#labelBasicTower").dropTo(h1);
+		
+		//cannot upgrade or destroy existing tower after gameOver
+		MyController.gameOver = true;
+		clickOn(h1);
+		clickOn("#buttonUpgradeTower");
+		clickOn("#buttonDestroyTower");
+		
+		//cannot build new tower after gameOver
+		Label h2 = (Label)grids[grids.length/2][3];
+		drag("#labelBasicTower").dropTo(h2);
+		
+		MyController.gameOver = false;
+	}
+	
 	
 }

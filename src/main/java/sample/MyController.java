@@ -280,8 +280,10 @@ public class MyController {
 	        			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
 	        					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
 	        			
+	        			if (targetMonster.getHp() <= 0) {
+	        				targetMonster.setIsMoving(false);
+	        			} 
 	        			towerAndTargetMonsterMap.put(tower, targetMonster);
-	        			
 	        		}
         		}
         		
@@ -481,13 +483,17 @@ public class MyController {
         		target.setOnDragDropped(new EventHandler<DragEvent>() {
 				    @Override
 				    public void handle(DragEvent event) {
+				    	
+				    	if (gameOver)
+				    		return;
+				    	
 				        int gridX = pixelXToGridX((int)((Label)event.getGestureTarget()).getLayoutX());
 				    	int gridY = pixelYToGridY((int)((Label)event.getGestureTarget()).getLayoutY());
 				    	
 				    	int pixelX = (int)((Label)event.getGestureTarget()).getLayoutX();
 				    	int pixelY = (int)((Label)event.getGestureTarget()).getLayoutY();
 		
-				    	System.out.println(gridX+" "+gridY);
+//				    	System.out.println(gridX+" "+gridY);
 				        Dragboard db = event.getDragboard();
 				        boolean success = false;
 	//        				        System.out.println(db.getString());
@@ -618,7 +624,7 @@ public class MyController {
                 target.setOnDragOver(new EventHandler <DragEvent>() {
                     public void handle(DragEvent event) {
                         /* data is dragged over the target */
-                        System.out.println("onDragOver at ["+tempI+"]["+tempJ+"]");
+//                        System.out.println("onDragOver at ["+tempI+"]["+tempJ+"]");
 
                         /* accept it only if it is  not dragged from the same node
                          * and if it has a string data */
@@ -650,7 +656,7 @@ public class MyController {
                 target.setOnDragExited((event) -> {
                         /* mouse moved away, remove the graphical cues */
                         target.setStyle("-fx-border-color: black;");
-                        System.out.println("Exit");
+//                        System.out.println("Exit");
                         event.consume();
                 });
         	}
@@ -684,6 +690,9 @@ public class MyController {
     }
     
     public void destroyTower() {
+    	if(gameOver)
+    		return;
+    	
     	if (selectedTowerImageView != null) {
     		int pixelX = selectedTowerImageView.getTower().getX();
     		int pixelY = selectedTowerImageView.getTower().getY();
@@ -699,9 +708,12 @@ public class MyController {
     }
     
     public void upgradeTower() {
+    	if(gameOver)
+    		return;
+    	
     	if (selectedTowerImageView != null) {
     		int upgradeCost = selectedTowerImageView.getTower().getUpgradeCost();
-    		System.out.println("upgrade cost: " + upgradeCost);
+//    		System.out.println("upgrade cost: " + upgradeCost);
     		if (Integer.parseInt(labelMoney.getText()) >= upgradeCost) {
     			//upgrade tower
     			selectedTowerImageView.getTower().upgrade();
@@ -720,6 +732,7 @@ public class MyController {
     public Label[][] getGrids(){
     	return grids;
     }
+    
 }
 
 
@@ -744,10 +757,10 @@ class DragEventHandler implements EventHandler<MouseEvent> {
 class DragDroppedEventHandler implements EventHandler<DragEvent> {
     @Override
     public void handle(DragEvent event) {
-        System.out.println("xx");
+//        System.out.println("xx");
         Dragboard db = event.getDragboard();
         boolean success = false;
-        System.out.println(db.getString());
+//        System.out.println(db.getString());
         if (db.hasString()) {
 //            ((Label)event.getGestureTarget()).setText(db.getString());
             success = true;
