@@ -93,7 +93,7 @@ public class MyController {
     private ArrayList<Rectangle> shotIndicatingRecList = new ArrayList<Rectangle>();
     private ArrayList<Rectangle> laserList = new ArrayList<Rectangle>();
     private static TowerImageView selectedTowerImageView = null;
-    private static Map<BasicTower, Monster> towerAndTargetMonsterMap = new HashMap(); 
+    private static Map<BasicTower, Monster> towerAndTargetMonsterMap = new HashMap<BasicTower, Monster>(); 
     /**
      * A dummy function to show how button click works
      */
@@ -277,6 +277,9 @@ public class MyController {
 	        			tower.shoot(targetMonster,arena);
 	        			tower.setIsShot(true);
 	        			
+	        			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
+	        					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
+	        			
 	        			towerAndTargetMonsterMap.put(tower, targetMonster);
 	        			
 	        		}
@@ -291,8 +294,8 @@ public class MyController {
 	    	BasicTower tower = entry.getKey();
 	    	Monster targetMonster = entry.getValue();
 	    	
-	    	System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
-					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
+//	    	System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
+//					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
 			
 			//Create Shot Indicating rectangle (A loop that surrounds a tower and a monster where the tower has shot the monster) 
 			double filletRadius = 1.5 * (GRID_WIDTH/2.0);
@@ -341,6 +344,8 @@ public class MyController {
 	    for(MonsterImageView mIV: monsterImageViewList) {
 	    	mIV.stateEndOfEachFrame();
 	    }
+	    
+	    
     	Monster new_monster;
 		int typeOfMonster = rand.nextInt(3);
 		if (typeOfMonster == 0) {
@@ -374,7 +379,9 @@ public class MyController {
         monsterImageView.getImageView().setOnMouseEntered((new EventHandler<MouseEvent>() { 
      	   public void handle(MouseEvent event) { 
      		   
-     		    label.setText("HP: " + monsterImageView.getMonster().getHp()); 
+     		    label.setText("HP: " + monsterImageView.getMonster().getHp() + ", Speed: " + monsterImageView.getMonster().getSpeed());
+     		    label.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+     		    label.setStyle("-fx-border-color: black;");
 	     		Node source = (Node) event.getSource();
 	  		    Window stage = source.getScene().getWindow();
 	            popup.show(stage);
@@ -505,9 +512,11 @@ public class MyController {
 					                
 					            	towerImageView.getImageView().setOnMouseEntered((new EventHandler<MouseEvent>() { 
 				                	   public void handle(MouseEvent event) {
-				                		   //displaying popup of tower information
-				                		   label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Range: " + towerImageView.getTower().getRange() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
+				                		    //displaying popup of tower information
+				                		    label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Range: " + towerImageView.getTower().getRange() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
 			                		    		  ", Upgrade Cost: " + towerImageView.getTower().getUpgradeCost()); 
+				                		    label.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+				                		    label.setStyle("-fx-border-color: black;");
 				                		    Node source = (Node) event.getSource();
 				                		    Window stage = source.getScene().getWindow();
 	        				                popup.show(stage);

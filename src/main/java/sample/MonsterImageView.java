@@ -105,14 +105,6 @@ public class MonsterImageView{
 		paneArena.getChildren().remove(imageView);
 	}
 	
-	public void onHover() {
-		
-	}
-	
-	public void onHoverExit() {
-		
-	}
-	
 	
 	public void setImageView(int _x, int _y) {
 		
