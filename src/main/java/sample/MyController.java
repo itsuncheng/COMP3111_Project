@@ -82,7 +82,7 @@ public class MyController {
     
     public static Random rand = new Random();
     public static int new_monster_speed_inc = 0;
-    public static int max_speed_inc = 4;
+    public static int max_speed_inc = 5;
     public static int frameNum = 1;
     public static int moneyReward = 5;
     
