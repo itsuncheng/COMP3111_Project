@@ -23,9 +23,8 @@
           <AnchorPane fx:id="paneArena" maxHeight="480.0" maxWidth="480.0" minHeight="480.0" minWidth="480.0" />
           <AnchorPane maxHeight="480.0" maxWidth="120.0" minHeight="480.0" minWidth="120.0" prefHeight="480.0" prefWidth="120.0">
                <children>
-                  <Button fx:id="buttonNextFrame" layoutX="4.0" layoutY="24.0" mnemonicParsing="false" onAction="#nextFrame" text="Next Frame" visible="false" />
-                  <Button fx:id="buttonSimulate" layoutX="5.0" layoutY="65.0" mnemonicParsing="false" text="Simulate" />
-                  <Button fx:id="buttonPlay" layoutX="6.0" layoutY="108.0" mnemonicParsing="false" onAction="#play" text="Play" />
+                  <Button fx:id="buttonPlay" layoutX="4.0" layoutY="24.0" mnemonicParsing="false" onAction="#play" text="Play" />
+                  <Button fx:id="buttonNextFrame" layoutX="5.0" layoutY="65.0" mnemonicParsing="false" onAction="#nextFrame" text="Next Frame" visible="false" />
                   <Label fx:id="labelBasicTower" layoutX="17.0" layoutY="200.0" minWidth="80.0" style="-fx-border-color: black;" text="Basic Tower">
                      <opaqueInsets>
                         <Insets />
