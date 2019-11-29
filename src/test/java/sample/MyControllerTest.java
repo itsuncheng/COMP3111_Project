@@ -24,7 +24,8 @@ public class MyControllerTest extends ApplicationTest {
 	MyController outsideController;
 
 	private Scene s;
-
+	private MyController appController;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample.fxml"));
@@ -33,9 +34,10 @@ public class MyControllerTest extends ApplicationTest {
         s = new Scene(root, 600, 480);
         primaryStage.setScene(s);
         primaryStage.show();
-        MyController appController = (MyController)loader.getController();
+        appController = (MyController)loader.getController();
         outsideController = appController;
         appController.createArena();   		
+        appController.createArena();
 	}
 
 	
@@ -50,88 +52,98 @@ public class MyControllerTest extends ApplicationTest {
 		for(int i = 0;i<20;i++) {
 			clickOn("#buttonNextFrame");
 		}
+		MyController.gameOver = false;
 	}
 	
-	public void testNextFrameButton2() {
+	@Test
+	public void testTower() {
 		clickOn("#buttonPlay");
+		Label[][] grids = appController.getGrids();
+		for (int i=0; i<grids.length; i++) {
+			for (int j=0; j<grids[0].length; j++) {
+				if (j % 2 == 1 && i == grids.length/2) {
+					Label h = (Label)grids[i][j];
+					drag("#labelBasicTower").dropTo(h);
+					clickOn(h);
+					clickOn("#buttonUpgradeTower");
+					clickOn(h);
+					
+				}
+			}
+		}
+		
 		for(int i = 0;i<16;i++) {
 			clickOn("#buttonNextFrame");
 		}
-	}
-		//drag("#labelBasicTower").dropTo(20,20);
+		MyController.gameOver = false;
 		
+	}
+	
 	@Test
-	public void testShowMonsterInfo() {
+	public void testIceTower() {
 		clickOn("#buttonPlay");
+		Label[][] grids = appController.getGrids();
+		
+		Label h1 = (Label)grids[grids.length/2][1];
+		drag("#labelIceTower").dropTo(h1);		
+		
+	}
+	
+	@Test
+	public void testLaserTower() {
+		clickOn("#buttonPlay");
+		Label[][] grids = appController.getGrids();
+		
+		Label h1 = (Label)grids[grids.length/2][1];
+		drag("#labelLaserTower").dropTo(h1);
 		clickOn("#buttonNextFrame");
-		AnchorPane b = (AnchorPane)s.lookup("#paneArena");
+		clickOn("#buttonNextFrame");
 		
-		for (javafx.scene.Node i : b.getChildren()) {
-			if (i.getClass().getName().equals("javafx.scene.control.Label")) {
-				Label h = (Label)i;
-				
-				if (h.getLayoutX() == 0 && h.getLayoutY() == 0)
-					//drag("#labelBasicTower").dropTo(h);
-					moveTo(h);
-			}
-		}
-		
-		/*AnchorPane b = (AnchorPane)s.lookup("#paneArena");
-		for (javafx.scene.Node i : b.getChildren()) {
-			if (i.getClass().getName().equals("javafx.scene.control.Label")) {
-				Label h = (Label)i;
-				if (h.getLayoutX() == 0 && h.getLayoutY() == 0)
-					Assert.assertEquals(h.getText(), "M");
-			} 
-		}*/
 	}
 	
 	@Test
-	public void testMakeBasicTowerInfo() {
+	public void testCatapultTower() {
 		clickOn("#buttonPlay");
+		Label[][] grids = appController.getGrids();
 		
-		AnchorPane b = (AnchorPane)s.lookup("#paneArena");
+		Label h1 = (Label)grids[grids.length/2][1];
+		drag("#labelCatapult").dropTo(h1);
+	
+	}
+	
+	@Test
+	public void testDestroyTower() {
+		clickOn("#buttonPlay");
+		Label[][] grids = appController.getGrids();
 		
-		Label h = new Label();
+		Label h1 = (Label)grids[grids.length/2][1];
+		drag("#labelBasicTower").dropTo(h1);
+		clickOn(h1);
+		clickOn("#buttonDestroyTower");
 		
-		for (javafx.scene.Node i : b.getChildren()) {
-			if (i.getClass().getName().equals("javafx.scene.control.Label")) {
-				h = (Label)i;
-				
-				if (h.getLayoutX() == 40 && h.getLayoutY() == 0)
-					break;
-			}
-		}
-		/*moveTo("#labelBasicTower");
-		drag();
-		moveTo("#labelBasicTower");
-		sleep(1000);
-		moveTo(h);
-		drop();*/
+	}
+	
+	@Test
+	public void testGameOver() {
+		clickOn("#buttonPlay");
+		Label[][] grids = appController.getGrids();
 		
 		
-		for(int i = 0;i<21;i++) {
-			clickOn("#buttonNextFrame");
-		}
+		Label h1 = (Label)grids[grids.length/2][1];
+		drag("#labelBasicTower").dropTo(h1);
 		
-		/*AnchorPane b = (AnchorPane)s.lookup("#paneArena");
-		for (javafx.scene.Node i : b.getChildren()) {
-			if (i.getClass().getName().equals("javafx.scene.control.Label")) {
-				Label h = (Label)i;
-				if (h.getLayoutX() == 0 && h.getLayoutY() == 0)
-					Assert.assertEquals(h.getText(), "M");
-			}
-		}*/
+		//cannot upgrade or destroy existing tower after gameOver
+		MyController.gameOver = true;
+		clickOn(h1);
+		clickOn("#buttonUpgradeTower");
+		clickOn("#buttonDestroyTower");
+		
+		//cannot build new tower after gameOver
+		Label h2 = (Label)grids[grids.length/2][3];
+		drag("#labelBasicTower").dropTo(h2);
+		
+		MyController.gameOver = false;
 	}
 	
 	
-	/*@Test
-	/*public void testGetTowerFromText() {
-		BasicTower bTower;
-		bTower = outsideController.getTowerFromText("Basic Tower",40,0);
-		bTower = outsideController.getTowerFromText("Ice Tower",40,40);
-		bTower = outsideController.getTowerFromText("Catapult",40,80);
-		bTower = outsideController.getTowerFromText("Laser Tower",40,120);
-		
-	}*/
 }

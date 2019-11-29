@@ -75,19 +75,37 @@ public class MonsterTest {
 		
 		storedMonster.setIsIced(false);
 		storedMonster.setIceTime(0);
-		mIV3.moveAtEachFrame();
+		
+		//move per frame
+		while(storedMonster.getIsMoving()) {
+			mIV3.moveOneGrid();
+			
+		}
+		mIV3.stateEndOfEachFrame();
 		
 		storedMonster.setIsIced(false);
 		storedMonster.setIceTime(3);
-		mIV3.moveAtEachFrame();
+		while(storedMonster.getIsMoving()) {
+			mIV3.moveOneGrid();
+			
+		}
+		mIV3.stateEndOfEachFrame();
 		
 		storedMonster.setIsIced(true);
 		storedMonster.setIceTime(0);
-		mIV3.moveAtEachFrame();
+		while(storedMonster.getIsMoving()) {
+			mIV3.moveOneGrid();
+			
+		}
+		mIV3.stateEndOfEachFrame();
 		
 		storedMonster.setIsIced(true);
 		storedMonster.setIceTime(1);
-		mIV3.moveAtEachFrame();
+		while(storedMonster.getIsMoving()) {
+			mIV3.moveOneGrid();
+			
+		}
+		mIV3.stateEndOfEachFrame();
 		
 		
 		mIV3.setImageView(10,10);
@@ -97,7 +115,11 @@ public class MonsterTest {
 		Monster m2 = new Unicorn();
 		m2.imageView = null;
 		MonsterImageView mIV2 = new MonsterImageView(m2);
-		mIV2.moveAtEachFrame();
+		while(m2.getIsMoving()) {
+			mIV2.moveOneGrid();
+			
+		}
+		mIV2.stateEndOfEachFrame();
 		mIV2.setImageView(10,10);
 		
 		// if ((x == maxX-2*stepX && y == 0)) 
@@ -105,22 +127,50 @@ public class MonsterTest {
 		m1.setX(480-2*40);
 		m1.setY(0);
 		MonsterImageView mIV1 = new MonsterImageView(m1);
-		mIV1.moveAtEachFrame();
-		mIV1.moveAtEachFrame();
-		mIV1.moveAtEachFrame();
-		mIV1.moveAtEachFrame();
+		while(m1.getIsMoving()) {
+			mIV1.moveOneGrid();
+			
+		}
+		mIV1.stateEndOfEachFrame();
+		while(m1.getIsMoving()) {
+			mIV1.moveOneGrid();
+			
+		}
+		mIV1.stateEndOfEachFrame();
+		while(m1.getIsMoving()) {
+			mIV1.moveOneGrid();
+			
+		}
+		mIV1.stateEndOfEachFrame();
+		while(m1.getIsMoving()) {
+			mIV1.moveOneGrid();
+			
+		}
+		mIV1.stateEndOfEachFrame();
 		
 		m1.setX(10);
 		m1.setY(10);
-		mIV1.moveAtEachFrame();
+		while(m1.getIsMoving()) {
+			mIV1.moveOneGrid();
+			
+		}
+		mIV1.stateEndOfEachFrame();
 		
 		m1.setX(480-2*40);
 		m1.setY(10);
-		mIV1.moveAtEachFrame();
+		while(m1.getIsMoving()) {
+			mIV1.moveOneGrid();
+			
+		}
+		mIV1.stateEndOfEachFrame();
 		
 		m1.setX(10);
 		m1.setY(0);
-		mIV1.moveAtEachFrame();
+		while(m1.getIsMoving()) {
+			mIV1.moveOneGrid();
+			
+		}
+		mIV1.stateEndOfEachFrame();
 		
 	}
 	
