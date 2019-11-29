@@ -274,16 +274,18 @@ public class MyController {
 	        				paneArena.getChildren().addAll(laser);
 	        			}
 	        				
-	        			tower.shoot(targetMonster,arena);
-	        			tower.setIsShot(true);
-	        			
-	        			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
-	        					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
-	        			
-	        			if (targetMonster.getHp() <= 0) {
-	        				targetMonster.setIsMoving(false);
-	        			} 
-	        			towerAndTargetMonsterMap.put(tower, targetMonster);
+	        			boolean isShot = tower.shoot(targetMonster,arena);
+	        			if(isShot) {
+		        			tower.setIsShot(true);
+		        			
+		        			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
+		        					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
+		        			
+		        			if (targetMonster.getHp() <= 0) {
+		        				targetMonster.setIsMoving(false);
+		        			} 
+		        			towerAndTargetMonsterMap.put(tower, targetMonster);
+	        			}
 	        		}
         		}
         		
@@ -426,6 +428,7 @@ public class MyController {
         }
 		
         labelMoney.setText(String.valueOf(arena.getMoney())); //update GUI money label
+        arena.incrementTime();
     	
     }
 
