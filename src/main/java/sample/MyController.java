@@ -474,7 +474,7 @@ public class MyController {
 					            	towerImageView.getImageView().setOnMouseEntered((new EventHandler<MouseEvent>() { 
 				                	   public void handle(MouseEvent event) {
 				                		   //displaying popup of tower information
-				                		   label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
+				                		   label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Range: " + towerImageView.getTower().getRange() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
 			                		    		  ", Upgrade Cost: " + towerImageView.getTower().getUpgradeCost()); 
 				                		    Node source = (Node) event.getSource();
 				                		    Window stage = source.getScene().getWindow();
@@ -664,6 +664,10 @@ public class MyController {
     			System.out.println("not enough resource to upgrade " + selectedTowerImageView.getTower().getTowerType() + " tower");
     		}
     	}
+    }
+    
+    public Label[][] getGrids(){
+    	return grids;
     }
 }
 
