@@ -22,7 +22,16 @@ public class Catapult extends BasicTower{
 		coolDownTime = 5;
 		coolingDown = 0;
 	}
-	 
+	
+	
+	public Catapult(int _x, int _y, int _attackPower, int _range, int _buildCost, int _upgradeCost, int _lowRange, int _coolDownTime, int _coolingDown, String _imagePath) {
+		super(_x, _y, _attackPower, _range, _buildCost, _upgradeCost, _imagePath);
+		
+		lowRange = _lowRange;
+		coolDownTime = _coolDownTime;
+		coolingDown = _coolingDown;
+	}
+	
 	public void upgrade() {
 		if (coolDownTime >= 0)
 			--coolDownTime;
@@ -40,18 +49,20 @@ public class Catapult extends BasicTower{
 	
 	
 	public void shoot(Monster m,Arena a) {
-		if (coolingDown > 0) {
-			--coolingDown;
-		} else {
-			coolingDown = coolDownTime;
-			int currentX = m.getX();
-			int currentY = m.getY();
-			for (int i=0; i<a.monsters.size(); ++i) { 
-				double distance = Math.sqrt(Math.pow(currentX-a.monsters.get(i).getX(), 2)+Math.pow(currentY-a.monsters.get(i).getY(), 2));
-				if (distance <= 25)
-					a.monsters.get(i).setHp(a.monsters.get(i).getHp() - this.attackPower);
+		if (isShot != true) {
+			if (coolingDown > 0) {
+				--coolingDown;
+			} else {
+				coolingDown = coolDownTime;
+				int currentX = m.getX();
+				int currentY = m.getY();
+				for (int i=0; i<a.monsters.size(); ++i) { 
+					double distance = Math.sqrt(Math.pow(currentX-a.monsters.get(i).getX(), 2)+Math.pow(currentY-a.monsters.get(i).getY(), 2));
+					if (distance <= 25)
+						a.monsters.get(i).setHp(a.monsters.get(i).getHp() - this.attackPower);
+				}
+				
 			}
-			
 		}
 	}
 	
@@ -66,4 +77,5 @@ public class Catapult extends BasicTower{
 	public int getLowRange() {
 		return lowRange;
 	}
+	
 }

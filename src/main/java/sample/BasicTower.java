@@ -14,6 +14,7 @@ public class BasicTower {
 	private int range;
 	private static int build_cost;
 	protected static int upgrade_cost;
+	protected boolean isShot = false;
 	protected ImageView imageView = null;
 	
 	public static String _imagePath = "./src/main/resources/basicTower.png";
@@ -51,7 +52,8 @@ public class BasicTower {
 	}
 	
 	public void shoot(Monster m, Arena a) {
-		m.setHp(m.getHp() - attackPower);
+		if (isShot != true)
+			m.setHp(m.getHp() - attackPower);
 	}
 	
 	public void upgrade() {
@@ -104,5 +106,9 @@ public class BasicTower {
 	
 	public String getTowerType() {
 		return "Basic Tower";
+	}
+	
+	public void setIsShot(boolean _isShot) {
+		isShot = _isShot;
 	}
 }

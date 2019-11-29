@@ -27,11 +27,13 @@ public class IceTower extends BasicTower{
 	}
 	
 	public void shoot(Monster m,Arena a) {
-		m.setHp(m.getHp() - attackPower);
-		if (!m.getIsIced())	{
-			m.setSpeed(m.getSpeed() - icePower);
-			m.setIsIced(true);
-			m.setIceTime(iceTime);
+		if (isShot != true) {	
+			m.setHp(m.getHp() - attackPower);
+			if (!m.getIsIced())	{
+				m.setSpeed(m.getSpeed() - icePower);
+				m.setIsIced(true);
+				m.setIceTime(iceTime);
+			}
 		}
 	}
 	
