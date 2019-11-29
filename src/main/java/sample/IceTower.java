@@ -46,6 +46,14 @@ public class IceTower extends BasicTower{
 		return "Ice Tower";
 	}
 	
+	public int getIcePower() {
+		return icePower;
+	}
+	
+	public int getIceTime() {
+		return iceTime;
+	}
+	
 	public static int getDefaultBuildCost() {
 		return _build_cost;
 	}

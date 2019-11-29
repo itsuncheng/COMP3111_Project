@@ -525,8 +525,23 @@ public class MyController {
 					            	towerImageView.getImageView().setOnMouseEntered((new EventHandler<MouseEvent>() { 
 				                	   public void handle(MouseEvent event) {
 				                		    //displaying popup of tower information
-				                		    label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Range: " + towerImageView.getTower().getRange() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
+				                		   if(tower instanceof BasicTower) {
+				                			   label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Range: " + towerImageView.getTower().getRange() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
 			                		    		  ", Upgrade Cost: " + towerImageView.getTower().getUpgradeCost()); 
+				                		   }
+				                		   if (tower instanceof Catapult) {
+				                			   label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Range: " + towerImageView.getTower().getRange() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
+					                		    		  ", Upgrade Cost: " + towerImageView.getTower().getUpgradeCost() + ", Cool Down Time: " + towerImageView.getTower().getCoolDownTime()); 
+				                		   }
+				                		   if (tower instanceof IceTower) {
+				                			   label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Range: " + towerImageView.getTower().getRange() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
+					                		    		  ", Upgrade Cost: " + towerImageView.getTower().getUpgradeCost() + ", Ice Power: " + towerImageView.getTower().getIcePower() + ", Ice Time: " + towerImageView.getTower().getIceTime()); 
+				                		   }
+				                		   if (tower instanceof LaserTower) {
+				                			   label.setText("Attack Power: " + towerImageView.getTower().getAttackPower() + ", Range: " + towerImageView.getTower().getRange() + ", Build Cost: " + towerImageView.getTower().getBuildCost() + 
+					                		    		  ", Upgrade Cost: " + towerImageView.getTower().getUpgradeCost() + ", Shoot Cost: " + towerImageView.getTower().getShootCost()); 
+				                		   }
+				                		   
 				                		    label.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 				                		    label.setStyle("-fx-border-color: black;");
 				                		    Node source = (Node) event.getSource();

@@ -9,13 +9,15 @@ public class LaserTower extends BasicTower{
 	private static int _range = 630;  
 	private static int _build_cost = 7;
 	private static int _upgrade_cost = 3;
+	private static int _shootCost = 2;
 	
 	private int shootCost;
+
 	public static String _imagePath = "./src/main/resources/laserTower.png";
 	
 	public LaserTower(int _x, int _y) {
 		super(_x, _y, _attackPower, _range, _build_cost, _upgrade_cost, _imagePath);
-		shootCost = 2;
+		shootCost = _shootCost;
 	}
 	
 	public boolean isInRange(Monster m) {
@@ -75,7 +77,7 @@ public class LaserTower extends BasicTower{
 	
 	public void upgrade() {
 		attackPower += 1;
-		shootCost = (int) (attackPower/_attackPower);
+		shootCost = _shootCost * (int) (attackPower/_attackPower);
 	}
 	
 	public String getTowerType() {

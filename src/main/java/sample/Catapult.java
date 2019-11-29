@@ -79,6 +79,11 @@ public class Catapult extends BasicTower{
 	public String getTowerType() {
 		return "Catapult";
 	}
+	
+	
+	public int getCoolDownTime() {
+		return coolDownTime;
+	}
 
 	
 	public int getLowRange() {

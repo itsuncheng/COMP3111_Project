@@ -136,4 +136,16 @@ public class BasicTower {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+		
+	public int getIcePower() {
+		return 0;
+	}
+	
+	public int getIceTime() {
+		return 0;
+	}
+	
+	public int getCoolDownTime() {
+		return 0;
+	}
 }
