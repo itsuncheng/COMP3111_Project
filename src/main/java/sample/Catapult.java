@@ -12,6 +12,8 @@ public class Catapult extends BasicTower{
 	private static int lowRange = 50;
 	private int coolDownTime;
 	private int coolingDown;
+	private boolean isCooling;
+	private int lastShotTime;
 	
 	public static String _imagePath = "./src/main/resources/catapult.png";
 	
@@ -48,12 +50,14 @@ public class Catapult extends BasicTower{
 	}
 	
 	
-	public void shoot(Monster m,Arena a) {
+	public boolean shoot(Monster m,Arena a) {
 		if (isShot != true) {
-			if (coolingDown > 0) {
-				--coolingDown;
-			} else {
-				coolingDown = coolDownTime;
+			if (isCooling && (a.getTime() - lastShotTime)>=coolDownTime) {
+				isCooling = false;
+			} 
+			
+			if(!isCooling) {	
+				lastShotTime = a.getTime();
 				int currentX = m.getX();
 				int currentY = m.getY();
 				for (int i=0; i<a.monsters.size(); ++i) { 
@@ -61,9 +65,15 @@ public class Catapult extends BasicTower{
 					if (distance <= 25)
 						a.monsters.get(i).setHp(a.monsters.get(i).getHp() - this.attackPower);
 				}
+				isCooling = true;
+				return true;
 				
 			}
+			else {
+				return false;
+			}
 		}
+		return false;
 	}
 	
 	public String getTowerType() {

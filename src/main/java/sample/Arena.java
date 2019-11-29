@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Arena {
+	private int time; // time = number of frames that have passed
+	
 	private final int numOfColumn; //number of Columns of grid in the arena. This is not the arena height in pixel
 	private final int numOfRow; //number of Rows of grid in the arena. This is not the arena width in pixel
 	
@@ -20,6 +22,8 @@ public class Arena {
 	public Arena(int numOfColumn, int numOfRow, boolean [][] isGreen) { //constructor of Arena class
 		this.numOfColumn = numOfColumn;
 		this.numOfRow = numOfRow;
+		
+		time = 0;
 		
 		isValidArena = true;
 		
@@ -109,7 +113,13 @@ public class Arena {
 		return money;
 	}
 	
+	int getTime() {
+		return time;
+	}
 	
+	void incrementTime() {
+		time++;
+	}
 	
 }
 

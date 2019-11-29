@@ -28,7 +28,7 @@ public class LaserTower extends BasicTower{
 		return true;//Math.abs(y - _y) < 3 ;//* MyController.GRID_HEIGHT;			
 	}
 	
-	public void shoot(Monster m,Arena a) {   //this is done by the following step 
+	public boolean shoot(Monster m,Arena a) {   //this is done by the following step 
 		
 		if (isShot != true) {
 			double currentX = m.getX();
@@ -70,6 +70,7 @@ public class LaserTower extends BasicTower{
 				 }
 			}
 		}
+		return true;
 	}
 	
 	public void upgrade() {

@@ -26,7 +26,7 @@ public class IceTower extends BasicTower{
 		++iceTime;
 	}
 	
-	public void shoot(Monster m,Arena a) {
+	public boolean shoot(Monster m,Arena a) {
 		if (isShot != true) {	
 			m.setHp(m.getHp() - attackPower);
 			if (!m.getIsIced())	{
@@ -38,6 +38,8 @@ public class IceTower extends BasicTower{
 				m.setIceTime(iceTime);
 			}
 		}
+		
+		return true;
 	}
 	
 	public String getTowerType() {

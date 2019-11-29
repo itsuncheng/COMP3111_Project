@@ -56,9 +56,11 @@ public class BasicTower {
 		return range > Math.sqrt(Math.pow(x-_x, 2)+Math.pow(y-_y, 2));
 	}
 	
-	public void shoot(Monster m, Arena a) {
+	public boolean shoot(Monster m, Arena a) {
 		if (isShot != true)
 			m.setHp(m.getHp() - attackPower);
+		
+		return true;
 	}
 	
 	public void upgrade() {
