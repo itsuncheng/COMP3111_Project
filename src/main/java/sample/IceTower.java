@@ -11,7 +11,7 @@ public class IceTower extends BasicTower{
 	
 	public static String _imagePath = "./src/main/resources/iceTower.png";
 	
-	private static int icePower;
+	private int icePower;
 	private int iceTime;
 	
 	public IceTower(int _x, int _y) {
@@ -26,21 +26,41 @@ public class IceTower extends BasicTower{
 		++iceTime;
 	}
 	
-	public void shoot(Monster m,Arena a) {
-		m.setHp(m.getHp() - attackPower);
-		if (!m.getIsIced())	{
-			m.setSpeed(m.getSpeed() - icePower);
-			m.setIsIced(true);
-			m.setIceTime(iceTime);
+	public boolean shoot(Monster m,Arena a) {
+		if (isShot != true) {	
+			m.setHp(m.getHp() - attackPower);
+			if (!m.getIsIced())	{
+				m.setSpeed(m.getSpeed() - icePower);
+				if (m.getSpeed() < 1) {
+					m.setSpeed(1);
+				}
+				m.setIsIced(true);
+				m.setIceTime(iceTime);
+			}
 		}
+		
+		return true;
 	}
 	
 	public String getTowerType() {
 		return "Ice Tower";
 	}
 	
-	public static int getUpgradeCost() {
-		return upgrade_cost;
+	public int getIcePower() {
+		return icePower;
+	}
+	
+	public int getIceTime() {
+		return iceTime;
+	}
+	
+	public static int getDefaultBuildCost() {
+		return _build_cost;
+	}
+	
+	
+	public static int getDefaultUpgradeCost() {
+		return _upgrade_cost;
 	}
 	
 }

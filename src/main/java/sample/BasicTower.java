@@ -12,9 +12,15 @@ public class BasicTower {
 	protected int x, y;
 	protected int attackPower;
 	private int range;
-	private static int build_cost;
-	protected static int upgrade_cost;
+	private int build_cost;
+	protected int upgrade_cost;
+	protected boolean isShot = false;
 	protected ImageView imageView = null;
+	
+	public static int _attackPower = 3;
+	public static int _range = 65;
+	public static int _build_cost = 2;
+	public static int _upgrade_cost = 1;
 	
 	public static String _imagePath = "./src/main/resources/basicTower.png";
 	
@@ -22,10 +28,10 @@ public class BasicTower {
 		x = _x;
 		y = _y;
 		
-		attackPower = 3;
-		range = 65;
-		build_cost = 2;
-		upgrade_cost = 1;
+		attackPower = _attackPower;
+		range = _range;
+		build_cost = _build_cost;
+		upgrade_cost = _upgrade_cost;
 		
 		setImageView(_imagePath);
 	}
@@ -50,8 +56,11 @@ public class BasicTower {
 		return range > Math.sqrt(Math.pow(x-_x, 2)+Math.pow(y-_y, 2));
 	}
 	
-	public void shoot(Monster m, Arena a) {
-		m.setHp(m.getHp() - attackPower);
+	public boolean shoot(Monster m, Arena a) {
+		if (isShot != true)
+			m.setHp(m.getHp() - attackPower);
+		
+		return true;
 	}
 	
 	public void upgrade() {
@@ -89,12 +98,21 @@ public class BasicTower {
 		return range;
 	}
 	
-	public static int getBuildCost() {
+	public static int getDefaultBuildCost() {
+		return _build_cost;
+	}
+	
+	
+	public static int getDefaultUpgradeCost() {
+		return _upgrade_cost;
+	}
+	
+	public int getBuildCost() {
 		return build_cost;
 	}
 	
 	
-	public static int getUpgradeCost() {
+	public int getUpgradeCost() {
 		return upgrade_cost;
 	}
 
@@ -104,5 +122,30 @@ public class BasicTower {
 	
 	public String getTowerType() {
 		return "Basic Tower";
+	}
+	
+	public boolean getIsShot() {
+		return isShot;
+	}
+	
+	public void setIsShot(boolean _isShot) {
+		isShot = _isShot;
+	}
+
+	public int getShootCost() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+		
+	public int getIcePower() {
+		return 0;
+	}
+	
+	public int getIceTime() {
+		return 0;
+	}
+	
+	public int getCoolDownTime() {
+		return 0;
 	}
 }
