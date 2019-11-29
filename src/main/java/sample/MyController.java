@@ -485,7 +485,7 @@ public class MyController {
 	        				                int towerCenterY = tower.getY()+(GRID_HEIGHT/2);
 	        				                
 	        				                if(tower instanceof Catapult) {  //Catapult needs to be seperated because its range is a donut not a circle ;)
-	        				                	System.out.println("mouse-over a Catapult");
+//	        				                	System.out.println("mouse-over a Catapult");
 	        				                	Catapult c = (Catapult) tower;  //Cast to Catapult to access Catapult function
 	        				                	Circle circle = new Circle();
 	        				                	circle.setCenterX(towerCenterX);
@@ -501,7 +501,7 @@ public class MyController {
 	        				                	rangeShapeList.add(circle);
 	        				                }
 	        				                else if(tower instanceof BasicTower || tower instanceof IceTower || tower instanceof LaserTower){
-	        				                	System.out.println("mouse-over a BasicTower, IceTower, or LaserTower");
+//	        				                	System.out.println("mouse-over a BasicTower, IceTower, or LaserTower");
 	        				                	Circle circle = new Circle();
 	        				                	circle.setCenterX(towerCenterX);
 	        				                	circle.setCenterY(towerCenterY);
