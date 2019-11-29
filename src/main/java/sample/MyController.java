@@ -251,6 +251,9 @@ public class MyController {
 	        		if (targetFound) {
 	
 	        			if (tower.getTowerType() == "Laser Tower") {
+	        				if (arena.getMoney() < tower.getShootCost()){
+	        					continue;
+	        				}
 	        				Rectangle laser = new Rectangle();
 	        				
 	        				laser.setFill(Color.BLUE);
@@ -434,24 +437,24 @@ public class MyController {
     	int buildCost = 0;
     	
     	if (s.equals("Basic Tower")) {
-    		if (arena.getMoney() >= BasicTower.getBuildCost()) {
+    		if (arena.getMoney() >= BasicTower.getDefaultBuildCost()) {
     			tower = new BasicTower(x, y);
-    			buildCost = BasicTower.getBuildCost();
+    			buildCost = BasicTower.getDefaultBuildCost();
     		}
     	} else if (s.equals("Ice Tower")) {
-    		if (arena.getMoney() >= IceTower.getBuildCost()) {
+    		if (arena.getMoney() >= IceTower.getDefaultBuildCost()) {
     			tower = new IceTower(x, y);
-    			buildCost = IceTower.getBuildCost();
+    			buildCost = IceTower.getDefaultBuildCost();
     		}
     	} else if (s.equals("Laser Tower")) {
-    		if (arena.getMoney() >= LaserTower.getBuildCost()) {
+    		if (arena.getMoney() >= LaserTower.getDefaultBuildCost()) {
     			tower = new LaserTower(x, y);
-    			buildCost = LaserTower.getBuildCost();
+    			buildCost = LaserTower.getDefaultBuildCost();
     		}
     	} else if (s.equals("Catapult")){
-    		if (arena.getMoney() >= Catapult.getBuildCost()) {
+    		if (arena.getMoney() >= Catapult.getDefaultBuildCost()) {
     			tower = new Catapult(x, y);
-    			buildCost = Catapult.getBuildCost();
+    			buildCost = Catapult.getDefaultBuildCost();
     		}
     	}
     	

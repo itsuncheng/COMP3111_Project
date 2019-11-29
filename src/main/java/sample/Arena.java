@@ -77,31 +77,31 @@ public class Arena {
 			System.out.println("ERROR: Monster Removal Unsuccessful. To be removed monster is not found");
 	}
 	
-	void setMoney(int money) {
-		if(money < 0) {
+	void setMoney(int _money) {
+		if(_money < 0) {
 			System.out.println("ERROR: attempt to set Money to negative value. Value of money is unchanged");
 		}
-		this.money = money;
+		this.money = _money;
 	}
 	
-	void addMoney(int money) {
-		if(money>0) {
-			this.money = this.money+money;
+	void addMoney(int _money) {
+		if(_money>0) {
+			this.money = this.money+_money;
 		}
 		else {
 			System.out.println("ERROR: attempt to add non-positive money");
 		}
 	}
 	
-	void removeMoney(int money) {
-		if(money>this.money) {
+	void removeMoney(int _money) {
+		if(_money>this.money) {
 			System.out.println("ERROR:removeMoney(): not enough money");
 		}
-		else if(money<=0) {
-			System.out.println("ERROR:removeMoney(): non-positive amount entered");
+		else if(_money<0) {
+			System.out.println("ERROR:removeMoney(): negative amount entered");
 		}
 		else {
-			this.money = this.money - money;
+			this.money = this.money - _money;
 		}
 	}
 	

@@ -69,13 +69,19 @@ public class Catapult extends BasicTower{
 	public String getTowerType() {
 		return "Catapult";
 	}
-	
-	public static int getUpgradeCost() {
-		return upgrade_cost;
-	}
+
 	
 	public int getLowRange() {
 		return lowRange;
+	}
+	
+	public static int getDefaultBuildCost() {
+		return _build_cost;
+	}
+	
+	
+	public static int getDefaultUpgradeCost() {
+		return _upgrade_cost;
 	}
 	
 }
