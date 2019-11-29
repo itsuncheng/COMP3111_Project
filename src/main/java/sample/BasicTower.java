@@ -108,6 +108,10 @@ public class BasicTower {
 		return "Basic Tower";
 	}
 	
+	public boolean getIsShot() {
+		return isShot;
+	}
+	
 	public void setIsShot(boolean _isShot) {
 		isShot = _isShot;
 	}

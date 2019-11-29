@@ -36,24 +36,12 @@ public class MonsterImageView{
 		
 	}
 	
-	public void moveAtEachFrame() {
+	public void moveOneGrid() {
 		
-		int x = monster.getX();
-		int y = monster.getY();
-		if (monster.isIced) {
-			int nextIceTime = monster.getIceTime();
-			monster.setIceTime(--nextIceTime);
-			if (monster.getIceTime() == 0) {
-				monster.setIsIced(false);
-				monster.setSpeed(monster.getDefaultSpeed());
-			}
-		}
-		int speed = monster.getSpeed();
-		
-		
-		for (int i=0; i<speed; i++) {
+		if (monster.isMoving == true) {
+			int x = monster.getX();
+			int y = monster.getY();
 			
-			// if monster reaches and crosses end point, set monster to end point; MyController will print Gameover
 			if ((x == maxX-2*stepX && y == 0)) {
 				
 				x+=stepX;
@@ -82,14 +70,30 @@ public class MonsterImageView{
 					x+=stepX;
 					numOfRightSteps++;		
 				}
-//				x+=stepX;
+	//			x+=stepX;
 				
 			}
+			
+			monster.setX(x);
+			monster.setY(y);
+			monster.moved();
+			if (monster.getRemainingSteps() == 0) {
+				monster.setIsMoving(false);
+			}
+			setImageView(monster.getX(), monster.getY());
 		}
+	}		
+	
+	public void stateEndOfEachFrame() {
 		
-		monster.setX(x);
-		monster.setY(y);
-		setImageView(monster.getX(), monster.getY());
+		if (monster.isIced) {
+			int nextIceTime = monster.getIceTime();
+			monster.setIceTime(--nextIceTime);
+			if (monster.getIceTime() == 0) {
+				monster.setIsIced(false);
+				monster.setSpeed(monster.getDefaultSpeed());
+			}
+		}
 		
 		if (monster.getMonsterType().equals("Penguin") ) {
 			monster.replenishHp();

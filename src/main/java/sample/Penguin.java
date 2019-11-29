@@ -8,17 +8,19 @@ public class Penguin extends Monster{
 	public static int defaultY = 0;
 	public static boolean defaultIsIced = false;
 	public static int defaultIceTime = 0;
+	public static int defaultRemainingSteps = 0;
+	public static boolean defaultIsMoving = false;
 	public static String _imagePath = "./src/main/resources/penguin.png";
 	public static int bonusHp = 1;
 	public static int maxHp;
 	
 	public Penguin() {
-		super(defaultHp,defaultSpeed,defaultX,defaultY,defaultIsIced,defaultIceTime, _imagePath);
+		super(defaultHp,defaultSpeed,defaultX,defaultY,defaultIsIced,defaultIceTime,defaultRemainingSteps,defaultIsMoving, _imagePath);
 		maxHp = defaultHp;
 	}
 	
-	public Penguin(int _hp, int _speed, int _x, int _y, boolean _isIced, int _iceTime) {
-		super(_hp, _speed, _x, _y, _isIced, _iceTime, _imagePath);
+	public Penguin(int _hp, int _speed, int _x, int _y, boolean _isIced, int _iceTime, int _remainingSteps, boolean _isMoving) {
+		super(_hp, _speed, _x, _y, _isIced, _iceTime, _remainingSteps, _isMoving, _imagePath);
 		maxHp = _hp;	
 	}
 	
