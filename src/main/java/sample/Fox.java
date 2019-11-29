@@ -8,14 +8,16 @@ public class Fox extends Monster{
 	public static int defaultY = 0;
 	public static boolean defaultIsIced = false;
 	public static int defaultIceTime = 0;
+	public static int defaultMoving = 0;
+	public static boolean defaultIsMoving = false;
 	public static String _imagePath = "./src/main/resources/fox.png";
 	
 	public Fox() {
-		super(defaultHp,defaultSpeed,defaultX,defaultY,defaultIsIced,defaultIceTime, _imagePath);
+		super(defaultHp,defaultSpeed,defaultX,defaultY,defaultIsIced,defaultIceTime,defaultMoving,defaultIsMoving, _imagePath);
 	}
 	
-	public Fox(int _hp, int _speed, int _x, int _y, boolean _isIced, int _iceTime) {
-		super(_hp, _speed, _x, _y, _isIced, _iceTime,_imagePath);
+	public Fox(int _hp, int _speed, int _x, int _y, boolean _isIced, int _iceTime, int _moving, boolean _isMoving) {
+		super(_hp, _speed, _x, _y, _isIced, _iceTime, _moving, _isMoving,_imagePath);
 		
 	}
 

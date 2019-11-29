@@ -182,24 +182,149 @@ public class MyController {
     		paneArena.getChildren().removeAll(laser);
     	laserList.clear();
     	
-    	for(MonsterImageView mIV: monsterImageViewList) {
-    		//move each monster
-    		mIV.moveAtEachFrame();
-    		
-    		//check if it is gameover
-    		if ((mIV.getImageView().getX() == (MAX_V_NUM_GRID-1)*GRID_WIDTH) && mIV.getImageView().getY() == 0){
-    			System.out.println("Gameover");
-        		Alert alert = new Alert(AlertType.INFORMATION);
-        		alert.setTitle("Warn");
-        		alert.setHeaderText(null);
-        		alert.setContentText("Monster reached end point, game is over!");
-        		alert.showAndWait();
-        		
-        		gameOver = true;
-        		return;
-    		}
+    	for (MonsterImageView mIV: monsterImageViewList) {
+    		mIV.getMonster().setIsMoving(true);
+    		mIV.getMonster().setMoving();
     	}
     	
+    	for (TowerImageView tIV: towerImageViewList) {
+    		tIV.getTower().setIsShot(false);
+    	}
+    	
+	    while (isAllMonsterMoving()) {
+    		for(MonsterImageView mIV: monsterImageViewList) {
+	    		//move each monster
+	    		mIV.moveOneGrid();
+	    		
+	    		//check if it is gameover
+	    		if ((mIV.getImageView().getX() == (MAX_V_NUM_GRID-1)*GRID_WIDTH) && mIV.getImageView().getY() == 0){
+	    			System.out.println("Gameover");
+	        		Alert alert = new Alert(AlertType.INFORMATION);
+	        		alert.setTitle("Warn");
+	        		alert.setHeaderText(null);
+	        		alert.setContentText("Monster reached end point, game is over!");
+	        		alert.showAndWait();
+	        		
+	        		gameOver = true;
+	        		return;
+	    		}
+	    		
+	    		
+	    	}
+    		
+    		for(TowerImageView tIV: towerImageViewList) {
+            	
+    			if (tIV.getTower().getIsShot() == false) {
+	        		BasicTower tower = tIV.getTower();
+	        		
+	        		boolean targetFound = false;	//true if there is a monster in range, false otherwise
+	        		Monster targetMonster = null;	//stores the Monster that the tower will shoot
+	        		double targetMonsterDFE = Double.POSITIVE_INFINITY; //Distance From Endzone: distance between the the top-left corners of EZ and TargetMonster
+	        		
+	        		for (MonsterImageView mIV: monsterImageViewList) {
+	        			
+	        			Monster monster = mIV.getMonster();
+	//        			System.out.println("monsterX"+monster.getX()+"  monsterY:"+monster.getY()+"towerX"+tower.getX()+"  towerY:"+tower.getY());
+	        			if (tower.isInRange(monster)) {
+	//        				System.out.println("a monster is in range");
+	        				targetFound = true;
+	        				
+	        				double monsterX = monster.getX();
+	        				double monsterY = monster.getY();
+	        				int endZoneX = (MAX_V_NUM_GRID-1)*GRID_WIDTH;
+	        				int endZoneY = 0;
+	        				  				
+	        				double monsterDFE = Math.sqrt(((monsterX-endZoneX)*(monsterX-endZoneX))+((monsterY-endZoneY)*(monsterY-endZoneY)));
+	        				if(monsterDFE < targetMonsterDFE) {
+	        					targetMonster = monster;
+	        					targetMonsterDFE = monsterDFE;
+	        				}
+	        			}	
+	        		}
+	        		
+	        		if (targetFound) {
+	
+	        			if (tower.getTowerType() == "Laser Tower") {
+	        				Rectangle laser = new Rectangle();
+	        				
+	        				laser.setFill(Color.BLUE);
+	        				laser.setOpacity(50);
+	        				laser.setWidth(ARENA_WIDTH*2);
+	        				laser.setHeight(6);
+	        				double towerX = tower.getX();
+	        				double towerY = tower.getY();
+	        				laser.setX(towerX-1.5+GRID_WIDTH/2);
+	        				laser.setY(towerY-1.5+GRID_WIDTH/2);
+	        				   	
+	        				double monsterX = targetMonster.getX();
+	        				double monsterY = targetMonster.getY();
+	        				double angle = Math.atan2(monsterY - towerY, monsterX - towerX);
+	        				angle = Math.toDegrees(angle);
+	        				Rotate rotate = new Rotate(angle, towerX+GRID_WIDTH/2, towerY+GRID_WIDTH/2);
+	        				laser.getTransforms().addAll(rotate);
+	        				laser.setMouseTransparent(true);
+	        				laserList.add(laser);
+	        				
+	        				paneArena.getChildren().addAll(laser);
+	        			}
+	        				
+	        			tower.shoot(targetMonster,arena);
+	        			tower.setIsShot(true);
+	        			
+	        			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
+	        					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
+	        			
+	        			//Create Shot Indicating rectangle (A loop that surrounds a tower and a monster where the tower has shot the monster) 
+	        			double filletRadius = 1.5 * (GRID_WIDTH/2.0);
+	        			double monsterX = targetMonster.getX();
+	    				double monsterY = targetMonster.getY();
+	    				double towerX = tower.getX();
+	    				double towerY = tower.getY();
+	    				
+	//    				System.out.println("monsterX:"+monsterX+"  monsterY:"+monsterY
+	//    						+"   towerX"+towerX+"  towerY:"+towerY
+	//    						);
+	    				
+	    				double distance = Math.sqrt(((monsterX-towerX)*(monsterX-towerX))+((monsterY-towerY)*(monsterY-towerY)));
+	    				
+	        			
+	        			Rectangle shotIndicatingRec = new Rectangle();
+	        			
+	        			shotIndicatingRec.setFill(Color.TRANSPARENT);
+	        			shotIndicatingRec.setStroke(Color.ORANGE);
+	        			shotIndicatingRec.setStrokeWidth(2.0); 
+	        			
+	        			shotIndicatingRec.setWidth(filletRadius + distance + filletRadius);
+	        			shotIndicatingRec.setHeight(2*filletRadius);
+	        			
+	        			shotIndicatingRec.setArcWidth(2*filletRadius); 
+	        		    shotIndicatingRec.setArcHeight(2*filletRadius);  
+	        			
+	        			shotIndicatingRec.setX(towerX - (filletRadius - (GRID_WIDTH/2)));
+	        			shotIndicatingRec.setY(towerY - (filletRadius - (GRID_WIDTH/2)));
+	        			
+	        			double xDisplacementMRelT = monsterX - towerX; //x-displacement of monster relative to tower;
+	        			double yDisplacementMRelT = monsterY - towerY; //y-displacement of monster relative to tower;
+	        			
+	        			double angle = Math.atan2(yDisplacementMRelT, xDisplacementMRelT);  //atan2 returns range from 0 - 2pi
+	        			angle = Math.toDegrees(angle);
+	        			
+	        			Rotate rotate = new Rotate(angle,towerX+(GRID_WIDTH/2),towerY+(GRID_WIDTH/2));
+	        			shotIndicatingRec.getTransforms().addAll(rotate);
+	        			shotIndicatingRec.setMouseTransparent(true);
+	        			shotIndicatingRecList.add(shotIndicatingRec);
+	        			
+	        			paneArena.getChildren().addAll(shotIndicatingRec);
+	        		}
+        		}
+        		
+        	}
+            
+	    }
+	    
+	    for(MonsterImageView mIV: monsterImageViewList) {
+	    	mIV.stateAtEachFrame();
+	    }
     	Monster new_monster;
 		int typeOfMonster = rand.nextInt(3);
 		if (typeOfMonster == 0) {
@@ -248,116 +373,7 @@ public class MyController {
       	   }
       	}));
         
-        paneArena.getChildren().addAll(monsterImageView.getImageView());
-        
-        
-        // every tower attacks monsters       
-        for(TowerImageView tIV: towerImageViewList) {
-        	
-    		BasicTower tower = tIV.getTower();
-    		
-    		boolean targetFound = false;	//true if there is a monster in range, false otherwise
-    		Monster targetMonster = null;	//stores the Monster that the tower will shoot
-    		double targetMonsterDFE = Double.POSITIVE_INFINITY; //Distance From Endzone: distance between the the top-left corners of EZ and TargetMonster
-    		
-    		for (MonsterImageView mIV: monsterImageViewList) {
-    			
-    			Monster monster = mIV.getMonster();
-//    			System.out.println("monsterX"+monster.getX()+"  monsterY:"+monster.getY()+"towerX"+tower.getX()+"  towerY:"+tower.getY());
-    			if (tower.isInRange(monster)) {
-//    				System.out.println("a monster is in range");
-    				targetFound = true;
-    				
-    				double monsterX = monster.getX();
-    				double monsterY = monster.getY();
-    				int endZoneX = (MAX_V_NUM_GRID-1)*GRID_WIDTH;
-    				int endZoneY = 0;
-    				  				
-    				double monsterDFE = Math.sqrt(((monsterX-endZoneX)*(monsterX-endZoneX))+((monsterY-endZoneY)*(monsterY-endZoneY)));
-    				if(monsterDFE < targetMonsterDFE) {
-    					targetMonster = monster;
-    					targetMonsterDFE = monsterDFE;
-    				}
-    			}	
-    		}
-    		
-    		if (targetFound) {
-
-    			if (tower.getTowerType() == "Laser Tower") {
-    				Rectangle laser = new Rectangle();
-    				
-    				laser.setFill(Color.BLUE);
-    				laser.setOpacity(50);
-    				laser.setWidth(ARENA_WIDTH*2);
-    				laser.setHeight(6);
-    				double towerX = tower.getX();
-    				double towerY = tower.getY();
-    				laser.setX(towerX-1.5+GRID_WIDTH/2);
-    				laser.setY(towerY-1.5+GRID_WIDTH/2);
-    				   	
-    				double monsterX = targetMonster.getX();
-    				double monsterY = targetMonster.getY();
-    				double angle = Math.atan2(monsterY - towerY, monsterX - towerX);
-    				angle = Math.toDegrees(angle);
-    				Rotate rotate = new Rotate(angle, towerX+GRID_WIDTH/2, towerY+GRID_WIDTH/2);
-    				laser.getTransforms().addAll(rotate);
-    				laser.setMouseTransparent(true);
-    				laserList.add(laser);
-    				
-    				paneArena.getChildren().addAll(laser);
-    			}
-    				
-    			tower.shoot(targetMonster,arena);
-    			
-    			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
-    					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
-    			
-    			//Create Shot Indicating rectangle (A loop that surrounds a tower and a monster where the tower has shot the monster) 
-    			double filletRadius = 1.5 * (GRID_WIDTH/2.0);
-    			double monsterX = targetMonster.getX();
-				double monsterY = targetMonster.getY();
-				double towerX = tower.getX();
-				double towerY = tower.getY();
-				
-//				System.out.println("monsterX:"+monsterX+"  monsterY:"+monsterY
-//						+"   towerX"+towerX+"  towerY:"+towerY
-//						);
-				
-				double distance = Math.sqrt(((monsterX-towerX)*(monsterX-towerX))+((monsterY-towerY)*(monsterY-towerY)));
-				
-    			
-    			Rectangle shotIndicatingRec = new Rectangle();
-    			
-    			shotIndicatingRec.setFill(Color.TRANSPARENT);
-    			shotIndicatingRec.setStroke(Color.ORANGE);
-    			shotIndicatingRec.setStrokeWidth(2.0); 
-    			
-    			shotIndicatingRec.setWidth(filletRadius + distance + filletRadius);
-    			shotIndicatingRec.setHeight(2*filletRadius);
-    			
-    			shotIndicatingRec.setArcWidth(2*filletRadius); 
-    		    shotIndicatingRec.setArcHeight(2*filletRadius);  
-    			
-    			shotIndicatingRec.setX(towerX - (filletRadius - (GRID_WIDTH/2)));
-    			shotIndicatingRec.setY(towerY - (filletRadius - (GRID_WIDTH/2)));
-    			
-    			double xDisplacementMRelT = monsterX - towerX; //x-displacement of monster relative to tower;
-    			double yDisplacementMRelT = monsterY - towerY; //y-displacement of monster relative to tower;
-    			
-    			double angle = Math.atan2(yDisplacementMRelT, xDisplacementMRelT);  //atan2 returns range from 0 - 2pi
-    			angle = Math.toDegrees(angle);
-    			
-    			Rotate rotate = new Rotate(angle,towerX+(GRID_WIDTH/2),towerY+(GRID_WIDTH/2));
-    			shotIndicatingRec.getTransforms().addAll(rotate);
-    			shotIndicatingRec.setMouseTransparent(true);
-    			shotIndicatingRecList.add(shotIndicatingRec);
-    			
-    			paneArena.getChildren().addAll(shotIndicatingRec);
- 
-    		}
-    		
-    	}
-        
+        paneArena.getChildren().addAll(monsterImageView.getImageView());  
         
         for(int i=0; i<monsterImageViewList.size(); i++) {
         	MonsterImageView mIV = monsterImageViewList.get(i);
@@ -630,6 +646,16 @@ public class MyController {
     
     private int gridYToPixelY(int gridY) { //returns the Y-grid coordinate of a given Y-pixel coordinate
     	return gridY * GRID_HEIGHT;
+    }
+    
+    public boolean isAllMonsterMoving(){
+    	
+    	boolean isAllMoving = false;
+    	for (MonsterImageView mIV: monsterImageViewList) {
+    		if (mIV.getMonster().getIsMoving() == true)
+    			isAllMoving = true;
+    	}
+    	return isAllMoving;
     }
     
     public void destroyTower() {
