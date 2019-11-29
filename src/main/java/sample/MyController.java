@@ -26,6 +26,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.transform.Rotate;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.lang.Math;
 
@@ -90,6 +93,7 @@ public class MyController {
     private ArrayList<Rectangle> shotIndicatingRecList = new ArrayList<Rectangle>();
     private ArrayList<Rectangle> laserList = new ArrayList<Rectangle>();
     private static TowerImageView selectedTowerImageView = null;
+    private static Map<BasicTower, Monster> towerAndTargetMonsterMap = new HashMap(); 
     /**
      * A dummy function to show how button click works
      */
@@ -184,14 +188,16 @@ public class MyController {
     	
     	for (MonsterImageView mIV: monsterImageViewList) {
     		mIV.getMonster().setIsMoving(true);
-    		mIV.getMonster().setMoving();
+    		mIV.getMonster().initRemainingSteps();
     	}
     	
     	for (TowerImageView tIV: towerImageViewList) {
     		tIV.getTower().setIsShot(false);
     	}
     	
-	    while (isAllMonsterMoving()) {
+    	towerAndTargetMonsterMap.clear();
+    	
+	    while (isOneMonsterMoving()) {
     		for(MonsterImageView mIV: monsterImageViewList) {
 	    		//move each monster
 	    		mIV.moveOneGrid();
@@ -271,50 +277,8 @@ public class MyController {
 	        			tower.shoot(targetMonster,arena);
 	        			tower.setIsShot(true);
 	        			
-	        			System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
-	        					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
+	        			towerAndTargetMonsterMap.put(tower, targetMonster);
 	        			
-	        			//Create Shot Indicating rectangle (A loop that surrounds a tower and a monster where the tower has shot the monster) 
-	        			double filletRadius = 1.5 * (GRID_WIDTH/2.0);
-	        			double monsterX = targetMonster.getX();
-	    				double monsterY = targetMonster.getY();
-	    				double towerX = tower.getX();
-	    				double towerY = tower.getY();
-	    				
-	//    				System.out.println("monsterX:"+monsterX+"  monsterY:"+monsterY
-	//    						+"   towerX"+towerX+"  towerY:"+towerY
-	//    						);
-	    				
-	    				double distance = Math.sqrt(((monsterX-towerX)*(monsterX-towerX))+((monsterY-towerY)*(monsterY-towerY)));
-	    				
-	        			
-	        			Rectangle shotIndicatingRec = new Rectangle();
-	        			
-	        			shotIndicatingRec.setFill(Color.TRANSPARENT);
-	        			shotIndicatingRec.setStroke(Color.ORANGE);
-	        			shotIndicatingRec.setStrokeWidth(2.0); 
-	        			
-	        			shotIndicatingRec.setWidth(filletRadius + distance + filletRadius);
-	        			shotIndicatingRec.setHeight(2*filletRadius);
-	        			
-	        			shotIndicatingRec.setArcWidth(2*filletRadius); 
-	        		    shotIndicatingRec.setArcHeight(2*filletRadius);  
-	        			
-	        			shotIndicatingRec.setX(towerX - (filletRadius - (GRID_WIDTH/2)));
-	        			shotIndicatingRec.setY(towerY - (filletRadius - (GRID_WIDTH/2)));
-	        			
-	        			double xDisplacementMRelT = monsterX - towerX; //x-displacement of monster relative to tower;
-	        			double yDisplacementMRelT = monsterY - towerY; //y-displacement of monster relative to tower;
-	        			
-	        			double angle = Math.atan2(yDisplacementMRelT, xDisplacementMRelT);  //atan2 returns range from 0 - 2pi
-	        			angle = Math.toDegrees(angle);
-	        			
-	        			Rotate rotate = new Rotate(angle,towerX+(GRID_WIDTH/2),towerY+(GRID_WIDTH/2));
-	        			shotIndicatingRec.getTransforms().addAll(rotate);
-	        			shotIndicatingRec.setMouseTransparent(true);
-	        			shotIndicatingRecList.add(shotIndicatingRec);
-	        			
-	        			paneArena.getChildren().addAll(shotIndicatingRec);
 	        		}
         		}
         		
@@ -322,8 +286,60 @@ public class MyController {
             
 	    }
 	    
+	    for (Entry<BasicTower, Monster> entry : towerAndTargetMonsterMap.entrySet()) {
+	    	
+	    	BasicTower tower = entry.getKey();
+	    	Monster targetMonster = entry.getValue();
+	    	
+	    	System.out.println("<" + tower.getTowerType() + ">@(<" + pixelXToGridX(tower.getX()) +">.<" + pixelYToGridY(tower.getY()) + ">) -> "
+					+ "<" + targetMonster.getMonsterType() + ">@(<" + pixelXToGridX(targetMonster.getX()) + ">, <" + pixelYToGridY(targetMonster.getY()) + ">)");
+			
+			//Create Shot Indicating rectangle (A loop that surrounds a tower and a monster where the tower has shot the monster) 
+			double filletRadius = 1.5 * (GRID_WIDTH/2.0);
+			double monsterX = targetMonster.getX();
+			double monsterY = targetMonster.getY();
+			double towerX = tower.getX();
+			double towerY = tower.getY();
+			
+//    				System.out.println("monsterX:"+monsterX+"  monsterY:"+monsterY
+//    						+"   towerX"+towerX+"  towerY:"+towerY
+//    						);
+			
+			double distance = Math.sqrt(((monsterX-towerX)*(monsterX-towerX))+((monsterY-towerY)*(monsterY-towerY)));
+			
+			
+			Rectangle shotIndicatingRec = new Rectangle();
+			
+			shotIndicatingRec.setFill(Color.TRANSPARENT);
+			shotIndicatingRec.setStroke(Color.ORANGE);
+			shotIndicatingRec.setStrokeWidth(2.0); 
+			
+			shotIndicatingRec.setWidth(filletRadius + distance + filletRadius);
+			shotIndicatingRec.setHeight(2*filletRadius);
+			
+			shotIndicatingRec.setArcWidth(2*filletRadius); 
+		    shotIndicatingRec.setArcHeight(2*filletRadius);  
+			
+			shotIndicatingRec.setX(towerX - (filletRadius - (GRID_WIDTH/2)));
+			shotIndicatingRec.setY(towerY - (filletRadius - (GRID_WIDTH/2)));
+			
+			double xDisplacementMRelT = monsterX - towerX; //x-displacement of monster relative to tower;
+			double yDisplacementMRelT = monsterY - towerY; //y-displacement of monster relative to tower;
+			
+			double angle = Math.atan2(yDisplacementMRelT, xDisplacementMRelT);  //atan2 returns range from 0 - 2pi
+			angle = Math.toDegrees(angle);
+			
+			Rotate rotate = new Rotate(angle,towerX+(GRID_WIDTH/2),towerY+(GRID_WIDTH/2));
+			shotIndicatingRec.getTransforms().addAll(rotate);
+			shotIndicatingRec.setMouseTransparent(true);
+			shotIndicatingRecList.add(shotIndicatingRec);
+			
+			paneArena.getChildren().addAll(shotIndicatingRec);
+	    }
+	    
+	    
 	    for(MonsterImageView mIV: monsterImageViewList) {
-	    	mIV.stateAtEachFrame();
+	    	mIV.stateEndOfEachFrame();
 	    }
     	Monster new_monster;
 		int typeOfMonster = rand.nextInt(3);
@@ -648,14 +664,14 @@ public class MyController {
     	return gridY * GRID_HEIGHT;
     }
     
-    public boolean isAllMonsterMoving(){
+    public boolean isOneMonsterMoving(){
     	
-    	boolean isAllMoving = false;
+    	boolean isOneMonsterMoving = false;
     	for (MonsterImageView mIV: monsterImageViewList) {
     		if (mIV.getMonster().getIsMoving() == true)
-    			isAllMoving = true;
+    			isOneMonsterMoving = true;
     	}
-    	return isAllMoving;
+    	return isOneMonsterMoving;
     }
     
     public void destroyTower() {

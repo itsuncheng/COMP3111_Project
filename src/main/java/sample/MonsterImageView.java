@@ -77,14 +77,14 @@ public class MonsterImageView{
 			monster.setX(x);
 			monster.setY(y);
 			monster.moved();
-			if (monster.getMoving() == 0) {
+			if (monster.getRemainingSteps() == 0) {
 				monster.setIsMoving(false);
 			}
 			setImageView(monster.getX(), monster.getY());
 		}
 	}		
 	
-	public void stateAtEachFrame() {
+	public void stateEndOfEachFrame() {
 		
 		if (monster.isIced) {
 			int nextIceTime = monster.getIceTime();

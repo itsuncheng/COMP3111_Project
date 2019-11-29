@@ -12,11 +12,11 @@ public abstract class Monster {
 	protected int x, y;
 	protected boolean isIced;
 	protected int iceTime;
-	protected int moving;
+	protected int remainingSteps;
 	protected boolean isMoving;
 	protected ImageView imageView = null;
 	
-	public Monster(int _hp, int _speed, int _x, int _y, boolean _isIced, int _iceTime, int _moving, boolean _isMoving, String _imagePath) {
+	public Monster(int _hp, int _speed, int _x, int _y, boolean _isIced, int _iceTime, int _remainingSteps, boolean _isMoving, String _imagePath) {
 		hp = _hp;
 		speed = _speed;
 		x = _x;
@@ -25,7 +25,7 @@ public abstract class Monster {
 		isIced = _isIced;
 		iceTime = _iceTime;
 		
-		moving = _moving;
+		remainingSteps = _remainingSteps;
 		isMoving = _isMoving;
 		
 		setImageView(_imagePath);
@@ -106,24 +106,24 @@ public abstract class Monster {
 		return iceTime;
 	}
 	
-	public int getMoving(){
-		return moving;
+	public int getRemainingSteps(){
+		return remainingSteps;
 	}
 	
-	public void setMoving() {
-		moving = speed;
+	public void initRemainingSteps() {
+		remainingSteps = speed;
 	}
 	
 	public void moved() {
-		--moving;
+		--remainingSteps;
 	}
 	
 	public boolean getIsMoving() {
 		return isMoving;
 	}
 	
-	public void setIsMoving(boolean move) {
-		isMoving = move;
+	public void setIsMoving(boolean _isMoving) {
+		isMoving = _isMoving;
 	}
 	
 	public ImageView getImageView() {
