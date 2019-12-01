@@ -34,10 +34,16 @@ public abstract class Monster {
 	
 	public void setHp(int _hp) {
 		hp = _hp;
+		if(hp<0) {
+			hp = 0;
+		}
 	}
 	
 	public void setSpeed(int _speed) {
 		speed = _speed;
+		if(speed<0) {
+			speed = 0;
+		}
 	}
 	
 	public void setX(int _x) {

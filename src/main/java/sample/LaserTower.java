@@ -9,12 +9,15 @@ public class LaserTower extends BasicTower{
 	private static int _range = 630;  
 	private static int _build_cost = 7;
 	private static int _upgrade_cost = 3;
+	private static int _shootCost = 2;
 	
-	private static int shootCost = 2;
+	private int shootCost;
+
 	public static String _imagePath = "./src/main/resources/laserTower.png";
 	
 	public LaserTower(int _x, int _y) {
 		super(_x, _y, _attackPower, _range, _build_cost, _upgrade_cost, _imagePath);
+		shootCost = _shootCost;
 	}
 	
 	public boolean isInRange(Monster m) {
@@ -60,8 +63,10 @@ public class LaserTower extends BasicTower{
 						 yIsInRange = targetY < y;
 				 
 					 if (xIsInRange && yIsInRange ) {
-						 a.monsters.get(i).setHp(a.monsters.get(i).getHp() - this.attackPower);
-						 a.removeMoney(shootCost*(attackPower/_attackPower));
+						 if (a.getMoney() >= shootCost) {
+							 a.removeMoney(shootCost);
+							 a.monsters.get(i).setHp(a.monsters.get(i).getHp() - this.attackPower);
+						 }
 					 }
 				 
 				 }
@@ -70,11 +75,30 @@ public class LaserTower extends BasicTower{
 		return true;
 	}
 	
+	public void upgrade() {
+		attackPower += 1;
+		shootCost = _shootCost * (int) (attackPower/_attackPower);
+	}
+	
 	public String getTowerType() {
 		return "Laser Tower";
 	}
+
 	
-	public static int getUpgradeCost() {
-		return upgrade_cost;
+	public void setShootCost(int _shootCost) {
+		shootCost = _shootCost;
+	}
+	
+	public int getShootCost() {
+		return shootCost;
+	}
+	
+	public static int getDefaultBuildCost() {
+		return _build_cost;
+	}
+	
+	
+	public static int getDefaultUpgradeCost() {
+		return _upgrade_cost;
 	}
 }
