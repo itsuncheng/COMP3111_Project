@@ -7,18 +7,43 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-
+/**
+ * TowerImageView class that contains a tower and its associated imageView
+ * @author raymondcheng
+ *
+ */
 public class TowerImageView{
 	
+	/**
+	 * the tower this TowerImageView contains
+	 */
 	private BasicTower tower;
+	/**
+	 * the imageView this TowerImageView contains
+	 */
 	private ImageView imageView;
 	
+	/**
+	 * width of the arena
+	 */
 	static int maxX = MyController.ARENA_WIDTH;
+	/**
+	 * height of the arena
+	 */
 	static int maxY = MyController.ARENA_HEIGHT;
+	/**
+	 * width of a grid in the arena
+	 */
 	static int stepX = MyController.GRID_WIDTH;
+	/**
+	 * height of a grid in the arena
+	 */
 	static int stepY = MyController.GRID_HEIGHT;
 
-	
+	/**
+	 * constructor for TowerImageView class
+	 * @param _tower a BasicTower
+	 */
 	public TowerImageView(BasicTower _tower) {
 		tower = _tower;
 		imageView = _tower.getImageView();
@@ -31,20 +56,11 @@ public class TowerImageView{
 		
 	}
 	
-	public void attackAtEachFrame() {
-		
-		
-	}
-	
-	public void onHover() {
-		
-	}
-	
-	public void onHoverExit() {
-		
-	}
-	
-	
+	/**
+	 * setting the imageView position
+	 * @param _x x position
+	 * @param _y y position
+	 */
 	public void setImageView(int _x, int _y) {
 		
 		if (imageView != null) {
@@ -55,10 +71,18 @@ public class TowerImageView{
 		}
 	}
 	
+	/**
+	 * return tower of this TowerImageView
+	 * @return BasicTower return tower of this TowerImageView 
+	 */
 	public BasicTower getTower() {
 		return tower;
 	}
 	
+	/**
+	 * return imageView of this TowerImageView
+	 * @return ImageView return imageView of this TowerImageView 
+	 */
 	public ImageView getImageView() {
 		return imageView;
 	}
