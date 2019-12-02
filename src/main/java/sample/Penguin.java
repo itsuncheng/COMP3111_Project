@@ -90,7 +90,7 @@ public class Penguin extends Monster{
 	 * returns the String "Penguin"
 	 * @return String returns "Penguin"
 	 */
-	String getMonsterType() {
+	public String getMonsterType() {
 		return "Penguin";
 	}
 
@@ -98,7 +98,7 @@ public class Penguin extends Monster{
 	 * returns default speed for Penguin monsters
 	 * @return int returns defaultSpeed
 	 */
-	int getDefaultSpeed() {
+	public int getDefaultSpeed() {
 		return defaultSpeed;
 	}
 }

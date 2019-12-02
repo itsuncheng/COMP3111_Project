@@ -71,7 +71,7 @@ public class Unicorn extends Monster{
 	 * returns the String "Unicorn"
 	 * @return String returns "Unicorn"
 	 */
-	String getMonsterType() {
+	public String getMonsterType() {
 		return "Unicorn";
 	}
 	
@@ -79,7 +79,7 @@ public class Unicorn extends Monster{
 	 * returns default speed for Unicorn monsters
 	 * @return int returns defaultSpeed
 	 */
-	int getDefaultSpeed() {
+	public int getDefaultSpeed() {
 		return defaultSpeed;
 	}
 

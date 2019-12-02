@@ -266,13 +266,13 @@ public abstract class Monster {
 	 * abstract method for returning the class name of the monster pointed to at runtime 
 	 * @return String returns class name of the monster pointed to at runtime
 	 */
-	abstract String getMonsterType();
+	public abstract String getMonsterType();
 	
 	/**
 	 * abstract method for returning default speed of each Monster subclass
 	 * @return int returns default speed of the monster pointed to at runtime
 	 */
-	abstract int getDefaultSpeed();
+	public abstract int getDefaultSpeed();
 
 	/**
 	 * to be overridden only by Penguin class which can replenish its hp

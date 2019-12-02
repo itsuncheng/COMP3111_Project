@@ -72,15 +72,15 @@ public class Fox extends Monster{
 	 * returns the String "Fox"
 	 * @return String returns "Fox"
 	 */
-	String getMonsterType() {
+	public String getMonsterType() {
 		return "Fox";
 	}
 	
 	/**
-	 * returns default speed for Unicorn monsters
+	 * returns default speed for Fox monsters
 	 * @return int returns defaultSpeed
 	 */
-	int getDefaultSpeed() {
+	public int getDefaultSpeed() {
 		return defaultSpeed;
 	}
 }
