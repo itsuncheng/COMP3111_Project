@@ -32,6 +32,13 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.lang.Math;
 
+
+/**
+ * MyController class is responsible for the overall game mechanics
+ * This includes invoking the appropriate behavior from Monsters and Towers when user presents an input.
+ * MyControllers also creates and updates most of the JavaFx GUI elements
+ *
+ */
 public class MyController {
 	
     @FXML
@@ -76,14 +83,46 @@ public class MyController {
     private Label grids[][] = new Label [MAX_V_NUM_GRID][MAX_H_NUM_GRID]; //the grids on arena
     private boolean isGridOccupied[][] = new boolean [MAX_V_NUM_GRID][MAX_H_NUM_GRID]; //the grids on arena
     
+    /**
+     * The Arena object that represents the Arena that the current game is being played on 
+     */
     Arena arena; //arena object													
     
+    
+    /**
+     * True if a monster has reach the endpoint on the Arena, false otherwise;
+     */
     public static boolean gameOver = false;
     
+    
+    /**
+     * A Random number used for generating random monsters
+     */
     public static Random rand = new Random();
+    
+    
+    /**
+     * the amount of extra speed capability given to monsters when they are created. 
+     * This value increases over time to make new monsters faster overtime
+     */
     public static int new_monster_speed_inc = 0;
+    
+    
+    /**
+     * The largest amount speed capability that could be added to the monster when they are created
+     * This prevents monster from getting so fast that it could traverse the whole arena in one frame 
+     */
     public static int max_speed_inc = 5;
+    
+    /**
+     * Counts which frame the game is currently in
+     */
     public static int frameNum = 1;
+    
+    
+    /**
+     * The amount of money given to user whenever a Monster is killed
+     */
     public static int moneyReward = 5;
     
     private ArrayList<MonsterImageView> monsterImageViewList = new ArrayList<MonsterImageView>();//An ArrayList of the monsterImageViews
@@ -93,9 +132,10 @@ public class MyController {
     private ArrayList<Rectangle> shotIndicatingRecList = new ArrayList<Rectangle>();
     private ArrayList<Rectangle> laserList = new ArrayList<Rectangle>();
     private static TowerImageView selectedTowerImageView = null;
-    private static Map<BasicTower, Monster> towerAndTargetMonsterMap = new HashMap<BasicTower, Monster>(); 
+    private static Map<BasicTower, Monster> towerAndTargetMonsterMap = new HashMap<BasicTower, Monster>();
+    
     /**
-     * A dummy function to show how button click works
+     * Starts the game by enabling the NextFrame button
      */
     @FXML
     private void play() {
@@ -106,7 +146,7 @@ public class MyController {
     }
 
     /**
-     * A function that create the Arena
+     * Creates the Arena
      */
     @FXML
     public void createArena() {
@@ -168,6 +208,14 @@ public class MyController {
 
     }
 
+    /**
+     * This function is invoked when Next Frame Button is pressed.
+     * It moves all monster by the amount described in the Monster class. 
+     * It presents each Monster to each Tower to decide whether a shot will be made
+     * It generates a new monster
+     * It creates and update the GUI elements of Monster and Towers 
+     * as well as graphical cues that represents a shooting between a Tower and a Monster
+     */
     @FXML
     private void nextFrame() {
         
@@ -435,6 +483,13 @@ public class MyController {
     	
     }
 
+    /**
+     * Creates a Tower Object when given the tower type name and its coordinates
+     * @param s Tower type name string. "Basic Tower", "Ice Tower", "Catapult", and "Laser Tower" is available
+     * @param x	x-pixel-coordinate of the tower to be created
+     * @param y y-pixel-coordinate of the tower to be created
+     * @return The resulting Tower object
+     */
     public BasicTower getTowerFromText(String s, int x, int y) {
     	BasicTower tower = null;
     	int buildCost = 0;
@@ -468,7 +523,7 @@ public class MyController {
     }
     
     /**
-     * A function that demo how drag and drop works
+     * A function that sets the drag drop behavior between tower labels and Arena grids
      */
     private void setDragAndDrop() {
         
@@ -700,6 +755,11 @@ public class MyController {
     	return gridY * GRID_HEIGHT;
     }
     
+    
+    /**
+     * Checks whether a monster still have uncompleted steps between the frames
+     * @return true if there are still incomplete steps, false otherwise
+     */
     public boolean isOneMonsterMoving(){
     	
     	boolean isOneMonsterMoving = false;
@@ -710,6 +770,10 @@ public class MyController {
     	return isOneMonsterMoving;
     }
     
+    
+    /**
+     * removes the tower in selectedTowerImageView from GUI
+     */
     public void destroyTower() {
     	if(gameOver)
     		return;
@@ -728,6 +792,9 @@ public class MyController {
     	}
     }
     
+    /**
+     * Upgrades the tower in selectedTowerImageView in GUI
+     */
     public void upgradeTower() {
     	if(gameOver)
     		return;
@@ -750,6 +817,10 @@ public class MyController {
     	}
     }
     
+    
+    /**
+     * @return the 2D label grid array
+     */
     public Label[][] getGrids(){
     	return grids;
     }
@@ -758,6 +829,9 @@ public class MyController {
 
 
 
+/**
+ * class used to handle a MouseEvent
+ */
 class DragEventHandler implements EventHandler<MouseEvent> {
     private Label source;
     public DragEventHandler(Label e) {
@@ -775,6 +849,10 @@ class DragEventHandler implements EventHandler<MouseEvent> {
     }
 }
 
+/**
+ * Class used to handle a drag event
+ *
+ */
 class DragDroppedEventHandler implements EventHandler<DragEvent> {
     @Override
     public void handle(DragEvent event) {
