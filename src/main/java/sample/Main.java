@@ -16,6 +16,7 @@ public class Main extends Application {
 	/**
 	 * sets up the configuration for the GUI application using javafx
 	 * @param primaryStage built-in argument required by javafx to load GUI application
+	 * @exception Exception throws exception if there is an error
 	 */
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -30,7 +31,7 @@ public class Main extends Application {
 
     /**
      * main function (entry point of the program) which calls the start function above to load the GUI
-     * @param args
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
     	

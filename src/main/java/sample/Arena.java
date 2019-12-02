@@ -111,9 +111,9 @@ public class Arena {
 	 * returns true if grid at grid coordinate (row,column) is green
 	 * @param row row number of the grid (zero-based)
 	 * @param column column number of grid (zero-based)
-	 * @return
+	 * @return returns true if grid at grid coordinate (row,column) is green
 	 */
-	boolean isGreenGrid(int row, int column) { // returns true if grid at grid coordinate (x,y) is a green grid
+	public boolean isGreenGrid(int row, int column) { // returns true if grid at grid coordinate (x,y) is a green grid
 		return isGreen[row][column];
 	}
 	
@@ -122,7 +122,7 @@ public class Arena {
 	 * add Monster newMonster to the arena.
 	 * @param newMonster the Monster object to be added
 	 */
-	void addMonster(Monster newMonster) {
+	public void addMonster(Monster newMonster) {
 		monsters.add(newMonster);
 	}
 	
@@ -130,7 +130,7 @@ public class Arena {
 	 * remove Monster monster from the Arena
 	 * @param monster the Monster to be removed
 	 */
-	void removeMonster(Monster monster) {
+	public void removeMonster(Monster monster) {
 		boolean removeSuccess =  monsters.remove(monster);
 		if(!removeSuccess)
 			System.out.println("ERROR: Monster Removal Unsuccessful. To be removed monster is not found");
@@ -141,7 +141,7 @@ public class Arena {
 	 * sets the money value of Arena to _money
 	 * @param _money the value to set money in Arena to
 	 */
-	void setMoney(int _money) {
+	public void setMoney(int _money) {
 		if(_money < 0) {
 			System.out.println("ERROR: attempt to set Money to negative value. Value of money is unchanged");
 		}
@@ -152,7 +152,7 @@ public class Arena {
 	 * add _money amount of money to field money
 	 * @param _money amount of money to be added
 	 */
-	void addMoney(int _money) {
+	public void addMoney(int _money) {
 		if(_money>0) {
 			this.money = this.money+_money;
 		}
@@ -165,7 +165,7 @@ public class Arena {
 	 * remove _money amount of money from the arena
 	 * @param _money amount of money to be removed
 	 */
-	void removeMoney(int _money) {
+	public void removeMoney(int _money) {
 		if(_money>this.money) {
 			System.out.println("ERROR:removeMoney(): not enough money");
 		}
@@ -182,7 +182,7 @@ public class Arena {
 	 * Getter for money parameter in Arena
 	 * @return the amount of money left
 	 */
-	int getMoney() {
+	public int getMoney() {
 		return money;
 	}
 	
@@ -190,14 +190,14 @@ public class Arena {
 	 * Getter for time in the Arena(Frames)
 	 * @return time in Arena(Frames)
 	 */
-	int getTime() {
+	public int getTime() {
 		return time;
 	}
 	
 	/**
 	 * Increment the value of time in the Arena by one
 	 */
-	void incrementTime() {
+	public void incrementTime() {
 		time++;
 	}
 	
