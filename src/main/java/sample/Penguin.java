@@ -1,7 +1,7 @@
 package sample;
 
 /**
- * Penguin subclass
+ * Penguin subclass that models the monster Penguin
  * @author raymondcheng
  *
  */

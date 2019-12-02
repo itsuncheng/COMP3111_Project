@@ -4,7 +4,7 @@ import java.lang.Math;
 import java.util.ArrayList;
 
 /**
- * LaserTower subclass
+ * LaserTower subclass that models the tower LaserTower
  * @author raymondcheng
  *
  */

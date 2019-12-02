@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * BasicTower base class
+ * BasicTower base class that models the BasicTower and the general tower
  * @author raymondcheng
  *
  */

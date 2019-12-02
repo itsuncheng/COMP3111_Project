@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * Monster abstract base class
+ * Monster abstract base class that models the general Monster
  * @author raymondcheng
  *
  */

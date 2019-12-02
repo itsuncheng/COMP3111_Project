@@ -3,7 +3,7 @@ package sample;
 import java.util.ArrayList;
 
 /**
- * IceTower subclass
+ * IceTower subclass that models the tower IceTower
  * @author raymondcheng
  *
  */

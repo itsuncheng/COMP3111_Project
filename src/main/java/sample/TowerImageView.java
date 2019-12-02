@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 /**
- * TowerImageView class that contains a tower and its associated imageView
+ * TowerImageView class that contains a tower and its associated imageView for display on GUI
  * @author raymondcheng
  *
  */

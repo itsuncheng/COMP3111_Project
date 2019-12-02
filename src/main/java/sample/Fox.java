@@ -1,7 +1,7 @@
 package sample;
 
 /**
- * Fox subclass
+ * Fox subclass that models the monster Fox
  * @author raymondcheng
  *
  */

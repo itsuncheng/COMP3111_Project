@@ -1,7 +1,7 @@
 package sample;
 
 /**
- * Unicorn subclass
+ * Unicorn subclass that models the monster Unicorn
  * @author raymondcheng
  *
  */

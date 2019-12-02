@@ -3,7 +3,7 @@ package sample;
 import java.util.ArrayList;
 
 /**
- * Catapult subclass
+ * Catapult subclass that models the tower Catapult
  * @author raymondcheng
  *
  */
