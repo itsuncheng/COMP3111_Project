@@ -7,7 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-
+/**
+ * MonsterImageView class that contains a monster and the associated imageView to display on the GUI
+ * @author raymondcheng
+ *
+ */
 public class MonsterImageView{
 	
 	private Monster monster;
@@ -20,7 +24,10 @@ public class MonsterImageView{
 	static int stepX = MyController.GRID_WIDTH;
 	static int stepY = MyController.GRID_HEIGHT;
 
-	
+	/**
+	 * constructor for MonsterImageView
+	 * @param _monster monster to construct the MonsterImageView
+	 */
 	public MonsterImageView(Monster _monster) {
 		monster = _monster;
 		imageView = _monster.getImageView();
@@ -36,6 +43,9 @@ public class MonsterImageView{
 		
 	}
 	
+	/**
+	 * move the monster one grid according to the path specified by the game
+	 */
 	public void moveOneGrid() {
 		
 		if (monster.isMoving == true) {
@@ -84,6 +94,9 @@ public class MonsterImageView{
 		}
 	}		
 	
+	/**
+	 * setting iceTime at end of each frame, and replenish hp of the monster if it is Penguin
+	 */
 	public void stateEndOfEachFrame() {
 		
 		if (monster.isIced) {
@@ -101,11 +114,19 @@ public class MonsterImageView{
 		
 	}
 	
+	/**
+	 * remove monster from arena GUI
+	 * @param paneArena AnchorPane javafx which resembles the arena on the GUI
+	 */
 	public void removeFromArena(AnchorPane paneArena) {
 		paneArena.getChildren().remove(imageView);
 	}
 	
-	
+	/**
+	 * set the monster's imageView's x and y position
+	 * @param _x x position of the monster
+	 * @param _y y position of the monster
+	 */
 	public void setImageView(int _x, int _y) {
 		
 		if (imageView != null) {
@@ -116,10 +137,18 @@ public class MonsterImageView{
 		}
 	}
 	
+	/**
+	 * returns the monster
+	 * @return Monster returns the monster
+	 */
 	public Monster getMonster() {
 		return monster;
 	}
 	
+	/**
+	 * returns the imageView
+	 * @return ImageView returns the imageView
+	 */
 	public ImageView getImageView() {
 		return imageView;
 	}
