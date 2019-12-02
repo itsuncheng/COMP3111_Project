@@ -839,6 +839,7 @@ public class MyController {
     
     
     /**
+     * Getter Function of for 2D Label grid array
      * @return the 2D label grid array
      */
     public Label[][] getGrids(){
