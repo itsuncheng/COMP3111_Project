@@ -134,6 +134,15 @@ public class MyController {
     private static TowerImageView selectedTowerImageView = null;
     private static Map<BasicTower, Monster> towerAndTargetMonsterMap = new HashMap<BasicTower, Monster>();
     
+    
+    
+    /**
+     * Default Constructor for MyController Class
+     */
+    public MyController() {
+    	
+    }
+    
     /**
      * Starts the game by enabling the NextFrame button
      */
