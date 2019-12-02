@@ -2,23 +2,64 @@ package sample;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The Arena class contains all the information that describes the state of a the Arena. 
+ * Including Arena dimensions, Monsters on the Arena, Towers on the Arena, and more
+ */
 public class Arena {
-	private int time; // time = number of frames that have passed
 	
-	private final int numOfColumn; //number of Columns of grid in the arena. This is not the arena height in pixel
+	/**
+	 * The number of frames that have passed, analogous to time
+	 */
+	private int time; 
+	
+	/**
+	 * number of columns of grid in the arena.
+	 */
+	private final int numOfColumn; 
+	
+	/**
+	 * number of rows of grid in the arena.
+	 */
 	private final int numOfRow; //number of Rows of grid in the arena. This is not the arena width in pixel
 	
+	
+	/**
+	 *  true if the grid at grid coordinate [row][Column] is green
+	 */
 	private boolean [][] isGreen; 	// true if the grid at grid coordinate [row][Column] is green, 
 	
+	/**
+	 * true if the arena is a valid arena, false otherwise. Made for testing isGreen
+	 */
 	public boolean isValidArena; //true if the arena is a valid arena, false otherwise. Made for testing isGreen
 	
+	/**
+	 * ArrayList of monsters on the arena
+	 */
 	public ArrayList <Monster> monsters; //ArrayList of monsters on the arena
+	
+	/**
+	 * ArrayList of towers on the arena
+	 */
 	public ArrayList <BasicTower> towers; //ArrayList of towers on the arena
 	
+	/**
+	 * The amount of money(Resource) the player has
+	 */
 	private int money;
 	
+	/**
+	 * No Longer used
+	 */
 	public static Random rand = new Random();
 	
+	/**
+	 * Constructor for Arena class
+	 * @param numOfColumn The number of Columns on the arena
+	 * @param numOfRow The numbers of Rows on the arena
+	 * @param isGreen A 2D array where isGreen[row][column] is true if grid at grid coordinate (row,column) is a green grid
+	 */
 	public Arena(int numOfColumn, int numOfRow, boolean [][] isGreen) { //constructor of Arena class
 		this.numOfColumn = numOfColumn;
 		this.numOfRow = numOfRow;
@@ -66,21 +107,40 @@ public class Arena {
 	
 	
 	
+	/**
+	 * returns true if grid at grid coordinate (row,column) is green
+	 * @param row row number of the grid (zero-based)
+	 * @param column column number of grid (zero-based)
+	 * @return
+	 */
 	boolean isGreenGrid(int row, int column) { // returns true if grid at grid coordinate (x,y) is a green grid
 		return isGreen[row][column];
 	}
 	
 	
+	/**
+	 * add Monster newMonster to the arena.
+	 * @param newMonster the Monster object to be added
+	 */
 	void addMonster(Monster newMonster) {
 		monsters.add(newMonster);
 	}
 	
+	/**
+	 * remove Monster monster from the Arena
+	 * @param monster the Monster to be removed
+	 */
 	void removeMonster(Monster monster) {
 		boolean removeSuccess =  monsters.remove(monster);
 		if(!removeSuccess)
 			System.out.println("ERROR: Monster Removal Unsuccessful. To be removed monster is not found");
 	}
 	
+	
+	/**
+	 * sets the money value of Arena to _money
+	 * @param _money the value to set money in Arena to
+	 */
 	void setMoney(int _money) {
 		if(_money < 0) {
 			System.out.println("ERROR: attempt to set Money to negative value. Value of money is unchanged");
@@ -88,6 +148,10 @@ public class Arena {
 		this.money = _money;
 	}
 	
+	/**
+	 * add _money amount of money to field money
+	 * @param _money amount of money to be added
+	 */
 	void addMoney(int _money) {
 		if(_money>0) {
 			this.money = this.money+_money;
@@ -97,6 +161,10 @@ public class Arena {
 		}
 	}
 	
+	/**
+	 * remove _money amount of money from the arena
+	 * @param _money amount of money to be removed
+	 */
 	void removeMoney(int _money) {
 		if(_money>this.money) {
 			System.out.println("ERROR:removeMoney(): not enough money");
@@ -109,14 +177,26 @@ public class Arena {
 		}
 	}
 	
+	
+	/**
+	 * Getter for money parameter in Arena
+	 * @return the amount of money left
+	 */
 	int getMoney() {
 		return money;
 	}
 	
+	/**
+	 * Getter for time in the Arena(Frames)
+	 * @return time in Arena(Frames)
+	 */
 	int getTime() {
 		return time;
 	}
 	
+	/**
+	 * Increment the value of time in the Arena by one
+	 */
 	void incrementTime() {
 		time++;
 	}
