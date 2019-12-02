@@ -739,19 +739,39 @@ public class MyController {
         }
     }
     
-    private int pixelXToGridX(int pixelX) { //returns the X-grid coordinate of a given X-pixel coordinate
+    /**
+     * change x in pixel dimension to grid dimension
+     * @param pixelX X-pixel coordinate
+     * @return int returns the X-grid coordinate of a given X-pixel coordinate
+     */
+    private int pixelXToGridX(int pixelX) {
     	return pixelX/GRID_WIDTH;
     }
     
-    private int pixelYToGridY(int pixelY) { //returns the Y-grid coordinate of a given Y-pixel coordinate
+    /**
+     * change y in pixel dimension to grid dimension
+     * @param pixelY Y-pixel coordinate
+     * @return int returns the Y-grid coordinate of a given Y-pixel coordinate
+     */
+    private int pixelYToGridY(int pixelY) {
     	return pixelY/GRID_HEIGHT;
     }
     
-    private int gridXToPixelX(int gridX) { //returns the X-grid coordinate of a given X-pixel coordinate
+    /**
+     * change x in grid dimension to pixel dimension
+     * @param gridX X-grid coordinate
+     * @return int returns the X-pixel coordinate of a given X-grid coordinate
+     */
+    private int gridXToPixelX(int gridX) {
     	return gridX * GRID_WIDTH;
     }
     
-    private int gridYToPixelY(int gridY) { //returns the Y-grid coordinate of a given Y-pixel coordinate
+    /**
+     * change y in grid dimension to pixel dimension
+     * @param gridY Y-grid coordinate
+     * @return int returns the Y-pixel coordinate of a given Y-grid coordinate
+     */
+    private int gridYToPixelY(int gridY) {
     	return gridY * GRID_HEIGHT;
     }
     
