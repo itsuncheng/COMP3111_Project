@@ -35,7 +35,7 @@ public class Catapult extends BasicTower{
 	 */
 	private int coolDownTime;
 	/**
-	 * coolingDown of the catapult
+	 * no longer used
 	 */
 	private int coolingDown;
 	/**
@@ -74,7 +74,7 @@ public class Catapult extends BasicTower{
 	 * @param _upgradeCost upgrade cost of the tower
 	 * @param _lowRange catapult cannot attack at a position less than the lowRange from itself
 	 * @param _coolDownTime number of frames the catapult needs to cool down for (cannot shoot)
-	 * @param _coolingDown coolingDown of the catapult
+	 * @param _coolingDown no longer used
 	 * @param _imagePath directory where its image is stored at
 	 */
 	public Catapult(int _x, int _y, int _attackPower, int _range, int _buildCost, int _upgradeCost, int _lowRange, int _coolDownTime, int _coolingDown, String _imagePath) {
