@@ -1,5 +1,5 @@
 
-## Tower Defense
+# Tower Defense
 This is a tower defense game built for COMP3111: Software Engineering.
 
 Created by: Dr. Kevin Wang (kevinw@cse.ust.hk)
